@@ -18,7 +18,9 @@ document.addEventListener('alpine:init', () => {
                 this.items.push({ ...product, quantity: 1 });
             }
 
-            this.$dispatch('basket:changed');
+            // A store is a plain object with no $dispatch, so fire the event on
+            // window; listeners use @basket:changed.window.
+            window.dispatchEvent(new CustomEvent('basket:changed'));
         },
 
         remove(productId) {

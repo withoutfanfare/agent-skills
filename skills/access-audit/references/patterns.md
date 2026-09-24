@@ -162,13 +162,36 @@ navigating by keyboard.
 
 | Content | Minimum ratio |
 |---|---|
-| Body text under 18px (or under 14px bold) | 4.5:1 |
-| Larger text (18px+, or 14px+ bold) | 3:1 |
+| Text under 24px (or under about 18.5px if bold) | 4.5:1 |
+| Large text: 24px and up, or about 18.5px and up if bold | 3:1 |
 | Icons, borders and other meaningful UI graphics | 3:1 |
 
 Check contrast against the actual rendered background, not the design
 file's flat swatch: text over a photo or a gradient can fail in some
 areas and pass in others, so sample the worst point, not the average.
+WCAG defines large text as 18pt, or 14pt bold; at 1pt = 1.333px that is
+24px and about 18.5px.
+
+## Added in WCAG 2.2 (level AA)
+
+- **2.4.11 Focus Not Obscured (Minimum).** When an element takes keyboard
+  focus, it is not entirely hidden by content the site added: a sticky
+  header, a cookie banner, a chat widget. Tab through with those showing
+  and check the focused element stays at least partly visible; a
+  `scroll-padding-top` equal to the sticky header's height usually fixes
+  it.
+- **2.5.8 Target Size (Minimum).** Pointer targets are at least 24 by 24
+  CSS pixels. A smaller target passes if a 24px circle centred on it does
+  not overlap another target or its circle, if an equivalent control on
+  the page meets the size, if it is a link inside a sentence, if the
+  browser sets its size, or if the size is essential.
+- **3.3.8 Accessible Authentication (Minimum).** No sign-in step demands a
+  memory or puzzle test (typing a password from memory, solving a
+  puzzle) unless there is another way through. Letting the browser or a
+  password manager fill the fields, allowing paste, and offering a
+  passkey or a third-party sign-in all count. Blocking paste into a
+  password or one-time code field usually fails it, unless another route
+  exists.
 
 ## Visually hidden content
 
@@ -195,6 +218,21 @@ instead:
 A "skip to main content" link at the very top of the page, visible only
 once it receives focus, saves keyboard users from tabbing through an
 entire header on every single page:
+
+```css
+/* Hidden like .visually-hidden until the link takes focus. */
+.visually-hidden-until-focused:not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+```
 
 ```html
 <a href="#main" class="visually-hidden-until-focused">Skip to main content</a>

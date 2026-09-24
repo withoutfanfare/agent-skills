@@ -4,8 +4,8 @@ description: >-
   Builds and changes Tauri desktop apps: designs Rust commands and their
   error types, wraps every invoke() call in a typed frontend function,
   decides which side of the Rust/JS boundary owns each piece of state, and
-  keeps secrets out of logs and plain files. Use for 'tauri', 'desktop app',
-  'src-tauri', 'invoke command', a Rust backend paired with a web frontend,
+  keeps secrets out of logs and plain files. Use for 'tauri', 'a Tauri
+  desktop app', 'src-tauri', 'invoke command', a Rust backend paired with a web frontend,
   or packaging a Tauri build for release.
 license: MIT
 allowed-tools: Read Grep Glob Bash Edit Write
@@ -39,14 +39,21 @@ message-passing layer between the two processes) at all. The `#[command]`
 function itself should do little more than check its inputs and call that
 function.
 
-Register the command by name in the app's invoke handler list, then grep
-both the registration and the function's own name to confirm they match
-exactly. A mismatch compiles fine and fails at the moment it is called,
-which is a much harder bug to place.
+Register the command in `tauri::generate_handler![...]`; a wrong name
+there fails to compile, so the compiler guards that side. The drift the
+compiler cannot see is on the frontend: the string in `invoke('name')`
+must match the Rust function name, and Rust's snake_case arguments arrive
+as camelCase keys (`order_id` is sent as `orderId`). Grep the frontend
+for the command's name after any rename.
+
+If the command uses a plugin or a core API (file system, dialogs, the
+shell), grant its permission in a capability file under
+`src-tauri/capabilities/`. Tauri 2 rejects plugin and core calls that no
+capability allows, even though your own commands work without one.
 
 Done when: `cargo test` exercises the delegated function with no Tauri
-runtime in scope, and the registered name and the function name are
-identical by grep.
+runtime in scope, every `invoke()` string matches a registered command,
+and each plugin permission the command needs is listed in a capability.
 
 ## 3. Never call invoke() directly from a component
 
@@ -123,9 +130,9 @@ something when clicked.
 Run the Rust test suite from the backend's own folder after any change to
 a command, a validator or an error type, before touching the frontend.
 Use the full dev command that runs both sides together for anything
-involving `invoke()`; a frontend-only dev server will let the UI render
-but silently no-op every `invoke()` call, which looks like a working
-screen with no real data behind it.
+involving `invoke()`; a frontend-only dev server renders the UI, but every
+`invoke()` fails because no Rust process is behind it, and a caller that
+swallows the error shows a finished-looking screen with no real data.
 
 A passing test suite and a clean build only prove the code compiles and
 the paths under test behave as written. Launch the actual app, trigger
@@ -138,14 +145,8 @@ that runs locally will still be blocked by Gatekeeper elsewhere.
 Done when: you can describe what you actually saw happen in the running
 app, not what the code is supposed to do.
 
-## Gotchas
-
-- A command whose registered name and function name have drifted apart
-  fails at call time with a vague "command not found", never at compile
-  time; re-check both after any rename.
-- A frontend-only dev server accepts every `invoke()` call and returns
-  nothing useful, so a screen can look finished while every value on it
-  is empty or default.
+Traps that only show up at run time are collected in
+[references/gotchas.md](references/gotchas.md).
 
 ## It's working if
 

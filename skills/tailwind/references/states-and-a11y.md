@@ -40,11 +40,14 @@ card or panel adds, not the token's contrast against plain white.
 
 ## Dark mode
 
-With `darkMode: 'class'`, a colour token that is only ever referenced by
-name (`bg-surface`) can flip automatically if the token itself is defined
-differently per mode in the config. A colour reached through Tailwind's
-built-in palette directly (`bg-slate-100`) will not flip on its own and
-needs an explicit `dark:` class alongside it.
+A token flips on its own only when it is a CSS variable redefined under
+the dark selector. In v4 every `@theme` token is already a CSS variable,
+so setting `--color-surface` again inside `.dark` (see
+[../assets/theme.css](../assets/theme.css)) makes every `bg-surface`
+follow. In v3 the config token has to point at a CSS variable
+(`surface: 'var(--surface)'`) for the same effect. Any other colour,
+including Tailwind's built-in palette (`bg-slate-100`), needs an explicit
+`dark:` class alongside it.
 
 Avoid a flash of the wrong theme on load by setting the `dark` class on the
 root element before the page paints, from a stored preference, rather than

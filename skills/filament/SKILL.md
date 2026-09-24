@@ -1,7 +1,7 @@
 ---
 name: filament
 description: >-
-  Builds Filament 3 admin panel resources: forms, tables, widgets, actions
+  Builds Filament 4 admin panel resources: forms, tables, widgets, actions
   and relation managers, wired to the underlying policy so access is
   actually enforced, then proves it with a test. Use when creating an admin
   CRUD screen, a dashboard widget, or the user mentions Filament, an admin
@@ -16,6 +16,13 @@ A Filament resource that renders is not the same as one an authorised user
 can use and an unauthorised one is blocked from. This skill builds the
 resource's form, table and actions, wires it to a policy that actually
 runs, and proves both the access it grants and the access it denies.
+
+It targets Filament 4, where forms are schemas (`Filament\Schemas\Schema`,
+with `Section` under `Filament\Schemas\Components`), every action lives in
+`Filament\Actions`, and tables take `->recordActions()` and
+`->toolbarActions()`. On Filament 3, forms take `Form $form`, table
+actions sit under `Filament\Tables\Actions`, and tables use `->actions()`
+and `->bulkActions()`; check `composer.lock` before copying an example.
 
 ## 1. Generate and read the resource
 
@@ -51,8 +58,9 @@ Done when: every field that should react to another one is marked
 Add `->searchable()` and `->sortable()` to the columns someone will
 actually search or sort by, not every column reflexively. Use filters for
 the dimensions users will actually narrow by (status, owner, date range).
-Wrap bulk actions in `BulkActionGroup::make([...])`; passing them as a flat
-array is a common mistake that silently breaks the bulk action menu.
+Bulk actions can sit in a `BulkActionGroup::make([...])` dropdown or be
+listed directly as buttons; both work, so follow what the panel already
+does.
 
 Done when: the columns, filters and actions match how the resource will
 actually be used, not just what the generator produced.
@@ -102,5 +110,5 @@ Full field and widget reference, and further gotchas:
 - An unauthorised user's test against the same routes as the authorised
   one actually fails without the fix, and passes with it.
 - Every `->live()` field has a reason another field needs to react to it.
-- Bulk actions are grouped, not a flat array, and actually appear in the
-  panel.
+- Selecting rows in the table shows the bulk actions the resource
+  offers, and each one runs.

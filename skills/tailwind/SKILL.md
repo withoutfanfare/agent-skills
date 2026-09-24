@@ -2,7 +2,7 @@
 name: tailwind
 description: >-
   Builds and extends a Tailwind CSS design system so a codebase stays
-  visually consistent: reads or sets up the token config (colour, spacing,
+  visually consistent: reads or sets up the theme tokens (colour, spacing,
   type scale), writes new UI against those tokens rather than one-off
   values, and checks contrast, dark mode and touch targets before calling a
   component done. Use when building a UI kit, adding a new component,
@@ -15,43 +15,55 @@ allowed-tools: Read Grep Glob Bash Write Edit
 # Tailwind
 
 A Tailwind project without a token system grows one button style per
-developer and one shade of blue per page. This skill treats the Tailwind
-config as the single source of truth for colour, spacing and type, and
+developer and one shade of blue per page. This skill treats the theme
+tokens as the single source of truth for colour, spacing and type, and
 every new piece of UI as something built from those tokens, not invented
-next to them.
+next to them. It targets Tailwind CSS v4, where tokens live in CSS inside
+an `@theme` block.
+
+Projects still on v3 keep their tokens in `tailwind.config.js` under
+`theme.extend`, use `darkMode: 'class'` and a `safelist` array. The method
+below is the same; the v3 stub is at
+[assets/tailwind.config.stub.ts](assets/tailwind.config.stub.ts).
 
 ## 1. Find the existing tokens
 
 Before adding anything, read what is already there:
 
 ```bash
+grep -rlE --include='*.css' --exclude-dir=node_modules \
+  '@import "tailwindcss"|@theme|@tailwind' .
 find . -iname "tailwind.config.*" -not -path "*/node_modules/*"
-grep -n "theme" -A 30 tailwind.config.*
 ```
 
-Note the colour palette, spacing scale, font sizes and any custom plugins
+The stylesheet with `@import "tailwindcss"` is the v4 entry point; its
+`@theme` block holds the tokens. An `@tailwind base` line means v3; in
+v4 a `tailwind.config.*` is read only if an `@config` line loads it. Note the
+colour palette, spacing scale, font sizes and any custom plugins
 already in use. If a component library or CSS file defines classes outside
 Tailwind (a `.btn` in plain CSS, inline styles), record that too: it is a
 second source of truth fighting the first, and a candidate to migrate.
 
 Done when: you can list the project's colour names, spacing unit and type
-scale from the config itself, not from guessing.
+scale from the `@theme` block (or v3 config) itself, not from guessing.
 
 ## 2. Decide: extend or set up
 
-If a config exists with a reasonable `theme.extend`, work within it. If
-there is no config, or `theme` replaces Tailwind's defaults wholesale
-without a stated reason, propose a minimal one. A fresh stub with a
-worked colour scale and an 8-point spacing comment is at
-[assets/tailwind.config.stub.ts](assets/tailwind.config.stub.ts); adapt the
-brand colours, do not paste it unchanged.
+If an `@theme` block already defines the project's tokens, work within
+it. If there is none, or it clears Tailwind's defaults wholesale
+(`--color-*: initial`) without a stated reason, propose a minimal one. A
+starting theme with worked colour scales and a 4px spacing unit is at
+[assets/theme.css](assets/theme.css); adapt the brand colours, do not paste
+it unchanged. Keep a legacy JS config only if the project already relies
+on it, loaded with `@config "../tailwind.config.js";`, and add new tokens
+in CSS.
 
 Keep the token names generic (`primary`, `surface`, `danger`), not tied to
 a specific shade of a specific brand, so the same component code survives
 a rebrand.
 
-Done when: there is one config file that owns colour, spacing and type,
-and you know whether you edited it or are building on it as found.
+Done when: there is one place that owns colour, spacing and type, and you
+know whether you edited it or are building on it as found.
 
 ## 3. Check the token set is complete enough to build with
 
@@ -60,12 +72,12 @@ A workable set has, at minimum:
 - a **primary** colour with a light-to-dark scale (roughly 5 to 10 steps),
   plus **neutral** and at least one **semantic** colour (success, warning,
   danger);
-- a spacing scale on a consistent unit, usually 4px or 8px steps, so
+- a spacing scale on one base unit (`--spacing: 0.25rem`, so 4px), so
   `gap-4` and `p-6` always mean the same physical space;
 - two or three named font sizes with their line heights, not a free choice
   of any Tailwind size on every element.
 
-Where a token is missing and the task needs it, add it to the config
+Where a token is missing and the task needs it, add it to `@theme`
 rather than reaching for an arbitrary value (`bg-[#2f6feb]`). An arbitrary
 value is a token that only exists once and will drift the next time
 someone needs that colour.
@@ -98,8 +110,10 @@ Run these checks against the finished component, not the design intent:
   outlines). Check the actual rendered colour pair, since a token that
   passes on white can fail on a tinted card background.
 - If the project supports dark mode, the component has been viewed in
-  both. `darkMode: 'class'` needs a `dark:` variant on every colour that
-  does not already come from a token that flips automatically.
+  both. v4 follows the system setting by default; a class toggle needs
+  `@custom-variant dark (&:where(.dark, .dark *));` in the CSS. Every
+  colour needs a `dark:` variant unless its token is redefined for dark
+  mode, as the checklist explains.
 - Any tappable element is at least 44 by 44 px, even if its visible
   content is smaller (pad a small icon button rather than shrinking its
   hit area).
@@ -114,15 +128,18 @@ against the rendered component, not assumed from the design.
 A class built from a variable at runtime (`` `text-${color}-500` ``) will
 not appear in the compiled CSS, because Tailwind scans source text for
 whole class names, not evaluated strings. Search the new code for this
-pattern and replace it with a lookup table of complete class names, or add
-the pattern to `safelist` in the config with a stated reason.
+pattern and replace it with a lookup table of complete class names, or
+list the classes with `@source inline("...")` in the CSS, with a comment
+saying why (v3 uses `safelist` in the config instead).
 
 ```bash
-grep -rn '\$\{.*\}-[0-9]\{2,3\}' --include="*.{tsx,jsx,vue,blade.php}" .
+grep -rnE '\$\{[^}]*\}-[0-9]{2,3}|\{\{[^}]*\}\}-[0-9]{2,3}' \
+  --include='*.js' --include='*.jsx' --include='*.ts' --include='*.tsx' \
+  --include='*.vue' --include='*.php' --exclude-dir=node_modules .
 ```
 
 Done when: no new class name is assembled from a runtime variable, or each
-one that must be has a matching safelist entry.
+one that must be is listed in an `@source inline()` entry.
 
 ## 7. Report
 

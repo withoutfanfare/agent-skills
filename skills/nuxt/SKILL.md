@@ -21,9 +21,15 @@ routing, data fetching, rendering mode and deployment. For what happens
 inside a component once it is mounted, hand off to a Vue-focused skill if
 one is available; for how a page should look, hand off to a design skill.
 
+Paths below use the Nuxt 4 layout, where `pages/`, `components/`,
+`composables/`, `layouts/` and `app.vue` live inside `app/`, while
+`server/`, `public/` and `nuxt.config.ts` stay at the root. A Nuxt 3
+project keeps them all at the root; Nuxt 4 detects that layout and works
+with it, so drop the `app/` prefix rather than moving files.
+
 ## 1. Let the file tree define the routes
 
-A page under `pages/` is routed by its path and filename; there is no
+A page under `app/pages/` is routed by its path and filename; there is no
 router file to edit by hand. `[id].vue` captures one dynamic segment,
 `[...rest].vue` catches everything below it, and a folder without an
 `index.vue` has no route of its own. When a page seems unreachable, check
@@ -48,21 +54,22 @@ Wiring a click handler to `useFetch` re-runs it on every reactive trigger
 Nuxt tracks, not only the click, which is a common source of duplicate
 requests.
 
-Give each `useAsyncData`/`useFetch` call its own explicit `key` whenever the
-same composable appears more than once on a page, or is called with
-different parameters against the same URL. Nuxt caches by key, and two
-calls that land on the same auto-generated key share one response, so the
-second one never updates on its own. Pass a reactive parameter as a getter,
+Nuxt caches by key. `useFetch` builds its automatic key from the URL, the
+options and the call site, so two calls with different parameters already
+get separate entries. The trap is your own composable that wraps
+`useAsyncData`: every caller runs the same line inside it, so without an
+explicit key that includes the parameters, they all share one response.
+Build the key from the inputs (`` `orders-${status}` ``). Pass a reactive parameter as a getter,
 `() => filters.value.status`, not its current value, so a change to it
 triggers a new request rather than being baked in at first render.
 
 Done when: a change to a reactive input produces a new network request, and
-two calls to the same endpoint with different parameters never show the
-same data.
+two calls through the same composable with different parameters never show
+the same data.
 
 ## 3. Keep server-only code out of what ships to the browser
 
-Anything under `pages/`, `components/` or `app.vue` is bundled for the
+Anything under `app/` (pages, components, `app.vue`) is bundled for the
 client. Database access, third-party API keys and anything from
 `server/utils/` belongs only in `server/`, never imported from a page or
 component, even indirectly through a shared file. A stray import like this
@@ -74,8 +81,8 @@ secret finds nothing.
 ## 4. Decide server rendering per page, not by default
 
 Server-side rendering is Nuxt's default, and it is wrong for anything that
-depends on a browser-only API. Set `ssr: false` in `definePageMeta` for a
-whole page, or wrap the browser-only part in `<ClientOnly>` for a section of
+depends on a browser-only API. Turn it off for a whole route in
+`nuxt.config.ts` with `routeRules: { '/admin/**': { ssr: false } }`, or wrap the browser-only part in `<ClientOnly>` for a section of
 one, rather than reaching for `window` or `localStorage` in code that also
 runs on the server. A hydration mismatch warning in the console almost
 always means the server-rendered markup and the first client render

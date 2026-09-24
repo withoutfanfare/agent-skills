@@ -3,8 +3,10 @@
 ## Access control
 
 - Every model that users act on has a Policy, and every controller action
-  that reads or writes a record calls it (`$this->authorize()`, `Gate`,
-  `can` middleware).
+  that reads or writes a record calls it (`Gate::authorize()`, or the
+  `can` middleware). Laravel 11 and later ship a base controller without
+  the `AuthorizesRequests` trait, so `$this->authorize()` only works where
+  a controller adds that trait.
 - Route model binding finds any record by ID. Scope it to the user or
   check the policy.
 - Admin routes sit behind their own middleware group.

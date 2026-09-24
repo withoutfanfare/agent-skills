@@ -1,9 +1,11 @@
+<!-- Disclosure pattern: a button that shows and hides a list of links.
+     Tab moves through the links, so no menu roles or arrow keys needed. -->
 <div x-data="{ open: false }" class="relative inline-block">
     <button
         @click="open = !open"
         @keydown.escape.window="open = false"
         :aria-expanded="open"
-        aria-haspopup="true"
+        aria-controls="options-panel"
         type="button"
     >
         Options
@@ -19,12 +21,12 @@
         x-transition:leave="motion-safe:transition motion-safe:duration-75"
         x-transition:leave-start="motion-safe:opacity-100 motion-safe:scale-100"
         x-transition:leave-end="motion-safe:opacity-0 motion-safe:scale-95"
-        role="menu"
+        id="options-panel"
         class="absolute mt-2"
     >
-        <a href="/account" role="menuitem">Account</a>
-        <a href="/orders" role="menuitem">Orders</a>
-        <button @click="open = false" role="menuitem" type="button">Sign out</button>
+        <a href="/account">Account</a>
+        <a href="/orders">Orders</a>
+        <button @click="open = false" type="button">Sign out</button>
     </div>
 </div>
 

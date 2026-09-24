@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Forms;
 
+use App\Models\Post;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -43,13 +44,24 @@ class CreatePost extends Component
 ## Data table with URL-bound state
 
 ```php
+use App\Models\Post;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Url;
+use Livewire\Component;
+use Livewire\WithPagination;
+
 class PostsTable extends Component
 {
+    use WithPagination;
+
     #[Url]
     public string $search = '';
 
     #[Url]
     public string $sort = 'created_at';
+
+    // The URL is user input: only these columns may be sorted on.
+    private const SORTABLE = ['created_at', 'title'];
 
     public function updatingSearch(): void
     {
@@ -61,7 +73,7 @@ class PostsTable extends Component
     {
         return Post::query()
             ->when($this->search, fn ($q) => $q->where('title', 'like', "%{$this->search}%"))
-            ->orderBy($this->sort)
+            ->orderBy(in_array($this->sort, self::SORTABLE, true) ? $this->sort : 'created_at')
             ->paginate(20);
     }
 }
@@ -130,8 +142,11 @@ mutating the data it depends on returns the stale value unless you clear
 it:
 
 ```php
+// Livewire resolves the Post from the ID the browser sends, like route
+// model binding. That ID is user input, so authorise before acting.
 public function delete(Post $post): void
 {
+    Gate::authorize('delete', $post); // use Illuminate\Support\Facades\Gate;
     $post->delete();
     unset($this->posts); // force the next read to recompute
 }
@@ -140,12 +155,14 @@ public function delete(Post $post): void
 ## Alpine interop
 
 ```blade
-<div x-data="{ open: @entangle('showPanel') }">
+<div x-data="{ open: $wire.entangle('showPanel') }">
     <button @click="open = ! open">Toggle</button>
 </div>
 ```
 
-`$wire.call('method')` calls a Livewire method from Alpine;
+The `@entangle` Blade directive is deprecated; use `$wire.entangle()`, or
+read `$wire.showPanel` directly. `$wire.call('method')` calls a Livewire
+method from Alpine;
 `@event-name.window="handler"` listens for a dispatched event anywhere on
 the page.
 

@@ -107,7 +107,8 @@ Dispatch custom events with `$dispatch('cart:updated', detail)`, namespaced
 with a prefix so they cannot collide with another component's event of the
 same short name, and listen for them with `@cart:updated.window="..."` on
 whichever element needs to react. Clean up anything set up in `x-init`
-(timers, external listeners, subscriptions) in the matching teardown so
+(timers, external listeners, subscriptions) in a `destroy()` method on the
+same data object, which Alpine calls before it cleans the component up, so
 that removing the element does not leave orphaned work running.
 
 Done when: an event fired by one component is picked up only by the

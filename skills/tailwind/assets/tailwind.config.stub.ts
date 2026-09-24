@@ -1,7 +1,8 @@
-// Starting point for a token-driven Tailwind config.
+// Tailwind CSS v3 only. Projects on v4 use assets/theme.css instead.
 // Replace the primary scale with the project's real brand colour, keep the
 // token names generic, and extend rather than replace `theme` wholesale.
 import type { Config } from 'tailwindcss'
+import forms from '@tailwindcss/forms'
 
 export default {
   content: [
@@ -24,9 +25,10 @@ export default {
           light: '#ffffff',
           dark: '#101418',
         },
-        success: '#1f9d55',
-        warning: '#d97a06',
-        danger: '#d9342b',
+        // 50 and 700 pair for light mode, 900 and 200 for dark.
+        success: { 50: '#ecfdf3', 200: '#a7e8c0', 700: '#15703d', 900: '#0b3d22' },
+        warning: { 50: '#fff7e6', 200: '#fcd79a', 700: '#8a4b00', 900: '#4a2800' },
+        danger: { 50: '#fef1f0', 200: '#fbc4bf', 700: '#b42318', 900: '#5c1410' },
       },
       spacing: {
         // 4px base unit; extend only where the default scale skips a value
@@ -46,6 +48,6 @@ export default {
     },
   },
   plugins: [
-    require('@tailwindcss/forms'),
+    forms,
   ],
 } satisfies Config

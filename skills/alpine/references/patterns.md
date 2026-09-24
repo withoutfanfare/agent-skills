@@ -4,10 +4,13 @@ Worked examples for the patterns named in SKILL.md. Each one is complete
 enough to copy and adapt; none of them is the finished component you ship,
 because your project's spacing, colours and class names will differ.
 
-## Dropdown menu
+## Dropdown of links (disclosure)
 
 Closes on an outside click or Escape, and reports its open state to
-assistive technology.
+assistive technology. This is the disclosure pattern: a button that shows
+a plain list of links, reached with Tab. Only add `role="menu"` and
+`role="menuitem"` if you also add arrow-key navigation between items,
+because screen readers announce a menu and users then expect arrows.
 
 ```html
 <div x-data="{ open: false }" class="relative">
@@ -15,7 +18,7 @@ assistive technology.
         @click="open = !open"
         @keydown.escape.window="open = false"
         :aria-expanded="open"
-        aria-haspopup="true"
+        aria-controls="account-links"
         type="button"
     >
         Account
@@ -28,11 +31,11 @@ assistive technology.
         x-transition:enter="motion-safe:transition motion-safe:duration-100"
         x-transition:enter-start="motion-safe:opacity-0 motion-safe:scale-95"
         x-transition:enter-end="motion-safe:opacity-100 motion-safe:scale-100"
-        role="menu"
+        id="account-links"
         class="absolute mt-2"
     >
-        <a href="/orders" role="menuitem">Orders</a>
-        <a href="/settings" role="menuitem">Settings</a>
+        <a href="/orders">Orders</a>
+        <a href="/settings">Settings</a>
     </div>
 </div>
 ```
@@ -148,7 +151,8 @@ document.addEventListener('alpine:init', () => {
                 this.items.push({ ...product, quantity: 1 });
             }
 
-            this.$dispatch('basket:changed');
+            // Stores have no $dispatch; fire on window instead.
+            window.dispatchEvent(new CustomEvent('basket:changed'));
         },
     });
 });
@@ -161,16 +165,16 @@ document.addEventListener('alpine:init', () => {
 ## Binding to a backend component's state
 
 Frameworks that render server-side components with a live wire back to the
-server (Livewire is the common example) offer a helper that keeps an Alpine
-value in step with a server property, usually called something like
-`@entangle('propertyName')`. Use it only for values the server genuinely
-needs to know about; for anything purely visual (an open flag, a hover
-state) keep it in local `x-data` instead, since round-tripping every
-keystroke to the server for a value the server never reads adds latency for
-no benefit.
+server (Livewire is the common example) let Alpine read and write a server
+property directly. In Livewire 3 and 4 that is `$wire.quantity`, or
+`$wire.entangle('quantity')` when you need a two-way copy; entangled values
+wait for the next server request unless you add `.live`, and the older
+`@entangle` Blade directive is deprecated. Use these only for values the
+server genuinely needs to know about; for anything purely visual (an open
+flag, a hover state) keep it in local `x-data` instead.
 
 ```html
-<div x-data="{ quantity: @entangle('quantity') }">
+<div x-data="{ quantity: $wire.entangle('quantity') }">
     <button @click="quantity++" type="button">+</button>
     <span x-text="quantity"></span>
     <button @click="quantity--" type="button">-</button>

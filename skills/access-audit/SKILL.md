@@ -1,7 +1,7 @@
 ---
 name: access-audit
 description: >-
-  Audits a web page, component or design for accessibility against WCAG 2.1,
+  Audits a web page, component or design for accessibility against WCAG 2.2,
   covering keyboard operation, semantic structure, ARIA correctness, colour
   contrast and screen reader behaviour, and reports findings by severity with
   a concrete fix for each. Use for "check this page for accessibility
@@ -67,8 +67,7 @@ finished:
   to say "checkbox, checked" or "unchecked").
 - **Colour and content don't rely on colour alone.** Text against its
   background, and any control's border or icon against its surroundings,
-  meets the contrast figures in
-  [references/patterns.md](references/patterns.md), and meaning (an error,
+  meets the minimum contrast ratios, and meaning (an error,
   a required field, a status) is also carried by text or an icon, not just
   a colour change.
 - **Changes that happen without a page reload are announced.** A validation
@@ -76,9 +75,10 @@ finished:
   wrapped in something a screen reader watches, a non-visual user never
   learns it happened.
 
-The full pattern library, worked markup examples and the contrast tables
-are in [references/patterns.md](references/patterns.md); use it for the
-detail once you know which of the four areas needs closer inspection.
+The full pattern library, worked markup examples, the contrast table and
+the three AA criteria WCAG 2.2 added (focus not hidden, target size,
+accessible sign-in) are in [references/patterns.md](references/patterns.md);
+use it for the detail once you know which areas need closer inspection.
 
 Done when: each of the four areas has been actively checked, not assumed,
 for the part of the interface under audit.

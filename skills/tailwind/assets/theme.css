@@ -1,0 +1,61 @@
+/* Starting point for a token-driven Tailwind CSS v4 theme.
+   Replace the primary scale with the project's real brand colour, keep the
+   token names generic, and add to the default theme rather than clearing it. */
+@import "tailwindcss";
+
+/* Class-based dark mode. Drop this line to follow the system setting. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary-50: #eef4ff;
+  --color-primary-100: #d9e6ff;
+  --color-primary-300: #93b8ff;
+  --color-primary-500: #3d7bff;
+  --color-primary-600: #2a5fe0;
+  --color-primary-700: #1f47ad;
+  --color-primary-900: #142b66;
+
+  /* Semantic colours: 50 and 700 pair for light mode, 900 and 200 for dark.
+     Each pair clears 4.5:1 for small text. */
+  --color-success-50: #ecfdf3;
+  --color-success-200: #a7e8c0;
+  --color-success-700: #15703d;
+  --color-success-900: #0b3d22;
+  --color-warning-50: #fff7e6;
+  --color-warning-200: #fcd79a;
+  --color-warning-700: #8a4b00;
+  --color-warning-900: #4a2800;
+  --color-danger-50: #fef1f0;
+  --color-danger-200: #fbc4bf;
+  --color-danger-700: #b42318;
+  --color-danger-900: #5c1410;
+
+  /* One surface token; the dark value is set below. */
+  --color-surface: #ffffff;
+
+  /* 4px base unit: p-4 is 1rem, gap-6 is 1.5rem. */
+  --spacing: 0.25rem;
+
+  /* Size and line height move together. */
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.35rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl: 1.375rem;
+  --text-xl--line-height: 1.85rem;
+
+  --radius-card: 0.75rem;
+}
+
+/* Utilities read tokens as CSS variables, so redefining one under the dark
+   selector flips every bg-surface at once. */
+@layer base {
+  .dark {
+    --color-surface: #101418;
+  }
+}
+
+/* Plugins load from CSS in v4. */
+@plugin "@tailwindcss/forms";

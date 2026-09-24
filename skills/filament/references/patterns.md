@@ -2,35 +2,43 @@
 
 ## A resource's shape
 
+Filament 4 generates the form and table into their own classes
+(`Schemas/SubscriptionForm.php`, `Tables/SubscriptionsTable.php`); they are
+inline here so the whole shape fits on one screen.
+
 ```php
 declare(strict_types=1);
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\Subscriptions;
 
-use App\Filament\Resources\SubscriptionResource\Pages;
+use App\Filament\Resources\Subscriptions\Pages;
 use App\Models\Subscription;
-use Filament\Forms\Components\Section;
+use BackedEnum;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ViewAction;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
+use UnitEnum;
 
 class SubscriptionResource extends Resource
 {
     protected static ?string $model = Subscription::class;
-    protected static ?string $navigationIcon = 'heroicon-o-credit-card';
-    protected static ?string $navigationGroup = 'Billing';
+    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-credit-card';
+    protected static string | UnitEnum | null $navigationGroup = 'Billing';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form->schema([
+        return $schema->components([
             Section::make('Plan')->schema([
                 Select::make('customer_id')
                     ->relationship('customer', 'email')
@@ -44,7 +52,7 @@ class SubscriptionResource extends Resource
                 TextInput::make('reference')
                     ->required()
                     ->unique(ignoreRecord: true),
-            ])->columns(2),
+            ])->columns(2)->columnSpanFull(),
         ]);
     }
 
@@ -62,14 +70,16 @@ class SubscriptionResource extends Resource
                     'paused' => 'Paused',
                 ]),
             ])
-            ->actions([
+            ->recordActions([
                 ActionGroup::make([
                     ViewAction::make(),
                     EditAction::make(),
                 ]),
             ])
-            ->bulkActions([
-                DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                ]),
             ]);
     }
 
@@ -85,6 +95,10 @@ class SubscriptionResource extends Resource
 }
 ```
 
+Bulk actions work either way: listed directly they show as separate
+buttons, and wrapped in `BulkActionGroup::make()` they sit behind one
+dropdown. Pick one per panel and stay consistent.
+
 ## Form components at a glance
 
 - Text: `TextInput`, `Textarea`, `RichEditor`, `MarkdownEditor`
@@ -93,14 +107,17 @@ class SubscriptionResource extends Resource
 
 ## Table columns at a glance
 
-- Display: `TextColumn`, `BadgeColumn`, `IconColumn`, `ImageColumn`
+- Display: `TextColumn` (add `->badge()` for a status pill; the old
+  `BadgeColumn` is deprecated), `IconColumn`, `ImageColumn`
 - Interactive: `ToggleColumn` (inline toggle), `TextInputColumn` (inline
   edit)
 
 ## A custom action
 
 ```php
-Tables\Actions\Action::make('pause')
+use Filament\Actions\Action;
+
+Action::make('pause')
     ->action(fn (Subscription $record) => $record->pause())
     ->requiresConfirmation()
     ->color('warning')
@@ -111,6 +128,9 @@ Tables\Actions\Action::make('pause')
 ## A stats widget
 
 ```php
+use Filament\Widgets\StatsOverviewWidget as BaseWidget;
+use Filament\Widgets\StatsOverviewWidget\Stat;
+
 class SubscriptionStats extends BaseWidget
 {
     protected function getStats(): array
@@ -127,6 +147,9 @@ class SubscriptionStats extends BaseWidget
 ## Global search
 
 ```php
+// Global search also needs a title attribute on the resource.
+protected static ?string $recordTitleAttribute = 'plan_name';
+
 public static function getGloballySearchableAttributes(): array
 {
     return ['plan_name', 'customer.email'];
@@ -136,14 +159,20 @@ public static function getGloballySearchableAttributes(): array
 ## Soft deletes and relation managers
 
 ```php
-->filters([Tables\Filters\TrashedFilter::make()])
-->actions([
-    Tables\Actions\RestoreAction::make(),
-    Tables\Actions\ForceDeleteAction::make(),
+use Filament\Actions\ForceDeleteAction;
+use Filament\Actions\RestoreAction;
+use Filament\Tables\Filters\TrashedFilter;
+
+->filters([TrashedFilter::make()])
+->recordActions([
+    RestoreAction::make(),
+    ForceDeleteAction::make(),
 ])
 ```
 
 ```php
+use App\Filament\Resources\Subscriptions\RelationManagers;
+
 public static function getRelations(): array
 {
     return [RelationManagers\InvoicesRelationManager::class];

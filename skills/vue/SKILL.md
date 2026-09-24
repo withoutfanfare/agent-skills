@@ -69,8 +69,10 @@ capture an `AbortController` or a request token when the call starts, and
 check it is still current before touching shared state in the response
 handler.
 
-Done when: starting the action and immediately leaving the screen, then
-returning, shows the flag cleared and the screen usable, not stuck loading.
+Done when: for a flag held in a store or other shared state (a local flag
+resets on remount anyway), starting the action and immediately leaving the
+screen, then returning, shows the flag cleared and the screen usable, not
+stuck loading.
 
 ## 5. Check the common reactivity traps
 
