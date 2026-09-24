@@ -3,6 +3,7 @@ name: wargame
 description: Runs parallel read-only audits of a project and turns them into a plain-English launch-risk brief.
 license: MIT
 disable-model-invocation: true
+allowed-tools: Read Grep Glob Write
 ---
 
 # Wargame

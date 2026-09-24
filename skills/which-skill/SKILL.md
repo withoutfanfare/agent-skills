@@ -1,10 +1,10 @@
 ---
 name: which-skill
-description: Maps your situation to the right skill in this library, and to what usually comes next.
+description: Maps the user's situation to the right skill in this library, and to what usually comes next.
 license: MIT
 disable-model-invocation: true
 argument-hint: "what you are trying to do"
-allowed-tools: Read Glob
+allowed-tools: Read Glob Bash
 ---
 
 # Which skill
@@ -22,8 +22,9 @@ matches.
 2. Find it in the routes below. If two fit, say which you would pick and
    why.
 3. Recommend: the first skill, then the next one or two, and anything to
-   avoid. Check the skills are linked in this project (`agent-skills
-   status`); if not, give the `agent-skills add` command.
+   avoid. Check the skills are linked, in this project (`agent-skills
+   status`) or for every project (`agent-skills home status`); if not,
+   give the `agent-skills add` command.
 
 Done when: the user has one starting skill and knows what comes after it.
 
@@ -41,7 +42,7 @@ there is already a ticket.
    `relocate` when production data has to move; `user-flow` for journeys and
    acceptance criteria.
 2. **Check the plan.** `preflight` tests a plan's claims before anyone
-   builds; `handover` packages a task for someone else.
+   builds.
 3. **Build.** `scaffold` for a new feature slice, `schema` for tables,
    `api-design` for endpoints, plus the stack skills below. `cover` writes
    the tests.

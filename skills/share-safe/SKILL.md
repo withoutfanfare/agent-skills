@@ -9,7 +9,7 @@ description: >-
   to send, wants a file or repo checked before sharing, or asks to scrub
   or redact content before it goes to a teammate, a client, or in public.
 license: MIT
-allowed-tools: Read Grep Glob Bash
+allowed-tools: Read Grep Glob Bash Write
 ---
 
 # Share-safe

@@ -4,7 +4,7 @@ description: Writes a progress update pitched to its audience: leadership, the t
 license: MIT
 disable-model-invocation: true
 argument-hint: "leadership | team | partners, optional period"
-allowed-tools: Read Grep Glob Bash Write
+allowed-tools: Read Grep Glob Bash
 ---
 
 # Bulletin

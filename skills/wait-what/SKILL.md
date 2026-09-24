@@ -7,8 +7,7 @@ description: >-
   English please", "you've lost me", or replies with confusion to what was
   just said.
 license: MIT
-effort: high
-disallowed-tools: Edit Write MultiEdit NotebookEdit Bash
+disallowed-tools: Edit Write NotebookEdit Bash
 ---
 
 # Wait, what?

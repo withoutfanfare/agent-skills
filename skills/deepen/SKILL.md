@@ -1,8 +1,9 @@
 ---
 name: deepen
-description: Finds shallow modules in a codebase and designs deeper interfaces for the one you pick.
+description: Finds shallow modules in a codebase and designs deeper interfaces for the one the user picks.
 license: MIT
 disable-model-invocation: true
+allowed-tools: Read Grep Glob Write Bash
 ---
 
 # Deepen
@@ -78,7 +79,8 @@ Done when: the user has approved a design.
 
 ## 5. Write the proposal
 
-Save a refactoring proposal (or open an issue, if the user prefers) with:
+Save a refactoring proposal to `docs/proposals/<area>.md`, or wherever the
+project keeps design notes (or open an issue, if the user prefers), with:
 current state and why it hurts; the approved interface; a migration path in
 small steps that keeps everything working between them; files affected;
 and how the tests will prove behaviour is unchanged.
