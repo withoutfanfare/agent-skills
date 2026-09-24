@@ -1,0 +1,3 @@
+# skill	expect	prompt (tab-separated)
+review	fire	Can you look over the changes on my branch before I merge? I want to know if anything is broken or insecure.
+review	quiet	What is the difference between git merge and git rebase?

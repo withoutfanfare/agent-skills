@@ -7,7 +7,8 @@ Checks each skill against the open Agent Skills format and this library's
 house rules:
 
 - name: lowercase letters, digits and single hyphens, at most 64
-  characters, matching the folder name
+  characters, matching the folder name, without the reserved words
+  "anthropic" or "claude"
 - description: present, at most 1024 characters, no angle brackets
 - SKILL.md: at most 500 lines
 - a typed-only skill (disable-model-invocation: true) also has
@@ -100,6 +101,8 @@ def check_skill(folder, findings):
         findings.append(f"{rel}: name '{name}' does not match the folder")
     if not NAME_RE.match(name) or len(name) > 64:
         findings.append(f"{rel}: name must be lowercase words joined by single hyphens, 64 characters at most")
+    if re.search(r"anthropic|claude", name):
+        findings.append(f"{rel}: name may not contain the reserved words 'anthropic' or 'claude'")
 
     desc = fields.get("description", "")
     if not desc:

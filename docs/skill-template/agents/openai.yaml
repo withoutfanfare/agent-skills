@@ -1,0 +1,4 @@
+# Only for skills that should run when asked for by name. Pair it with
+# `disable-model-invocation: true` in SKILL.md; the linter checks both agree.
+policy:
+  allow_implicit_invocation: false
