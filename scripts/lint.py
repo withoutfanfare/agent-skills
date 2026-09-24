@@ -16,7 +16,7 @@ house rules:
   treats it the same way, and the reverse
 - the which-skill router mentions every skill and marks typed-only ones
 - every name in sets/*.txt is a real skill
-- no em dashes (house style)
+- no em dashes in any text file (house style)
 - no private terms: if a file called .lint-private-terms exists at the
   repository root (it is git-ignored), each non-blank line in it is a
   case-insensitive regular expression that must not appear anywhere in the
@@ -32,6 +32,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SKILLS = os.path.join(ROOT, "skills")
+EM_DASH = "\u2014"
 NAME_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 TEXT_EXT = {".md", ".txt", ".py", ".sh", ".yaml", ".yml", ".json", ".mjs", ".js", ""}
 SKIP_DIRS = {".git", "__pycache__", "node_modules"}
@@ -177,7 +178,7 @@ def main():
         except UnicodeDecodeError:
             continue
         for n, line in enumerate(lines, 1):
-            if "—" in line and rel.endswith(".md"):
+            if EM_DASH in line:
                 findings.append(f"{rel}:{n}: em dash (use a comma, colon or full stop)")
             for term in file_terms:
                 if term.search(line):
