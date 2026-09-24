@@ -131,3 +131,15 @@ livewire	fire	Build a Livewire component for editing a user's profile with live 
 livewire	quiet	Write a plain Blade view listing all users, no interactivity needed
 usage-audit	quiet	Which of my skills do I use the most?
 which-skill	quiet	Which database should I use for a small side project?
+wizard	fire	I need a script that walks me through setting up Stripe API keys and saving them to the .env file and GitHub secrets
+wizard	quiet	can you add the Stripe integration code to the checkout flow?
+design-pack	quiet	check our button styles are consistent across pages
+scaffold	fire	Scaffold out a full CRUD feature for managing products, with policies and tests
+scaffold	quiet	Add a new column to the existing products table
+notify	fire	When an order ships I want to email and text the customer
+notify	quiet	Write me a marketing newsletter about our new product line
+prove-it	fire	Prove that the refund flow actually works before I merge this
+prove-it	quiet	Review this pull request and tell me if the code looks right
+filament	fire	Add a Filament admin resource for managing subscriptions
+filament	quiet	Build a public-facing signup form for subscriptions
+pick	quiet	Reviewing the open pull request for the checkout page and fixing what it finds
