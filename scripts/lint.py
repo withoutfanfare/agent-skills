@@ -14,6 +14,7 @@ house rules:
 - a typed-only skill (disable-model-invocation: true) also has
   agents/openai.yaml with policy.allow_implicit_invocation: false, so Codex
   treats it the same way, and the reverse
+- the which-skill router mentions every skill and marks typed-only ones
 - no em dashes (house style)
 - no private terms: if a file called .lint-private-terms exists at the
   repository root (it is git-ignored), each non-blank line in it is a
@@ -131,8 +132,29 @@ def main():
     findings, typed_count = [], 0
     folders = sorted(d for d in os.listdir(SKILLS)
                      if os.path.isdir(os.path.join(SKILLS, d)) and not d.startswith("."))
+    typed_names = {}
     for folder in folders:
-        typed_count += bool(check_skill(folder, findings))
+        typed_names[folder] = bool(check_skill(folder, findings))
+        typed_count += typed_names[folder]
+
+    # The router must mention every skill, and mark typed-only ones, so it
+    # cannot quietly fall out of date.
+    router = os.path.join(SKILLS, "which-skill", "SKILL.md")
+    if os.path.isfile(router):
+        text = open(router, encoding="utf-8").read()
+        for folder in folders:
+            if folder == "which-skill":
+                continue
+            m = re.search(rf"`{re.escape(folder)}`", text)
+            if not m:
+                findings.append(f"skills/which-skill: does not mention `{folder}`")
+            elif typed_names.get(folder) and "*(typed)*" not in text[m.end(): m.end() + 12]:
+                findings.append(f"skills/which-skill: `{folder}` is typed-only but not marked *(typed)*")
+        for name in set(re.findall(r"`([a-z0-9]+(?:-[a-z0-9]+)+|[a-z]{3,})`", text)):
+            if os.path.isdir(os.path.join(SKILLS, name)) or name in ("agent-skills",):
+                continue
+            if re.fullmatch(r"[a-z]+(-[a-z0-9]+)+", name):
+                findings.append(f"skills/which-skill: names `{name}`, which is not a skill")
 
     terms, exempt = private_terms()
     for path in text_files():

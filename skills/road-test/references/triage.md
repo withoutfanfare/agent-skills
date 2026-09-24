@@ -6,7 +6,7 @@
 |---|---|---|
 | Blocker | a core journey cannot be finished, or money, data or security is at risk | checkout fails; wrong total; another user's data visible; signed-out access to an admin page |
 | Major | a core journey finishes but badly, or a secondary journey is broken | confirmation email never arrives; error not shown, leaving the user stuck; unusable on a phone |
-| Minor | works, but wrong | cosmetic breakage, wrong wording, missing empty state, console error with no visible effect |
+| Minor | usable, but not right | layout glitch, a typo, no message for an empty list, a console warning users never see |
 | Polish | an improvement, not a defect | awkward copy, rough transition |
 
 Two automatic escalations: anything touching money or a price is a blocker

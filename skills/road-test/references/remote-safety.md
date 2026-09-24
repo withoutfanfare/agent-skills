@@ -11,9 +11,9 @@ own interface, as an ordinary user would make them.
 - Inspection commands that report without changing anything, such as a
   framework's "about", route list or configuration display.
 - Queue and worker status commands.
-- `git log`, `git status`, `git show`, `git rev-parse HEAD`, to confirm
-  what is deployed.
-- `ls`, `stat`, `df`, `cat` on configuration and log paths.
+- Read-only git commands, to confirm which commit is deployed.
+- Listing and reading configuration and log files, and checking disc
+  space.
 - Read-only database queries (`SELECT`) with a `LIMIT`.
 
 ## Never

@@ -97,8 +97,8 @@ Done when: the pull request exists and the remaining human steps are listed.
 - `git push` does not push tags. Push them by name, or with `--tags`.
 - `git reset --hard` discards uncommitted changes for good; committed work
   can be recovered from `git reflog`, uncommitted work cannot. Stash first.
-- After a squash merge, `git branch -d` refuses to delete the feature
-  branch because git cannot see the merge. Confirm the squash landed, then
+- Squash-merged branches look unmerged to git, so `git branch -d` will
+  not delete them. Confirm the squash landed, then
   use `-D`.
 - Renaming or deleting the source branch of an open pull request closes the
   pull request on most hosts, often for good.

@@ -7,8 +7,8 @@ disable-model-invocation: true
 
 # Wargame
 
-A code review finds code problems. A wargame finds business problems, and
-those live at the joins: where the payment provider meets fulfilment, where
+Reviews catch faults in code; a wargame looks for faults in the business,
+which tend to hide where systems meet: where the payment provider meets fulfilment, where
 the scheduler meets alerting, where the website meets search engines.
 Several focused audits, run side by side and then checked against each
 other, surface the risks a project half-knows about but has never written
@@ -83,9 +83,9 @@ if it has a place.
 Done when: the brief follows this order and every scenario traces to
 evidence.
 
-## 5. Plan, only if asked
+## 5. Plan, on request
 
-If the user wants the brief turned into work: phase 0 protects what cannot
+When the user asks for a plan from the brief: phase 0 protects what cannot
 be recovered and starts by checking the audit against the live system;
 then launch blockers, first weeks, soon, and "only if the business asks".
 Each task has what, why it hurts, rough effort, and a "done when" that can

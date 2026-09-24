@@ -1,0 +1,3 @@
+# Codex: run only when asked for by name ($usage-audit). Mirrors disable-model-invocation.
+policy:
+  allow_implicit_invocation: false

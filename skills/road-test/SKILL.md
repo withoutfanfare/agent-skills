@@ -14,8 +14,8 @@ allowed-tools: Read Grep Glob Bash Write
 
 # Road test
 
-Take one thing under test and stay with it until every scenario on the
-list has a verdict (passed, failed, blocked or needs a decision) and every
+Pick one target and keep going until each scenario on the list is
+decided (passed, failed, blocked or needs a decision) and every
 failure is written up with evidence. Failed logins, missing features and
 broken pages do not end the run; they become findings. The run ends when
 the list is complete, or when something genuinely needs a person, with the
@@ -84,8 +84,7 @@ Done when: preflight passes, or the failure is fixed (locally) or reported
 ## 5. Run each scenario
 
 Use whichever browser automation tools this environment provides. For each
-scenario: perform the steps as a user would; observe the rendered result
-(read the page or take a screenshot); check console errors and failed
+scenario: perform the steps as a user would; look at what actually rendered (page text or a screenshot); check console errors and failed
 requests; on a failure, save a screenshot and repeat once to confirm.
 
 **Write the verdict into the report before starting the next scenario.**

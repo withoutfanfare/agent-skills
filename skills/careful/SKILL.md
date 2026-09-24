@@ -35,7 +35,7 @@ the task.
 
 1. Stop. A refusal means this action needs a person, not a cleverer
    command. Never reword or split a command to slip past the check.
-2. Show the user the exact command and the reason it was refused.
+2. Quote the refused command to the user, word for word, with the reason.
 3. Offer a reversible alternative where one exists: archive instead of
    delete, `--dry-run` first, `git stash` instead of `git reset --hard`,
    `--force-with-lease` instead of `--force`.
@@ -49,8 +49,8 @@ Recursive force deletes, `find -delete`, git force pushes (plain `--force`,
 not `--force-with-lease`), hard resets, `git clean -f`, deleting a main
 branch, `DROP TABLE` or `DROP DATABASE`, `TRUNCATE`, framework commands
 that wipe a database, Redis flushes, `kubectl delete`, `terraform destroy`
-or unattended apply, and piping a download straight into a shell. The list
-lives in [scripts/guard.py](scripts/guard.py); add patterns as new hazards
+or unattended apply, and downloads fed directly to a shell. The patterns
+are in [scripts/guard.py](scripts/guard.py); add patterns as new hazards
 appear.
 
 ## Limits

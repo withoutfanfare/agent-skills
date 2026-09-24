@@ -40,9 +40,9 @@ user what is frozen and what is open, then carry on.
 
 ## 3. When an edit is refused
 
-Tell the user which file you wanted to change and why. If the change
-matters, ask whether to widen the scope. Widen it only with their
-agreement, by editing the scope file. Never write files through the shell
+Explain which file needed changing and the reason. If it genuinely
+matters, offer to extend the freeze to cover it, and extend it only once
+the user says yes, by adding the path to the scope file. Never write files through the shell
 to get round the freeze.
 
 Done when: the user has widened the scope or decided the change can wait.

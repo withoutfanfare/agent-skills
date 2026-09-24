@@ -1,0 +1,35 @@
+<div x-data="{ open: false }" class="relative inline-block">
+    <button
+        @click="open = !open"
+        @keydown.escape.window="open = false"
+        :aria-expanded="open"
+        aria-haspopup="true"
+        type="button"
+    >
+        Options
+    </button>
+
+    <div
+        x-show="open"
+        x-cloak
+        @click.outside="open = false"
+        x-transition:enter="motion-safe:transition motion-safe:duration-100"
+        x-transition:enter-start="motion-safe:opacity-0 motion-safe:scale-95"
+        x-transition:enter-end="motion-safe:opacity-100 motion-safe:scale-100"
+        x-transition:leave="motion-safe:transition motion-safe:duration-75"
+        x-transition:leave-start="motion-safe:opacity-100 motion-safe:scale-100"
+        x-transition:leave-end="motion-safe:opacity-0 motion-safe:scale-95"
+        role="menu"
+        class="absolute mt-2"
+    >
+        <a href="/account" role="menuitem">Account</a>
+        <a href="/orders" role="menuitem">Orders</a>
+        <button @click="open = false" role="menuitem" type="button">Sign out</button>
+    </div>
+</div>
+
+<style>
+    [x-cloak] {
+        display: none !important;
+    }
+</style>

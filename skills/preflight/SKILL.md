@@ -14,12 +14,12 @@ allowed-tools: Read Grep Glob Bash Edit
 
 # Preflight
 
-A plan is a stack of claims: this file exists, that command takes this
-option, the database has that table, the hook behaves like so. Plans fail
-on the claims nobody checked. So a preflight reads the document once, then
-spends most of its time in the repository, the shell and the systems the
-plan depends on, and only then writes notes, next to the text they
-challenge.
+Every plan rests on assertions about the world: a file is where it says,
+a command accepts a given option, a table has a given column, a hook does
+what the plan expects. Plans go wrong where those assertions were never
+tested. A preflight skims the document, then tests its assertions against
+the real repository, shell and connected systems, and only after that
+writes its notes, placed beside the lines they question.
 
 ## 1. Collect the claims
 
@@ -41,8 +41,8 @@ Done when: there is one line per claim.
 Settle each claim with the cheapest command that proves it, and keep the
 command and its output line together as evidence.
 
-Only look. Never install, migrate, write to a database, start a
-long-running process or make a network write. Open databases read-only.
+Observe only: no installs, no migrations, no database writes, no servers
+left running, nothing sent over the network that changes anything. Open databases read-only.
 Probe commands with `--help` and read-only subcommands. If a claim can only
 be checked with a login, a device or a deployment, mark it **unverified**
 and say what would settle it.
@@ -61,8 +61,8 @@ as a blocker wastes someone's decision.
 
 - **Blocker:** the plan cannot be carried out as written, or doing so
   would break a stated constraint or lose data.
-- **Push back:** you disagree with a decision. Always give the cheaper or
-  safer alternative and its cost. Scope counts: name the slice that could
+- **Push back:** a decision you would make differently. Offer the
+  alternative that is cheaper or less risky, and what it would cost. Scope counts: name the slice that could
   ship alone.
 - **Suggestion:** improves the plan; work can proceed without it.
 - **Question:** needs an answer before a task can start; give both
@@ -77,15 +77,15 @@ change.
 
 ## 4. Write notes into the document
 
-Add each note as a quote block directly under the text it concerns. Never
-edit, delete or reflow the author's text, and never tick a checkbox: the
+Add each note as a quote block directly under the text it concerns. The
+author's words stay exactly as written, checkboxes included: the
 diff should contain only added lines, so the notes can be read and removed
 independently.
 
 ```markdown
 > **Review: Blocker.** The problem in one or two sentences.
-> Evidence: `command` → `output line`
-> Proposed: the change, in one sentence.
+> Proof: `the command you ran` gave `the line that matters`
+> Suggest: what to change, briefly.
 ```
 
 Add one summary after the document's title or status line:

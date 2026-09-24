@@ -49,5 +49,17 @@ check "private term caught" 'grep -q "skills/secret/SKILL.md:3: private term" "$
 check "exempt file not flagged" '! grep -q "NOTES.md" "$tmp/out"'
 check "good skill not flagged" '! grep -q "skills/good" "$tmp/out"'
 
+# The router must mention every skill and mark typed ones.
+rm -rf "$tmp/skills"/*
+skill good 'name: good\ndescription: Good.'
+skill quiet 'name: quiet\ndescription: Quiet.\ndisable-model-invocation: true'
+mkdir -p "$tmp/skills/quiet/agents"
+printf 'policy:\n  allow_implicit_invocation: false\n' > "$tmp/skills/quiet/agents/openai.yaml"
+skill which-skill 'name: which-skill\ndescription: Router.' 'Use `quiet` or `ghost-skill`.'
+python3 "$tmp/scripts/lint.py" > "$tmp/out" 2>&1
+check "router missing a skill caught" 'grep -q "does not mention .good." "$tmp/out"'
+check "router typed marker caught" 'grep -q ".quiet. is typed-only but not marked" "$tmp/out"'
+check "router naming a missing skill caught" 'grep -q "names .ghost-skill., which is not a skill" "$tmp/out"'
+
 echo
 if [ "$fails" = 0 ]; then echo "All checks passed"; else cat "$tmp/out"; echo "$fails check(s) failed"; exit 1; fi

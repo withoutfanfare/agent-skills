@@ -76,8 +76,8 @@ Four parts, in this order, so a reviewer gets the why before the how:
    alternative.
 3. **Proof:** what you ran and what it showed. Paste the command and the
    output line that matters; add screenshots for anything visual.
-4. **Where to look:** only for larger diffs. Name the two or three files
-   that carry the real change, list generated or mechanical files
+4. **Where to look:** only for larger diffs. Point to the few files where
+   the substance is, list generated or mechanical files
    separately, and call out any migration or behaviour change.
 
 If the repository has a pull request template, fill its headings with this

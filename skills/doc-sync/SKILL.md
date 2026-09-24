@@ -69,12 +69,13 @@ Done when: every page on the list reflects the new behaviour.
 
 ## 4. Breaking changes and APIs
 
-Every breaking change gets a migration guide: what changed and why, a
-before example, an after example, and numbered upgrade steps.
+Each breaking change comes with a migration guide: the reason for the
+change, code as it was and as it must be now, and the steps to move
+across, numbered.
 
 Every new or changed endpoint gets: method and path, parameters with types,
 an example response, authentication, error responses, and any rate limits.
-Mark deprecated endpoints and point to their replacements.
+Flag anything deprecated, with a link to what replaces it.
 
 Done when: each breaking change has a guide and each endpoint change has a
 reference entry.

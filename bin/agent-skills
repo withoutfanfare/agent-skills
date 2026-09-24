@@ -46,6 +46,10 @@ This project (run anywhere inside it):
   agent-skills init                 write .agent-skills from what is linked
   agent-skills sync                 make links match .agent-skills exactly
 
+Usage (optional, local only):
+  agent-skills track                how to switch on usage logging
+  agent-skills usage [days] [--json] which skills you actually used
+
 Everywhere:
   agent-skills home add <skill|set>...
   agent-skills home remove <skill|set>...
@@ -241,6 +245,29 @@ case "${1:-}" in
             status) cmd_status "$HOME" ;;
             *) usage; exit 1 ;;
         esac
+        ;;
+    usage) shift; python3 "$LIBRARY/scripts/track.py" report "$@" ;;
+    track)
+        cat <<EOF
+Usage logging is optional and stays on this machine. To switch it on for
+Claude Code, add this to ~/.claude/settings.json (inside "hooks" if that
+section already exists), then restart Claude Code:
+
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Skill",
+        "hooks": [
+          { "type": "command", "command": "python3 $LIBRARY/scripts/track.py log" }
+        ]
+      }
+    ]
+  }
+}
+
+Then see what you use with: agent-skills usage
+EOF
         ;;
     ""|-h|--help|help) usage ;;
     *) usage; exit 1 ;;

@@ -13,8 +13,8 @@ allowed-tools: Read Write Edit Bash Glob Grep
 # Sketch
 
 Some questions are faster to answer by touching something than by
-discussing it: does this state model hold up, which of these layouts reads
-best, does this interaction feel right? A sketch is the smallest program
+discussing it: will these states cover every case, which arrangement is easiest to scan,
+is this interaction pleasant to use? A sketch is the smallest program
 that lets someone answer one such question. It is throwaway in how it is
 built (no tests, no error handling, hard-coded data, speed over craft),
 and its answer is what goes into the real build.
@@ -64,5 +64,5 @@ to the sketch.
 ## It's working if
 
 - Each sketch answered exactly one named question.
-- It took less time than arguing the question in the abstract.
+- It was quicker than debating the question in a meeting.
 - No sketch code ended up in the product.

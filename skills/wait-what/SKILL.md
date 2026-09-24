@@ -25,8 +25,8 @@ the problem it solves.
    assumption, a leap. Supply that first.
 2. **Start with the point.** The one thing that matters, in the first
    sentence.
-3. **Use plain words.** Explain any technical term in a few words the
-   first time it appears. Use the project's own vocabulary if it has a
+3. **Use plain words.** Gloss each technical term briefly where it first
+   shows up. Use the project's own vocabulary if it has a
    glossary; those are words the user already knows.
 4. **Make it shorter than the original.** Cut everything that does not
    change what the user would do next.

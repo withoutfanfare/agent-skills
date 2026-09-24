@@ -54,11 +54,12 @@ gh run view <run-id> --log-failed
 
 Retry only what looks environmental: timeouts, a lost runner, network
 errors, a different error each time. Retry just the failed jobs with
-`gh run rerun <run-id> --failed`. A check that fails twice with the same
-error is a real failure; fix the code.
+`gh run rerun <run-id> --failed`. When the same error appears on two runs,
+it is not flaky: fix the code.
 
-A test's expected value changes only when the behaviour really changed.
-Editing an assertion to get a pass is the same as overriding the check.
+Change what a test expects only when the behaviour was meant to change.
+Loosening an expectation to go green is overriding the check by another
+route.
 
 Done when: every failing check is labelled "flaky, retried" or "real, fixed
 in <commit>", with the log line that justified the label.
@@ -119,8 +120,8 @@ blocked, the exact blocker and the smallest next step.
 
 ## Gotchas
 
-- `gh pr checks` exits non-zero while checks are still pending. Read the
-  output, not the exit code.
+- A pending check also makes `gh pr checks` return a failing exit code,
+  so judge by what it prints.
 - `gh run rerun` without `--failed` reruns the whole workflow.
 - `gh pr merge --auto` does nothing if auto-merge is switched off for the
   repository; check first.

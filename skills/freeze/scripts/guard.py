@@ -38,9 +38,9 @@ def main():
             return 0
 
     print(
-        f"Blocked by freeze: {target} is outside the agreed scope "
-        f"({', '.join(allowed[:-1]) or 'nothing listed'}). Tell the user what you wanted "
-        "to change and why; widen the scope only if they agree.",
+        f"Refused by freeze: {target} is not inside the paths agreed for this "
+        f"session ({'; '.join(allowed[:-1]) or 'none listed'}). Explain the change "
+        "you need and ask before adding the path to the scope.",
         file=sys.stderr,
     )
     return 2

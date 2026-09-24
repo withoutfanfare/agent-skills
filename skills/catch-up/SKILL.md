@@ -1,8 +1,7 @@
 ---
 name: catch-up
 description: >-
-  Briefs the user on what happened in a project since they last worked on
-  it: commits by everyone, branches, pull requests, issues, handover notes,
+  Summarises what changed in a project while the user was away: commits by everyone, branches, pull requests, issues, handover notes,
   reverted work and anything left uncommitted, on one screen, ordered by
   what needs them first. Use when the user says "catch me up", asks what has
   happened here or where they left off, or is returning after time away.
@@ -64,9 +63,9 @@ a change means, not just its commit message. Group by theme, not by
 commit.
 
 ```text
-# Catching up: <project>, last touched <when>
+# <project>: since <date>
 
-## Needs you first
+## Your first job
 - <the most urgent thing: an unfinished branch, failing checks, a review waiting>
 
 ## Since you left
