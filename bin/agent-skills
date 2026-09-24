@@ -1,0 +1,247 @@
+#!/usr/bin/env bash
+# agent-skills: link skills from this library into a project, or into your
+# home folder, for Claude Code (.claude/skills) and Codex (.agents/skills).
+#
+# Every link points back at the library, so a pull updates every project.
+# The command only ever touches links that point into this library.
+
+set -euo pipefail
+
+# Find the library from this script's real location, following symlinks,
+# so it works wherever the repository was cloned.
+self="$0"
+while [ -L "$self" ]; do
+    target=$(readlink "$self")
+    case "$target" in
+        /*) self="$target" ;;
+        *) self="$(dirname "$self")/$target" ;;
+    esac
+done
+LIBRARY=$(cd "$(dirname "$self")/.." && pwd -P)
+SKILLS="$LIBRARY/skills"
+SETS="$LIBRARY/sets"
+
+TARGETS=(".claude/skills" ".agents/skills")
+MANIFEST=".agent-skills"
+LOCAL_MANIFEST=".agent-skills.local"
+
+if [ -t 1 ]; then
+    GREEN=$'\033[32m' YELLOW=$'\033[33m' RED=$'\033[31m' DIM=$'\033[2m' RESET=$'\033[0m'
+else
+    GREEN="" YELLOW="" RED="" DIM="" RESET=""
+fi
+
+die() { echo "${RED}$*${RESET}" >&2; exit 1; }
+
+usage() {
+    cat <<'EOF'
+agent-skills: link skills into a project for Claude Code and Codex
+
+This project (run anywhere inside it):
+  agent-skills list [set]           the sets, or the skills in one set
+  agent-skills list skills          every skill in the library
+  agent-skills add <skill|set>...   link skills into this project
+  agent-skills remove <skill|set>...
+  agent-skills status               what is linked here
+  agent-skills init                 write .agent-skills from what is linked
+  agent-skills sync                 make links match .agent-skills exactly
+
+Everywhere:
+  agent-skills home add <skill|set>...
+  agent-skills home remove <skill|set>...
+  agent-skills home status
+
+Links go into .claude/skills (Claude Code) and .agents/skills (Codex).
+Personal extras for one project: list them in .agent-skills.local.
+EOF
+}
+
+project_root() {
+    git rev-parse --show-toplevel 2>/dev/null || pwd -P
+}
+
+# True when $1 is a symlink pointing into this library's skills folder.
+is_ours() {
+    [ -L "$1" ] || return 1
+    local target
+    target=$(readlink "$1")
+    [[ "$target" == "$SKILLS"/* ]]
+}
+
+# Print skill names for a skill or set name; sets are sets/<name>.txt.
+expand() {
+    if [ -f "$SETS/$1.txt" ]; then
+        sed -e 's/#.*//' -e 's/[[:space:]]//g' "$SETS/$1.txt" | grep -v '^$' || true
+    else
+        echo "$1"
+    fi
+}
+
+# Read skill or set names from a manifest file, ignoring comments and blanks.
+read_manifest() {
+    [ -f "$1" ] || return 0
+    sed -e 's/#.*//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' "$1" | grep -v '^$' || true
+}
+
+link_skill() {
+    local base="$1" name="$2" dir made=0 note=""
+    if [ ! -f "$SKILLS/$name/SKILL.md" ]; then
+        echo "  ${RED}✗${RESET} $name ${DIM}(no such skill)${RESET}"
+        return 0
+    fi
+    for t in "${TARGETS[@]}"; do
+        dir="$base/$t"
+        mkdir -p "$dir"
+        if is_ours "$dir/$name"; then
+            continue
+        elif [ -e "$dir/$name" ] || [ -L "$dir/$name" ]; then
+            note="$note ${YELLOW}(your own copy in $t left alone)${RESET}"
+        else
+            ln -s "$SKILLS/$name" "$dir/$name"
+            made=1
+        fi
+    done
+    if [ "$made" = 1 ]; then
+        echo "  ${GREEN}✓${RESET} $name$note"
+    else
+        echo "  ${DIM}○ $name (already linked)${RESET}$note"
+    fi
+}
+
+unlink_skill() {
+    local base="$1" name="$2" removed=0
+    for t in "${TARGETS[@]}"; do
+        if is_ours "$base/$t/$name"; then
+            rm -- "$base/$t/$name"
+            removed=1
+        fi
+    done
+    if [ "$removed" = 1 ]; then
+        echo "  ${GREEN}✓${RESET} $name removed"
+    else
+        echo "  ${DIM}○ $name (not linked)${RESET}"
+    fi
+}
+
+clear_links() {
+    local base="$1" item
+    for t in "${TARGETS[@]}"; do
+        [ -d "$base/$t" ] || continue
+        for item in "$base/$t"/*; do
+            if is_ours "$item"; then rm -- "$item"; fi
+        done
+    done
+}
+
+linked_names() {
+    local base="$1" item
+    for t in "${TARGETS[@]}"; do
+        [ -d "$base/$t" ] || continue
+        for item in "$base/$t"/*; do
+            if is_ours "$item"; then basename "$item"; fi
+        done
+    done | sort -u
+}
+
+cmd_add() {
+    local base="$1"; shift
+    [ $# -gt 0 ] || die "Say which skills or sets to add."
+    for arg in "$@"; do
+        while IFS= read -r name; do link_skill "$base" "$name"; done < <(expand "$arg")
+    done
+}
+
+cmd_remove() {
+    local base="$1"; shift
+    [ $# -gt 0 ] || die "Say which skills or sets to remove."
+    for arg in "$@"; do
+        while IFS= read -r name; do unlink_skill "$base" "$name"; done < <(expand "$arg")
+    done
+}
+
+cmd_status() {
+    local base="$1" name count=0 claude codex where
+    echo "Skills linked in ${base/#$HOME/~}:"
+    while IFS= read -r name; do
+        [ -n "$name" ] || continue
+        claude=0; codex=0
+        is_ours "$base/.claude/skills/$name" && claude=1
+        is_ours "$base/.agents/skills/$name" && codex=1
+        if [ ! -e "$SKILLS/$name/SKILL.md" ]; then
+            where="${RED}broken: no longer in the library${RESET}"
+        elif [ "$claude$codex" = 11 ]; then
+            where="${DIM}Claude Code and Codex${RESET}"
+        elif [ "$claude" = 1 ]; then
+            where="${YELLOW}Claude Code only${RESET}"
+        else
+            where="${YELLOW}Codex only${RESET}"
+        fi
+        echo "  $name  $where"
+        count=$((count + 1))
+    done < <(linked_names "$base")
+    [ "$count" -gt 0 ] || echo "  ${DIM}(none)${RESET}"
+    echo "$count linked"
+}
+
+cmd_sync() {
+    local root="$1" entries
+    [ -f "$root/$MANIFEST" ] || die "No $MANIFEST here. Create one with: agent-skills init"
+    entries=$( { read_manifest "$root/$MANIFEST"; read_manifest "$root/$LOCAL_MANIFEST"; } )
+    clear_links "$root"
+    while IFS= read -r arg; do
+        [ -n "$arg" ] || continue
+        while IFS= read -r name; do link_skill "$root" "$name"; done < <(expand "$arg")
+    done <<< "$entries"
+    echo "Synced $(linked_names "$root" | grep -c . || true) skills from $MANIFEST"
+}
+
+cmd_init() {
+    local root="$1"
+    if [ -f "$root/$MANIFEST" ] && [ "${2:-}" != "--force" ]; then
+        die "$MANIFEST already exists. Use: agent-skills init --force"
+    fi
+    {
+        echo "# Skills for $(basename "$root"). One skill or set per line."
+        echo "# Apply with: agent-skills sync"
+        linked_names "$root"
+    } > "$root/$MANIFEST"
+    echo "Wrote $MANIFEST with $(linked_names "$root" | grep -c . || true) skills"
+}
+
+cmd_list() {
+    local set
+    if [ "${1:-}" = "skills" ]; then
+        for d in "$SKILLS"/*/; do
+            if [ -f "$d/SKILL.md" ]; then basename "$d"; fi
+        done
+    elif [ -n "${1:-}" ]; then
+        [ -f "$SETS/$1.txt" ] || die "No set called $1."
+        expand "$1"
+    else
+        echo "Sets:"
+        for set in "$SETS"/*.txt; do
+            [ -f "$set" ] || continue
+            echo "  $(basename "$set" .txt) ($(expand "$(basename "$set" .txt)" | grep -c . || true) skills)"
+        done
+        echo "Skills: $(cmd_list skills | grep -c . || true). See them with: agent-skills list skills"
+    fi
+}
+
+case "${1:-}" in
+    list) cmd_list "${2:-}" ;;
+    add) shift; cmd_add "$(project_root)" "$@" ;;
+    remove) shift; cmd_remove "$(project_root)" "$@" ;;
+    status) cmd_status "$(project_root)" ;;
+    sync) cmd_sync "$(project_root)" ;;
+    init) cmd_init "$(project_root)" "${2:-}" ;;
+    home)
+        case "${2:-}" in
+            add) shift 2; cmd_add "$HOME" "$@" ;;
+            remove) shift 2; cmd_remove "$HOME" "$@" ;;
+            status) cmd_status "$HOME" ;;
+            *) usage; exit 1 ;;
+        esac
+        ;;
+    ""|-h|--help|help) usage ;;
+    *) usage; exit 1 ;;
+esac

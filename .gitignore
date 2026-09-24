@@ -1,0 +1,4 @@
+.lint-private-terms
+.agent-skills.local
+__pycache__/
+.DS_Store
