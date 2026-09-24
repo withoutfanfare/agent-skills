@@ -2,8 +2,10 @@
 
 ## Keep the test database throwaway
 
-Check both places that decide which database tests use. `.env.testing`
-takes precedence over `phpunit.xml`:
+Check both places that decide which database tests use. When both set the
+same key, the `<env>` value in `phpunit.xml` usually wins, because it is
+already set before Laravel reads `.env.testing` and Laravel does not
+overwrite existing variables. Read both rather than trusting either alone:
 
 ```bash
 grep -E 'DB_CONNECTION|DB_DATABASE' .env.testing 2>/dev/null

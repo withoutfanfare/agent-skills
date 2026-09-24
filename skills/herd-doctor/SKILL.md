@@ -5,8 +5,7 @@ description: >-
   serving a stale process, a site missing from the linked list, or a site
   running the wrong PHP version. Use when a .test site will not load,
   returns a 502, shows the wrong PHP version, or its domain cannot be
-  found. For a certificate or
-  "not secure" problem, use a dedicated SSL skill instead.
+  found.
 license: MIT
 allowed-tools: Read Bash Grep Glob
 ---
@@ -41,19 +40,30 @@ work".
 ## 2. Check whether nginx itself is the problem
 
 Herd's nginx runs a master process as root and worker processes as the
-logged-in user. A plain `herd restart` only restarts the workers, so a
-master process left in a bad state (after a crash, a config change, or a
-system sleep) can keep serving stale behaviour indefinitely.
+logged-in user. A master process left in a bad state (after a crash, a
+config change, or a system sleep) can keep serving stale behaviour
+indefinitely.
 
 ```bash
 ps aux | grep nginx | grep -v grep
 ```
 
-If nginx looks stuck, absent, or you see errors in its log, force a full
-restart rather than the normal one:
+If nginx looks stuck, absent, or you see errors in its log, restart all of
+Herd's services first:
 
 ```bash
-sudo pkill -9 nginx && herd start
+herd restart
+```
+
+If the old master process survives that, it needs killing with `sudo`,
+which cannot answer a password prompt from inside an agent session. Ask
+the user to run it in their own terminal, aimed only at Herd's nginx master
+(its path in the `ps` output sits inside Herd's application folder), not
+every nginx on the machine, then run `herd start`:
+
+```bash
+sudo kill <herd-nginx-master-pid>   # the user runs this
+herd start
 ```
 
 Killing the process is safe: Herd's start command brings a fresh master
@@ -79,8 +89,11 @@ from its project folder and re-secure it:
 cd /path/to/the/project      # the site's own folder, not a fixed example path
 herd link
 herd secure
-sudo pkill -9 nginx && herd start
+herd restart
 ```
+
+A certificate or "not secure" warning on a site that is already linked
+usually clears by running `herd secure` again from the site's folder.
 
 Done when: the site under investigation appears in both `herd links` and,
 if it should be served over https, `herd secured`.

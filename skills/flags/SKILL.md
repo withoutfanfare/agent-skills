@@ -45,7 +45,7 @@ if the condition only handles a real user object, it will throw or behave
 unpredictably for every anonymous request. Write the anonymous branch on
 purpose, not as a side effect of a default case:
 
-```bash
+```text
 define('early-access-banner', scope):
     if scope is null:
         return false          # guests never see it

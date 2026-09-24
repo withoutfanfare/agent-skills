@@ -54,12 +54,13 @@ re-resolving it. Common ways to identify the tenant:
 - **The signed-in user's own tenant**: the user record carries which
   tenant they belong to.
 
-Whichever method you pick, resolve it from something the server controls
-(the host header the request actually arrived on, or the authenticated
-user), never from a value the client can freely set such as a form field,
-query string or unauthenticated header. A request claiming
-`?tenant_id=4` proves nothing; only the domain it arrived on or the session
-that authenticated it does.
+Whichever method you pick, resolve it from the host matched against
+tenants you know, or from the authenticated user, never from a value the
+client can freely set such as a form field or query string. The host is
+client-supplied too, so it only selects a tenant; it grants nothing. After
+resolving, confirm the signed-in user actually belongs to that tenant, or
+anyone can point a request at `other-tenant.example.com` with their own
+session. A request claiming `?tenant_id=4` proves nothing.
 
 If resolution fails, fail closed: return a not-found or unauthorised
 response rather than falling back to a default tenant or no tenant at all.

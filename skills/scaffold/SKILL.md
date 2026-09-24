@@ -56,6 +56,8 @@ Authorisation is not optional on any write path. A feature with validation
 but no ownership or permission check lets any authenticated caller act on
 anyone's data.
 
+Stack-specific detail and pitfalls: [references/laravel.md](references/laravel.md).
+
 Done when: every write path has both a validation rule and an
 authorisation check, and you can point to both for each one.
 
@@ -87,8 +89,6 @@ and the test run output is pasted, not summarised.
 The files created, the schema change (and that it reverses cleanly), the
 tests run and their result, and anything intentionally left out (a feature
 listed but not requested).
-
-Stack-specific detail and pitfalls: [references/laravel.md](references/laravel.md).
 
 ## It's working if
 

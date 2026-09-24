@@ -38,8 +38,10 @@ Schema::create('product_tag', function (Blueprint $table) {
 Use a composite primary key instead of a surrogate `id` when the join
 table carries no data of its own. The moment it needs extra columns
 (quantity, position, a timestamp of when the tag was applied), give it a
-normal `id` and a unique index on the pair instead, because a composite
-primary key cannot be a foreign key target for anything else.
+normal `id` and a unique index on the pair instead. SQL allows a composite
+primary key as a foreign key target, but Eloquent has no real support for
+composite keys, so a model or relationship pointing at one gets awkward
+fast.
 
 ## Polymorphic relationships
 
@@ -64,9 +66,11 @@ $table->string('middle_name')->nullable();
 $table->boolean('marketing_opt_in')->default(false);
 ```
 
-A non-nullable column with no default fails immediately against a table
-that already has rows, because Laravel has nothing to put in the existing
-ones.
+A non-nullable column with no default fails immediately on PostgreSQL and
+SQLite against a table that already has rows, because there is nothing to
+put in the existing ones. MySQL typically fills those rows instead with
+the type's implicit default (`0`, an empty string), so the migration
+succeeds and quietly writes values nobody chose.
 
 ## Expand-contract for a column rename
 
@@ -101,14 +105,24 @@ DB::table('customers')->whereNull('full_name')->orderBy('id')
 
 `SoftDeletes` leaves the row in the table with `deleted_at` set, so a
 plain unique index on `email` blocks a new customer from reusing an
-address a deleted account once held. Scope the index to live rows with a
-raw statement, since Laravel's schema builder has no `->unique()` option
-for a partial index:
+address a deleted account once held. On PostgreSQL and SQLite, scope the
+index to live rows with a raw statement, since Laravel's schema builder has
+no `->unique()` option for a partial index:
 
 ```php
 DB::statement(
     'CREATE UNIQUE INDEX customers_email_unique ON customers (email) WHERE deleted_at IS NULL'
 );
+```
+
+MySQL and MariaDB do not support partial indexes. Put the unique index on a
+generated column that holds the email only while the row is live; a unique
+index allows any number of `NULL`s, so deleted rows never collide:
+
+```php
+$table->string('live_email')->nullable()
+    ->storedAs('CASE WHEN deleted_at IS NULL THEN email END')
+    ->unique();
 ```
 
 ## Commands worth knowing while designing

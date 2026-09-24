@@ -33,6 +33,8 @@ On every pull request, run in this order so the cheap checks fail first:
 install with the lockfile, formatting, static analysis, tests (with a
 throwaway database and services), then build. Cache dependencies. Fail on
 any error; never mark a failing step "continue on error" to get green.
+If tests render pages that load built front-end assets, run the build
+before the tests, or have the tests stub those assets.
 
 Done when: a pull request with a failing test shows a red check, and a
 clean one shows green (try both).

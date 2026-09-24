@@ -1,5 +1,9 @@
 # Laravel and PHP upgrade notes
 
+The worked notes below cover Laravel 9 to 11. For any later jump, read the
+official upgrade guide for the target version in full; do not extrapolate
+from these notes.
+
 ## composer.json first
 
 The version bump starts in `composer.json`. Update the `php` constraint and
@@ -9,7 +13,7 @@ The version bump starts in `composer.json`. Update the `php` constraint and
 {
     "require": {
         "php": "^8.3",
-        "laravel/framework": "^11.0"
+        "laravel/framework": "^<target>.0"
     }
 }
 ```
@@ -17,7 +21,7 @@ The version bump starts in `composer.json`. Update the `php` constraint and
 Run `composer update laravel/framework --with-all-dependencies` rather than
 a blanket `composer update`, so unrelated packages do not move at the same
 time and muddy the diff. `composer outdated --direct` shows which of your
-own dependencies still lag; `composer why-not laravel/framework ^11.0` shows
+own dependencies still lag; `composer why-not laravel/framework ^<target>.0` shows
 exactly which installed package is blocking the move.
 
 ## Laravel 10 to 11
@@ -32,12 +36,20 @@ version bump.
 What every 10-to-11 upgrade does need:
 
 - PHP 8.2 is now the floor.
-- Several first-party packages (Sanctum, Cashier, Passport) need their own
-  major version bump alongside the framework; check each one's own upgrade
-  notes rather than assuming a patch bump covers it.
-- The default password hashing algorithm and a handful of validation rule
-  behaviours changed; the framework's own upgrade guide lists them by name
-  and is short enough to read in full for this jump.
+- Several first-party packages (Sanctum, Cashier, Passport, Telescope) need
+  their own major version bump alongside the framework, and no longer load
+  their migrations automatically: publish them with `vendor:publish`. Check
+  each one's own upgrade notes rather than assuming a patch bump covers it.
+- A migration that modifies a column with `->change()` must now restate
+  every modifier it wants to keep (`nullable`, `default`, `unsigned`,
+  `comment`); anything left off is dropped.
+- The `double` and `float` column types were rewritten and the
+  `unsignedDecimal`/`unsignedDouble`/`unsignedFloat` helpers removed.
+- SQLite 3.26.0 or newer is required.
+- Passwords are rehashed on login when the hashing work factor has changed;
+  a password column not called `password` needs `$authPasswordName`.
+- The framework's own upgrade guide lists the rest by name and is short
+  enough to read in full for this jump.
 
 ## Laravel 9 to 10
 
@@ -55,12 +67,12 @@ protected $casts = [
 ];
 ```
 
-- The minimum supported PHPUnit version moves to 10, which changes how
-  data providers and some assertions are declared; run the suite once
-  after the bump purely to catch PHPUnit-level breakage before chasing
-  application code.
+- PHPUnit 10 becomes available but is optional. If you take it in the same
+  jump, it changes how data providers and some assertions are declared; run
+  the suite once after the bump purely to catch PHPUnit-level breakage
+  before chasing application code.
 
-## PHP 8.2 to 8.3
+## PHP 8.1 to 8.2
 
 - Dynamic properties on a class not extending `stdClass` are deprecated. A
   class that relied on setting undeclared properties (common on quick
@@ -77,6 +89,8 @@ class OrderTotals
 }
 ```
 
+## PHP 8.2 to 8.3
+
 - Typed class constants and the `#[\Override]` attribute are new, not
   breaking; adopt them gradually rather than as part of the upgrade diff.
 - `json_validate()` replaces the old `json_decode() === null` check for
@@ -86,9 +100,7 @@ class OrderTotals
 
 | Pattern | Why it surfaces during an upgrade |
 |---|---|
-| `$model->attributesToArray()` overrides | Casting and serialisation order changes between majors |
 | Manual `Carbon` timezone juggling | Default timezone handling has shifted more than once |
-| Route model binding on soft-deleted models | Default behaviour has flipped between majors |
 | Custom exception handler rendering | Moves between `Handler.php` and `bootstrap/app.php` in Laravel 11 |
 
 ## Automated fixes with Rector
@@ -124,7 +136,7 @@ touched before running the suite against it.
 
 ## Rollback specifics
 
-- `git switch <pre-upgrade-tag>` plus `composer install` restores the
+- `git switch --detach <pre-upgrade-tag>` plus `composer install` restores the
   dependency tree exactly, because `composer install` reads the committed
   `composer.lock` rather than resolving fresh.
 - If a migration ran as part of the upgrade, test `php artisan

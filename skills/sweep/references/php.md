@@ -10,12 +10,16 @@ over the whole project with raw output:
 vendor/bin/phpstan analyse --error-format=raw --memory-limit=2G > /tmp/sweep-before.txt
 ```
 
-After the sweep, regenerate the baseline and compare counts per
-identifier:
+After the sweep, capture the same way into a second file and compare
+counts per identifier. Do not regenerate the project's baseline for this:
+`--generate-baseline` overwrites the real one, and its format differs from
+the raw output, so the counts would not line up.
 
 ```bash
-vendor/bin/phpstan analyse --generate-baseline --memory-limit=2G --no-progress
-grep 'identifier:' phpstan-baseline.neon | sort | uniq -c | sort -rn | head -20
+vendor/bin/phpstan analyse --error-format=raw --memory-limit=2G > /tmp/sweep-after.txt
+for f in /tmp/sweep-before.txt /tmp/sweep-after.txt; do
+  echo "== $f"; grep -o 'identifier=[^]]*' "$f" | sort | uniq -c | sort -rn | head -20
+done
 ```
 
 ## Which fixes are safe to script
@@ -29,9 +33,10 @@ grep 'identifier:' phpstan-baseline.neon | sort | uniq -c | sort -rn | head -20
 
 ## Pattern traps
 
-- **Write context:** replacing `?->` with `->` inside an assignment target
-  (`$a?->b = 1`) changes meaning or breaks syntax. Skip lines where the
-  pattern is followed by `=` (but not `==` or `=>`).
+- **Write context:** replacing `->` with `?->` inside an assignment target
+  turns `$a->b = 1` into `$a?->b = 1`, a fatal error ("Can't use nullsafe
+  operator in write context"). Skip lines where the pattern is followed by
+  `=` (but not `==` or `=>`).
 - **Multi-line expressions:** a regular expression that checks for `??` on
   the same line misses a `??` on the next line. Check the following line
   too, or skip.

@@ -13,8 +13,11 @@ verification run pass or fail against last week's code.
 
 ```bash
 php artisan test --filter=NameOfTheThing
-vendor/bin/pest --dirty          # only files changed since the last commit
+vendor/bin/pest --dirty          # only test files with uncommitted changes
 ```
+
+`--dirty` picks test files, not source files: a change to `app/` alone runs
+nothing. When only source has changed, name the tests with `--filter`.
 
 ## Rung 2: static analysis and style
 
@@ -25,8 +28,12 @@ vendor/bin/pint --test           # style check only, does not rewrite files
 
 ## Rung 3: HTTP smoke pass
 
+The script lives in this skill's own `scripts/` folder, not the project's,
+so call it by that path (in Claude Code, `${CLAUDE_SKILL_DIR}`; in other
+agents, wherever the skill is installed):
+
 ```bash
-scripts/http-smoke.sh https://your-app.test routes.txt
+bash "${CLAUDE_SKILL_DIR}/scripts/http-smoke.sh" https://your-app.test routes.txt
 ```
 
 Local `.test` domains served over HTTPS with a self-signed certificate need

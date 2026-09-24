@@ -18,7 +18,7 @@ skill plans that work so every step can be checked, paused and reversed,
 and so the plan is rehearsed on realistic data before it touches the real
 thing.
 
-For designing a new schema, use a schema design skill instead.
+For designing a new schema, use `schema` (if installed) instead.
 
 ## 1. Understand the move
 

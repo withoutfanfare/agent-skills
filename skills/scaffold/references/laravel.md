@@ -6,8 +6,10 @@
 php artisan make:model Listing -mfrc --policy
 ```
 
-produces a model, migration, factory, resource controller and API resource
-together; the `--policy` flag adds the authorisation class alongside them.
+produces a model, migration, factory and resource controller together; the
+`--policy` flag adds the authorisation class alongside them. The `-r` flag
+means a resource controller, not an API resource: run
+`php artisan make:resource ListingResource` separately if you need one.
 Open each generated file and check it against your actual columns before
 building on it: the generator has no idea what fields you need.
 
@@ -32,7 +34,7 @@ Any column not named in `$fillable` is silently dropped whenever you call
 `create()` or `update()` with it, no exception, no warning: the record
 looks saved and one field is simply missing. Setting `$guarded = []`
 swings to the other extreme and lets mass assignment touch every column on
-the table, including something like a `is_admin` flag if one exists.
+the table, including something like an `is_admin` flag if one exists.
 
 ## Migration
 
@@ -42,16 +44,19 @@ related table is called `sellers` purely from the column's name; if the
 real table is `users`, the migration will fail at run time unless you pass
 `constrained('users')` yourself.
 
-The SQLite database most test suites run against cannot drop a foreign key
-or alter a column in place. A migration built around `->change()` or
-`dropForeign()` runs fine against MySQL or PostgreSQL but blows up only
-under the test suite. Rebuild the table instead, or skip the statement on
-SQLite:
+Before Laravel 11, the SQLite database most test suites run against could
+not drop a foreign key or alter a column in place, so a migration built
+around `->change()` or `dropForeign()` worked on MySQL but failed under the
+tests. Laravel 11 and later (with SQLite 3.26 or newer) handle both, so on a
+current app that guard is usually unnecessary.
+
+The trap that remains is `->change()` itself: since Laravel 11 it replaces
+the whole column definition, so any modifier you leave off (`nullable`,
+`default`, `unsigned`, `comment`) is dropped. Restate every modifier you
+want to keep:
 
 ```php
-if (DB::getDriverName() !== 'sqlite') {
-    Schema::table('listings', fn (Blueprint $table) => $table->dropForeign(['seller_id']));
-}
+$table->string('heading', 200)->nullable()->default('')->change();
 ```
 
 ## Validation
@@ -80,13 +85,18 @@ public function update(User $user, Listing $listing): bool
 }
 
 // Controller
-$this->authorize('update', $listing);
+Gate::authorize('update', $listing);
 ```
+
+Laravel 11 and later ship a bare base controller without the
+`AuthorizesRequests` trait, so `$this->authorize()` and
+`authorizeResource()` do not exist unless you add that trait yourself. Use
+the `Gate` facade (`use Illuminate\Support\Facades\Gate;`) instead.
 
 Running `make:policy` and letting Laravel auto-discover it registers the
 class, but the class does nothing on its own: a controller still has to
-call `authorize()` or `authorizeResource()`, or the route still needs the
-`can:` middleware. Skip that wiring and every route stays open regardless
+call `Gate::authorize()`, or the route still needs the `can:` middleware
+(or `->can('update', 'listing')`). Skip that wiring and every route stays open regardless
 of what the policy says.
 
 ## API resources

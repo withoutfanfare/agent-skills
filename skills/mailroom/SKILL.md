@@ -126,18 +126,10 @@ for what happens if the queued job fails.
 
 ## 5. Preview and test before the first real send
 
-```php
-// local-only preview route
-Route::get('/mail-preview/order-confirmation', function () {
-    return new OrderConfirmation(Order::factory()->create());
-})->middleware('web');
-```
-
-```php
-Mail::fake();
-Mail::to($customer)->queue(new OrderConfirmation($order));
-Mail::assertQueued(OrderConfirmation::class, fn ($mail) => $mail->hasTo($customer->email));
-```
+Add a preview route that returns the mailable so you can see the rendered
+HTML in a browser, and register it only inside an
+`app()->environment('local')` check so it can never reach production. Then
+write a test with `Mail::fake()` and `Mail::assertQueued()`.
 
 `Mail::fake()` proves the mailable was dispatched to the right recipient
 without touching a real mail server. Instantiate the mailable directly in
@@ -150,7 +142,7 @@ Done when: a fake-backed test asserts both the recipient and the rendered
 content, and you have looked at the rendered HTML in the preview route at
 least once.
 
-Laravel and Pest test patterns in more depth:
+The guarded preview route and the Pest test patterns, worked through:
 [references/testing.md](references/testing.md).
 
 ## It's working if

@@ -73,14 +73,16 @@ Notification::route('mail', 'guest@example.com')->notify(new AppointmentReminder
 
 - **mail**: `toMail()` returning a `MailMessage`, or a full Blade view for
   richer content.
-- **database**: `toArray()`, stored via a migration Laravel ships
-  (`notifications` table); pair with a bell or list in the UI.
+- **database**: `toArray()`, stored in a `notifications` table whose
+  migration you generate (see Gotchas); pair with a bell or list in the UI.
 - **broadcast**: `toBroadcast()`, delivered over a websocket connection for
   live in-app updates; needs a frontend listener wired to the channel.
-- **Slack / chat webhook**: `toSlack()` returning a `SlackMessage`, needs
-  the channel's webhook URL configured.
+- **Slack**: `toSlack()` returning a `SlackMessage`; install
+  `laravel/slack-notification-channel` and configure a Slack app's bot
+  token in `config/services.php`.
 - **SMS (Vonage or similar)**: `toVonage()` (or the equivalent driver
-  method), needs the provider's credentials configured; keep the message
+  method); install `laravel/vonage-notification-channel` (or the
+  provider's own channel package) and configure its credentials; keep the message
   to one segment where possible, providers charge per segment.
 - **Custom channel**: a class with a `send($notifiable, $notification)`
   method, referenced by class name in `via()`, for anything without a
@@ -130,7 +132,7 @@ notifications that go through those underlying services directly.
 - Without `ShouldQueue`, a mail or SMS send blocks the request until the
   outside service responds, which turns a slow provider into a slow page.
 - The database channel needs its own migration
-  (`php artisan notifications:table` then `migrate`) before `toArray()`
+  (`php artisan make:notifications-table` then `migrate`) before `toArray()`
   notifications will store anywhere.
 - A `via()` that always returns every channel regardless of preference
   means an opted-out user still gets texted.

@@ -40,16 +40,25 @@ on more than one server. Skipping either one is how duplicate processing
 gets into production.
 
 ```php
-$schedule->command('reports:nightly-digest')
+// routes/console.php (Laravel 11 and later)
+use Illuminate\Support\Facades\Schedule;
+
+Schedule::command('reports:nightly-digest')
     ->dailyAt('02:00')
     ->withoutOverlapping()   // a slow run does not collide with the next
-    ->onOneServer()          // only one node executes this, even with N workers
+    ->onOneServer()          // only one server runs this, even if several run the scheduler
     ->runInBackground();
 ```
 
+On Laravel 10 and older the same chain hangs off `$schedule->command(...)`
+inside `schedule()` in `app/Console/Kernel.php`; follow whichever style the
+project already uses.
+
 `withoutOverlapping()` needs a working cache lock, so confirm the cache
 driver is not `array` or `null` in the environment the schedule actually
-runs in. Set an explicit expiry (`withoutOverlapping(120)`, in minutes) for
+runs in. `onOneServer()` is stricter: the default cache must be `database`,
+`redis`, `memcached` or `dynamodb`, and every server must share that same
+cache, or each server takes its own lock and the task runs everywhere. Set an explicit expiry (`withoutOverlapping(120)`, in minutes) for
 any task that could itself hang, so a crashed run does not lock the task out
 forever.
 
@@ -100,7 +109,7 @@ class SyncSupplierCatalogue implements ShouldQueue
 
     public function failed(Throwable $exception): void
     {
-        Notification::route('slack', config('services.slack.ops_webhook'))
+        Notification::route('mail', config('mail.ops_address'))
             ->notify(new ScheduledJobFailed($this, $exception));
     }
 }

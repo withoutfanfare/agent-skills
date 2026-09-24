@@ -9,8 +9,10 @@
 # routes-file: one route per line, "METHOD PATH EXPECTED_STATUS".
 #   Blank lines and lines starting with # are skipped. Example:
 #     GET  /login       200
-#     POST /login       422
-#     GET  /account      401
+#     POST /login       419
+#     GET  /account     302
+#   (a web POST without a CSRF token gets 419; a guest on a protected
+#   page is redirected to the login page with 302)
 #
 # --json mode reads a JSON file shaped: [{"method":"GET","path":"/login","status":200}, ...]
 #

@@ -52,8 +52,9 @@ and every curl command, which makes a client's mistake ("I'm still on v1")
 obvious without inspecting request internals.
 
 When a version is retired, do not remove it outright. Add a deprecation
-period: return `Deprecation` and `Sunset` response headers giving the
-removal date, and keep the old version serving real responses until that
+period: return a `Deprecation` header giving the date it was deprecated
+(`@` plus a Unix timestamp, such as `@1767225600`, never `true`) and a
+`Sunset` header giving the removal date, and keep the old version serving real responses until that
 date passes. Removing a version the moment a new one ships breaks every
 client that has not yet migrated, silently, at a time you do not control.
 

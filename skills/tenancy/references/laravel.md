@@ -15,22 +15,32 @@ trait BelongsToTenant
     protected static function bootBelongsToTenant(): void
     {
         static::addGlobalScope('tenant', function (Builder $query) {
-            if ($tenant = app('currentTenant')) {
+            $tenant = app()->bound('currentTenant') ? app('currentTenant') : null;
+
+            if ($tenant) {
                 $query->where('tenant_id', $tenant->id);
+            } else {
+                $query->whereRaw('1 = 0'); // no tenant: no rows, never every tenant's rows
             }
         });
 
         static::creating(function (Model $model) {
-            if ($tenant = app('currentTenant')) {
-                $model->tenant_id ??= $tenant->id;
-            }
+            $tenant = app()->bound('currentTenant') ? app('currentTenant') : null;
+
+            $model->tenant_id ??= $tenant?->id
+                ?? throw new LogicException('No current tenant for a tenant-owned record.');
         });
     }
 }
 ```
 
-Bind `currentTenant` once, in middleware, and every model using the trait
-picks it up automatically:
+Asking the container for `currentTenant` when nothing is bound throws, and
+a scope that skips itself when there is no tenant fails open, which is why
+the trait checks `bound()` and returns no rows instead. Bind `currentTenant`
+once, in middleware, and every model using the trait picks it up
+automatically. Run that middleware before route model binding
+(`SubstituteBindings`), or bound models are looked up before the tenant is
+known:
 
 ```php
 class ResolveTenant
@@ -41,6 +51,7 @@ class ResolveTenant
         $tenant = Tenant::where('slug', $subdomain)->first();
 
         abort_unless($tenant, 404);
+        abort_if($request->user() && $request->user()->tenant_id !== $tenant->id, 403);
 
         app()->instance('currentTenant', $tenant);
 
@@ -144,13 +155,16 @@ it('only lists the current tenant records', function () {
 });
 
 it('refuses to update another tenants record', function () {
-    $tenantA = Tenant::factory()->create();
+    $tenantA = Tenant::factory()->create(['slug' => 'acme']);
     $tenantB = Tenant::factory()->create();
-    $foreignInvoice = Invoice::factory()->create(['tenant_id' => $tenantB->id]);
+    $user = User::factory()->create(['tenant_id' => $tenantA->id]);
+    $foreignInvoice = Invoice::factory()->create(['tenant_id' => $tenantB->id, 'status' => 'draft']);
 
-    app()->instance('currentTenant', $tenantA);
+    $this->actingAs($user)
+        ->put("http://acme.example.test/invoices/{$foreignInvoice->id}", ['status' => 'paid'])
+        ->assertNotFound();
 
-    expect(Invoice::find($foreignInvoice->id))->toBeNull();
+    expect($foreignInvoice->fresh()->status)->toBe('draft');
 });
 ```
 

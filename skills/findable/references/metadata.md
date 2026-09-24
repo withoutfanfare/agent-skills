@@ -39,7 +39,7 @@ buildMeta(page):
 <meta name="twitter:title" content="{{ title }}">
 <meta name="twitter:description" content="{{ description }}">
 
-<meta name="robots" content="{{ noindex ? 'noindex, nofollow' : 'index, follow' }}">
+<meta name="robots" content="{{ noindex ? 'noindex, follow' : 'index, follow' }}">
 ```
 
 ## Gotchas

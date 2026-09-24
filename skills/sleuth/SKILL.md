@@ -78,7 +78,8 @@ stale input reaching the save as a broken save itself.
 
 Rank the plausible causes by the evidence gathered so far, most likely
 first, and say what would confirm or rule out each one before spending time
-on it.
+on it. Layer-by-layer checks for queues, Livewire and saves that do not
+stick: [references/laravel.md](references/laravel.md).
 
 Done when: one cause is confirmed by direct evidence, not inferred from
 its plausibility alone.
@@ -107,8 +108,6 @@ and the surrounding suite is unchanged or green.
 State the confirmed cause, the fix, the regression test added, and the
 commands run with their results. If a cause was suspected but never
 confirmed, say so rather than folding it into the fix silently.
-
-Stack-specific detail: [references/laravel.md](references/laravel.md).
 
 ## It's working if
 

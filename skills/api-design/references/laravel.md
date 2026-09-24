@@ -4,15 +4,16 @@ Applies the method in `SKILL.md` to a Laravel codebase.
 
 ## Versioned routes
 
-Group versions by namespace and prefix, so a v2 controller never
-accidentally serves a v1 route:
+Give each version its own prefix and route file, and keep its controllers
+in their own namespace (`App\Http\Controllers\Api\V1`), imported by class
+in that version's file, so a v2 controller never accidentally serves a v1
+route. On Laravel 11 and later, run `php artisan install:api` first: new apps
+ship without `routes/api.php` or Sanctum.
 
 ```php
-Route::prefix('v1')->name('v1.')->namespace('App\Http\Controllers\Api\V1')
-    ->group(base_path('routes/api_v1.php'));
-
-Route::prefix('v2')->name('v2.')->namespace('App\Http\Controllers\Api\V2')
-    ->group(base_path('routes/api_v2.php'));
+// routes/api.php
+Route::prefix('v1')->name('v1.')->group(base_path('routes/api_v1.php'));
+Route::prefix('v2')->name('v2.')->group(base_path('routes/api_v2.php'));
 ```
 
 A deprecated version's controller stays in place and keeps working; add
@@ -25,7 +26,7 @@ class DeprecatedVersionHeaders
     public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);
-        $response->headers->set('Deprecation', 'true');
+        $response->headers->set('Deprecation', '@1767225600'); // date deprecated, as a Unix timestamp
         $response->headers->set('Sunset', 'Fri, 01 Jan 2027 00:00:00 GMT');
         return $response;
     }
@@ -77,54 +78,77 @@ class OrderResource extends JsonResource
 }
 ```
 
-`JsonResource::collection()` combined with `->response()->getData()`
-naturally produces the `data`/`links`/`meta` pagination shape from step 4
-of `SKILL.md` when the underlying query is paginated, so prefer
-`paginate()` over `get()` on any collection endpoint that could grow.
+Returning `OrderResource::collection($query->paginate())` from the
+controller already produces the `data`/`links`/`meta` pagination shape from
+step 4 of `SKILL.md`, so prefer `paginate()` over `get()` on any collection
+endpoint that could grow.
 
 ## Mapping exceptions to the error envelope
 
-Centralise the mapping in the exception handler, so every endpoint's
-errors go through the same conversion instead of each controller building
-its own JSON:
+Centralise the mapping in one place, so every endpoint's errors go through
+the same conversion instead of each controller building its own JSON. On
+Laravel 11 and later there is no `App\Exceptions\Handler`; register a
+render callback in `bootstrap/app.php`. Returning `null` hands the
+exception back to Laravel's default rendering:
 
 ```php
-public function render($request, Throwable $e)
-{
-    if (! $request->expectsJson()) {
-        return parent::render($request, $e);
-    }
+->withExceptions(function (Exceptions $exceptions): void {
+    $exceptions->render(function (Throwable $e, Request $request) {
+        if (! $request->expectsJson()) {
+            return null;
+        }
 
-    return match (true) {
-        $e instanceof ValidationException => response()->json([
-            'error' => [
-                'code' => 'VALIDATION_FAILED',
-                'message' => 'The request could not be processed.',
-                'details' => collect($e->errors())->map(
-                    fn ($messages, $field) => ['field' => $field, 'message' => $messages[0]]
-                )->values(),
-            ],
-        ], 422),
-        $e instanceof AuthenticationException => response()->json([
-            'error' => ['code' => 'UNAUTHENTICATED', 'message' => 'Authentication required.'],
-        ], 401),
-        $e instanceof AuthorizationException => response()->json([
-            'error' => ['code' => 'FORBIDDEN', 'message' => 'You cannot perform this action.'],
-        ], 403),
-        $e instanceof ModelNotFoundException => response()->json([
-            'error' => ['code' => 'NOT_FOUND', 'message' => 'The resource was not found.'],
-        ], 404),
-        default => parent::render($request, $e),
-    };
-}
+        return match (true) {
+            $e instanceof ValidationException => response()->json([
+                'error' => [
+                    'code' => 'VALIDATION_FAILED',
+                    'message' => 'The request could not be processed.',
+                    'details' => collect($e->errors())->map(
+                        fn ($messages, $field) => ['field' => $field, 'message' => $messages[0]]
+                    )->values(),
+                ],
+            ], 422),
+            $e instanceof AuthenticationException => response()->json([
+                'error' => ['code' => 'UNAUTHENTICATED', 'message' => 'Authentication required.'],
+            ], 401),
+            $e instanceof AccessDeniedHttpException => response()->json([
+                'error' => ['code' => 'FORBIDDEN', 'message' => 'You cannot perform this action.'],
+            ], 403),
+            $e instanceof NotFoundHttpException => response()->json([
+                'error' => ['code' => 'NOT_FOUND', 'message' => 'The resource was not found.'],
+            ], 404),
+            default => null,
+        };
+    });
+})
 ```
+
+By the time a render callback runs, Laravel has already turned an
+`AuthorizationException` into `AccessDeniedHttpException` and a
+`ModelNotFoundException` into `NotFoundHttpException`, which is why the
+callback matches the Symfony classes. On Laravel 10 and older, override
+`render()` in `app/Exceptions/Handler.php` instead: that method sees the
+original `AuthorizationException` and `ModelNotFoundException`, so match
+those, and fall back to `parent::render($request, $e)` instead of `null`.
 
 ## Authentication
 
 Sanctum's token abilities give a single scheme for both first-party and
 third-party API clients: issue a personal access token with named
 abilities, and check them per route rather than building a parallel
-permission system:
+permission system.
+
+The `ability` and `abilities` middleware are not registered by default;
+alias them in `bootstrap/app.php` first:
+
+```php
+->withMiddleware(function (Middleware $middleware): void {
+    $middleware->alias([
+        'abilities' => \Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
+        'ability' => \Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
+    ]);
+})
+```
 
 ```php
 $token = $user->createToken('mobile-app', ['orders:read', 'orders:write']);

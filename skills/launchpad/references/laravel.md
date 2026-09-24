@@ -23,14 +23,20 @@ jobs:
       - run: cp .env.example .env && php artisan key:generate
       - run: vendor/bin/pint --test
       - run: vendor/bin/phpstan analyse --no-progress
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci && npm run build
       - run: php artisan test --parallel
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: ":memory:"
-      - uses: actions/setup-node@v4
-        with: { node-version: 22, cache: npm }
-      - run: npm ci && npm run build
 ```
+
+The build runs before the tests because any test that renders a page using
+`@vite` fails without the built manifest; the alternative is calling
+`$this->withoutVite()` in those tests. `--parallel` needs the
+`brianium/paratest` dev dependency; drop the flag if the project does not
+have it.
 
 ## Deploy steps
 
@@ -42,7 +48,7 @@ npm ci && npm run build
 php artisan migrate --force
 php artisan optimize          # caches config, routes, events and views
 php artisan queue:restart     # workers pick up the new code
-php artisan storage:link      # first deploy only
+php artisan storage:link      # every deploy if each release gets a fresh folder
 ```
 
 - **Forge:** put these in the deploy script; enable "quick deploy" only

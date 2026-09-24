@@ -49,11 +49,9 @@ A state is a named variation on the base definition, applied with
 cases from the main skill's step 4 live:
 
 ```php
-public function noOrders(): static
+public function withOrders(int $count = 3): static
 {
-    return $this->afterCreating(fn (Customer $customer) =>
-        $customer->orders()->delete()
-    );
+    return $this->has(Order::factory()->count($count));
 }
 
 public function suspended(): static
@@ -83,7 +81,8 @@ Match the seeder's shape to what it is for:
 
   ```php
   Customer::factory()->count(200)->create();
-  Customer::factory()->noOrders()->create(['name' => 'New signup, no orders']);
+  Customer::factory()->create(['name' => 'New signup, no orders']);
+  Customer::factory()->withOrders(5)->create(['name' => 'Repeat buyer']);
   Customer::factory()->suspended()->create(['name' => 'Suspended test account']);
   ```
 
@@ -112,10 +111,12 @@ If that prints a production connection name, stop.
 
 ## Locale
 
-Construct the factory's faker instance with a specific locale when the
-project's users are concentrated in one country, so names, phone numbers
-and addresses look native rather than the US-English default:
+Set the app's Faker locale when the project's users are concentrated in
+one country, so names, phone numbers and addresses look native rather than
+the US-English default. It is the `faker_locale` option in
+`config/app.php`, which recent skeletons read from the environment:
 
-```php
-protected $faker = \Faker\Factory::create('en_GB');
+```bash
+# .env
+APP_FAKER_LOCALE=en_GB
 ```

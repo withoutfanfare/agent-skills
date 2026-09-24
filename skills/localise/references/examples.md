@@ -36,6 +36,26 @@ separate key name.
 ## Locale-switching middleware and route
 
 ```php
+class SetLocale
+{
+    public function handle(Request $request, Closure $next)
+    {
+        $locale = $request->user()?->locale
+            ?? $request->session()->get('locale')
+            ?? $request->getPreferredLanguage(config('app.available_locales'))
+            ?? config('app.locale');
+
+        App::setLocale($locale);
+
+        return $next($request);
+    }
+}
+```
+
+Register it in the `web` group (in `bootstrap/app.php` on Laravel 11 and
+later) so every page request runs it after the session has started.
+
+```php
 Route::post('/locale', function (Request $request) {
     $request->validate(['locale' => 'required|in:' . implode(',', config('app.available_locales'))]);
 
@@ -94,6 +114,18 @@ return [
         ],
     ],
 ];
+```
+
+## Logging missing keys in development
+
+```php
+// AppServiceProvider::boot()
+if (app()->isLocal()) {
+    Lang::handleMissingKeysUsing(function (string $key, array $replace, ?string $locale) {
+        Log::warning("Missing translation key [{$key}] for locale [{$locale}]");
+        return $key;
+    });
+}
 ```
 
 ## Scanning for missing keys ahead of a release

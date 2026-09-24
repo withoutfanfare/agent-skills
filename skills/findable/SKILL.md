@@ -63,9 +63,10 @@ Cover, per page:
 
 Build this from a single place per page type (a template, a component, a
 helper function) rather than hand-writing tags in every view: that is what
-lets duplicate titles happen in the first place. Stack-neutral pattern and
-a Laravel-specific example are in
-[references/metadata.md](references/metadata.md).
+lets duplicate titles happen in the first place. The stack-neutral pattern
+is in [references/metadata.md](references/metadata.md); the Laravel value
+object, JSON-LD stack, sitemap command and robots route are in
+[references/laravel.md](references/laravel.md).
 
 Done when: every page type produces a unique title, description and
 canonical URL from its own data, and you have checked at least one real
@@ -76,8 +77,10 @@ example renders correctly.
 Structured data (JSON-LD, usually) tells a search engine what the page
 represents. It's only worth adding where it changes what appears in
 results: products get price and availability, articles get author and
-date, organisations get a knowledge panel, FAQs get an expandable list.
-Adding it to a page type it doesn't fit is wasted work.
+date, organisations get a knowledge panel. FAQ markup rarely pays off now:
+since August 2023 Google shows FAQ rich results only for well-known
+government and health sites. Adding it to a page type it doesn't fit is
+wasted work.
 
 Validate whatever you add against a schema testing tool before calling it
 done. Malformed JSON-LD is invisible in the rendered page, easy to ship
@@ -126,22 +129,10 @@ internal link pointing to it, traced from the homepage or a hub page.
 ## 6. Improve Core Web Vitals
 
 Page experience affects ranking as well as conversion. Work the three
-metrics that matter, each with a distinct fix:
-
-- **Largest Contentful Paint (loading speed)**: the biggest above-fold
-  element should load early. Preload it, don't lazy-load it, and lazy-load
-  everything below the fold instead.
-- **Cumulative Layout Shift (visual stability)**: every image and embed
-  needs explicit dimensions or a reserved space, so content doesn't jump as
-  it loads.
-- **Interaction to Next Paint (responsiveness)**: defer non-critical
-  scripts and break up long-running JavaScript so the page keeps responding
-  to input.
-
-Measure before and after with a real tool (browser devtools' performance
-panel, or a Lighthouse-style report) rather than assuming a change helped.
-Code patterns are in
-[references/core-web-vitals.md](references/core-web-vitals.md).
+metrics (loading, layout stability, responsiveness) using the fixes in
+[references/core-web-vitals.md](references/core-web-vitals.md), and measure
+before and after with a real tool (browser devtools' performance panel, or
+a Lighthouse-style report) rather than assuming a change helped.
 
 Done when: you have a before-and-after measurement for each metric you
 touched, not just the code change.

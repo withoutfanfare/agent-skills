@@ -47,7 +47,7 @@ final class SeoMeta
 <meta property="og:description" content="{{ $seo->description }}">
 <meta property="og:image" content="{{ $seo->image }}">
 
-<meta name="robots" content="{{ $seo->noindex ? 'noindex, nofollow' : 'index, follow' }}">
+<meta name="robots" content="{{ $seo->noindex ? 'noindex, follow' : 'index, follow' }}">
 
 @stack('seo')
 ```
@@ -95,13 +95,17 @@ schema blocks without the layout needing to know about them in advance.
             ? 'https://schema.org/InStock'
             : 'https://schema.org/OutOfStock',
     ],
-], JSON_UNESCAPED_SLASHES) !!}
+], JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}
 </script>
 @endpush
 ```
 
 Use `json_encode`, not manual string concatenation. A product name with a
-quote or ampersand in it breaks hand-built JSON silently.
+quote or ampersand in it breaks hand-built JSON silently. Keep
+`JSON_HEX_TAG`: without it, a product name containing `</script>` closes the
+tag early and whatever follows runs as HTML, a cross-site scripting hole.
+The flag writes `<` and `>` as `\u003C` and `\u003E`, which JSON readers
+decode back.
 
 ## Sitemap generation
 
@@ -123,7 +127,7 @@ final class GenerateSitemap extends Command
         $sitemap = Sitemap::create()
             ->add(Url::create(route('home'))->setPriority(1.0));
 
-        Product::query()->published()->each(
+        Product::query()->published()->lazyById()->each(
             fn (Product $product) => $sitemap->add(
                 Url::create(route('products.show', $product))
                     ->setLastModificationDate($product->updated_at)
@@ -145,15 +149,17 @@ Schedule it in `routes/console.php` (Laravel 11+) or the console kernel:
 Schedule::command('sitemap:generate')->daily();
 ```
 
-For a large catalogue, chunk the query (`chunkById`) rather than `each` on
-an unconstrained query, so generation doesn't hold the whole table in
-memory.
+`each()` on a query already fetches in chunks, but pages by offset, so rows
+changed during a long run can be skipped or repeated. `lazyById()` walks the
+table by primary key instead, keeping memory flat and the order stable.
 
 ## robots.txt
 
 Serve it as a static file in `public/robots.txt` for a fixed set of rules.
 If the disallowed paths depend on environment (block everything on a
-staging deploy, for example), generate it from a route instead:
+staging deploy, for example), generate it from a route instead, and delete
+`public/robots.txt` first: the web server serves a real file before Laravel
+sees the request, so while it exists the route never runs.
 
 ```php
 Route::get('/robots.txt', function () {

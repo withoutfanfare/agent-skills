@@ -38,27 +38,11 @@ three questions it will be asked most often.
 ## 2. Name things so the schema reads itself
 
 Consistency here saves every future query from a lookup. Pick one
-convention and hold it across the whole schema:
-
-- Table names: plural nouns (`orders`, `order_items`), because a table is
-  a set of rows.
-- Primary keys: a single `id` column per table, even when a natural key
-  exists (an email address changes; a surrogate key does not).
-- Foreign keys: `<singular of the referenced table>_id` (`user_id` on a
-  table that belongs to `users`). When a table has two foreign keys to the
-  same target, qualify both (`billed_to_id` and `shipped_to_id`, both
-  referencing `addresses`).
-- Booleans: a verb prefix (`is_active`, `has_paid`), never a bare noun,
-  so a reader never has to guess which direction true points.
-- State: one `status` column with a small, named set of values, not a
-  scatter of booleans that can drift out of sync (`is_shipped`,
-  `is_delivered`, `is_cancelled` can all end up true at once).
-- Money: store the smallest unit as an integer (pence, cents), never a
-  float, and name it accordingly (`total_pence`).
-- Timestamps: `created_at` and `updated_at` on every table that changes
-  after creation; a separate nullable timestamp for each meaningful state
-  change (`paid_at`, `cancelled_at`) rather than reusing `updated_at` to
-  mean "and this is when it was paid".
+convention and hold it across the whole schema: plural table names, a
+single `id` primary key, `<singular>_id` foreign keys, verb-prefixed
+booleans, one `status` column instead of a scatter of flags, money as
+integer minor units, and a timestamp per meaningful state change. The full
+list with reasons is in [references/naming.md](references/naming.md).
 
 Done when: every table and column name follows the same convention, and a
 reader could guess an unseen column's purpose from its name alone.
@@ -107,8 +91,8 @@ column that might one day appear in a `WHERE` clause.
   a single-column index.
 - Two or more columns always tested together
   (`WHERE customer_id = ? AND status = ?`) need one composite index
-  covering both, in the order the query filters most selectively first,
-  not two separate single-column indexes.
+  covering both, with the columns tested for equality first and any range
+  or sort column last, not two separate single-column indexes.
 - A column used to sort a filtered list (`WHERE status = ? ORDER BY
   created_at`) wants the sort column added to that same composite index,
   so the database can skip a separate sort step.
@@ -133,24 +117,21 @@ index exists that nothing in step 1 needs.
 Before writing it, classify the change:
 
 - **Safe on a live table**: adding a nullable column, adding a column
-  with a default, adding a new table, adding an index, adding a foreign
-  key that points at existing valid data.
+  with a default, adding a new table.
 - **Needs a plan**: renaming or removing a column or table, changing a
   column's type, adding a required column to a table that already holds
-  rows, adding a unique constraint that existing data might violate.
+  rows, adding a unique constraint that existing data might violate,
+  adding an index to a large table (a plain `CREATE INDEX` on PostgreSQL
+  blocks writes until it finishes; use `CREATE INDEX CONCURRENTLY`), and
+  adding a foreign key to a large table (the database checks every
+  existing row while holding a lock).
 
-For anything in the second group, expand before you contract: add the new
-shape alongside the old one, deploy code that writes to both, backfill
-existing rows, switch reads to the new shape, then remove the old one in
-a later migration. Never rename a column in place on a table something
-else still reads from; that is the same operation as drop-then-add, just
-disguised.
+For anything in the second group, expand before you contract (add the new
+shape, backfill, switch reads, then remove the old); `relocate` (if
+installed) plans and rehearses that sequence step by step.
 
-Write the migration so it can run again without harm if it is retried,
-and check it against the database, not just the code: run it against a
-copy of the schema (or the project's migration tool in dry-run form if it
-has one) and read what it actually does before it touches anything with
-real rows in it.
+Make the migration safe to retry, and run it against a copy of the schema
+(or in dry-run form) before it touches real rows.
 
 For Laravel migration syntax, `Schema::create`, `Blueprint` methods and
 `artisan` commands, see [references/laravel.md](references/laravel.md).

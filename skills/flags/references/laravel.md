@@ -19,19 +19,21 @@ for a guest):
 use Laravel\Pennant\Feature;
 use App\Models\User;
 
-Feature::define('new-checkout-flow', function (mixed $scope) {
-    if (is_null($scope)) {
+Feature::define('new-checkout-flow', function (User|null $user) {
+    if ($user === null) {
         return false; // guests: no anonymous checkout preview
     }
 
-    return $scope instanceof User && $scope->is_beta_tester;
+    return $user->is_beta_tester;
 });
 ```
 
-Type-hinting the callback parameter as `User $user` instead of `mixed
-$scope` is the most common way this goes wrong: Pennant passes `null` for
-every unauthenticated request, and a typed parameter throws a
-`TypeError` for all of them rather than quietly returning false.
+Type-hinting the parameter as plain `User $user` is the common way this
+goes wrong, and it goes wrong quietly: when the scope is `null` (a guest, a
+queued job, an artisan command) Pennant never calls the definition and
+returns `false`. That can hide a missing guest decision, and it is
+surprising when you wanted guests to see the feature. Use `User|null` and
+handle `null` on purpose.
 
 ## Percentage rollouts with Lottery
 
@@ -41,9 +43,9 @@ the percentage stage of a rollout:
 ```php
 use Illuminate\Support\Lottery;
 
-Feature::define('new-checkout-flow', fn (mixed $scope) => match (true) {
-    is_null($scope) => false,
-    $scope->is_beta_tester => true,
+Feature::define('new-checkout-flow', fn (User|null $user) => match (true) {
+    $user === null => false,
+    $user->is_beta_tester => true,
     default => Lottery::odds(1, 4)->choose(), // roughly 25%
 });
 ```
@@ -72,8 +74,10 @@ Feature::for(null)->active('new-checkout-flow'); // explicit guest check
 
 ```php
 // routes/web.php, gating a route
+use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
+
 Route::get('/checkout/preview', PreviewController::class)
-    ->middleware('feature:new-checkout-flow');
+    ->middleware(EnsureFeaturesAreActive::using('new-checkout-flow'));
 ```
 
 Use the same string literal (or a constant referencing it) in the
@@ -83,7 +87,6 @@ middleware entry, so a rename or typo cannot leave one call site behind.
 ## Managing stored values
 
 ```bash
-php artisan pennant:feature            # list flags and their states
 php artisan pennant:purge new-checkout-flow   # clear stored values for one flag
 php artisan pennant:purge              # clear all stored values
 ```
@@ -97,8 +100,7 @@ changing a definition while testing.
 ```php
 use Laravel\Pennant\Feature;
 
-public function test_beta_tester_sees_new_checkout(): void
-{
+it('shows the new checkout to a beta tester', function () {
     $user = User::factory()->create(['is_beta_tester' => true]);
 
     Feature::for($user)->activate('new-checkout-flow');
@@ -106,16 +108,15 @@ public function test_beta_tester_sees_new_checkout(): void
     $this->actingAs($user)
         ->get('/checkout')
         ->assertSee('New checkout');
-}
+});
 
-public function test_guest_sees_classic_checkout(): void
-{
+it('shows the classic checkout to a guest', function () {
     $this->get('/checkout')
         ->assertSee('Classic checkout');
-}
+});
 ```
 
-`Feature::activateForEveryone('new-checkout-flow')` in a test's `setUp()`
+`Feature::activateForEveryone('new-checkout-flow')` in a `beforeEach()`
 is useful for tests that need the feature on throughout, without
 activating it per user.
 
@@ -123,7 +124,8 @@ activating it per user.
 
 1. Delete the `Feature::define()` call from the service provider.
 2. Delete every `Feature::active()` / `Feature::for()->active()` check,
-   every `@feature` directive, and every `feature:` middleware entry,
+   every `@feature` directive, and every `EnsureFeaturesAreActive`
+   middleware entry,
    keeping only the branch that is now always true.
 3. Run `php artisan pennant:purge new-checkout-flow` to clear the stored
    per-scope values from the `features` table (or the configured store).

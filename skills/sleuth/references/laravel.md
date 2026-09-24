@@ -29,9 +29,11 @@ eager loading (`with()`), not by silencing the symptom.
 
 ## Livewire components
 
-- Public properties only hold IDs, never Eloquent models or service
-  objects; they get serialised into the page and rehydrated on the next
-  request, so a model stored there can silently go stale.
+- A public property can hold an Eloquent model, but only its class and key
+  travel to the browser; the next request re-fetches it fresh, dropping any
+  query constraints (`select()`, filters) used to load it. When a value
+  "loses" a column or a constraint between requests, look there, and prefer
+  a `#[Computed]` property for data the component only reads.
 - An untyped public property hydrates as a string. `$this->count === 1`
   fails when the browser actually sent `"1"`.
 - Check the `hydrate()`/`dehydrate()` hooks and `wire:model` binding when a
@@ -50,7 +52,7 @@ Work through these in order:
    `DB::connection($conn)->transactionLevel()` before the save.
 4. **Nothing was dirty.** `$model->getDirty()` empty means no `UPDATE` runs
    at all; `save()` still returns `true`.
-5. **Verify with a raw read**, bypassing the model's own cache:
+5. **Verify with a raw read**, bypassing Eloquent entirely:
    ```php
    DB::connection($model->getConnectionName())
        ->table($model->getTable())

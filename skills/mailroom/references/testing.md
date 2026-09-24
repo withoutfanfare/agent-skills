@@ -64,13 +64,10 @@ if (app()->environment('local')) {
 }
 ```
 
-A test that asserts the route is absent outside `local` catches this
-regressing silently:
+The guard runs once, when routes are registered, so a test that switches
+the environment afterwards passes whatever the guard does. Check it from
+the command line instead; this should report no matching routes:
 
-```php
-it('hides the mail preview route outside local', function () {
-    app()->detectEnvironment(fn () => 'production');
-
-    $this->get('/mail-preview/order-confirmation')->assertNotFound();
-});
+```bash
+APP_ENV=production php artisan route:list --path=mail-preview
 ```

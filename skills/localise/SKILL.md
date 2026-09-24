@@ -28,6 +28,10 @@ keyed by the actual source-language sentence) suits large or growing
 projects, because a translator can work from the key itself without
 cross-referencing a separate source string.
 
+New Laravel apps ship without a `lang` directory; run
+`php artisan lang:publish` first to create it with the framework's default
+files (validation messages included).
+
 Pick one as the project's default and do not mix both for the same kind of
 content; a string findable in only one of the two formats becomes a string
 someone forgets to translate.
@@ -39,24 +43,12 @@ somewhere a new contributor would find it.
 ## 2. Wire the app to resolve locale correctly
 
 Decide the resolution order once, and implement it as a single piece of
-middleware so every request goes through the same logic:
-
-```php
-class SetLocale
-{
-    public function handle(Request $request, Closure $next)
-    {
-        $locale = $request->user()?->locale
-            ?? $request->session()->get('locale')
-            ?? $request->getPreferredLanguage(config('app.available_locales'))
-            ?? config('app.locale');
-
-        App::setLocale($locale);
-
-        return $next($request);
-    }
-}
-```
+middleware so every request goes through the same logic: the signed-in
+user's saved locale, then the session, then the browser's preferred
+language from the configured list, then the app default. A worked
+`SetLocale` middleware is in [references/examples.md](references/examples.md),
+along with each file format, the switcher route and view, the missing-key
+handler and the parity test.
 
 Store a logged-in user's preference on the user record, not only in the
 session, so it survives across devices; store a guest's choice in the
@@ -116,15 +108,9 @@ without a second, separately maintained stylesheet.
 Missing keys fail silently by default: the key itself is shown instead of
 translated text, and nobody notices until a user in that locale reports it.
 Register a handler that surfaces this in development instead of hiding it:
-
-```php
-if (app()->isLocal()) {
-    Lang::handleMissingKeysUsing(function (string $key, array $replace, ?string $locale) {
-        Log::warning("Missing translation key [{$key}] for locale [{$locale}]");
-        return $key;
-    });
-}
-```
+`Lang::handleMissingKeysUsing()` inside an `app()->isLocal()` check, logging
+the key and locale and returning the key unchanged (worked example in the
+examples reference).
 
 Done when: a deliberately untranslated key produces a visible log entry in
 development, not just the raw key on the page.
@@ -141,17 +127,13 @@ it('has every base locale key for each configured locale', function () {
 
     foreach (config('app.available_locales') as $locale) {
         $keys = array_keys(trans('messages', locale: $locale));
-        expect($keys)->toEqual($base);
+        expect($keys)->toEqualCanonicalizing($base); // order-insensitive
     }
 });
 ```
 
 Done when: this test is in the suite and fails when a key is removed from
 one locale's file but not another's.
-
-Worked examples of each translation file format, the middleware, the
-switcher route and view, and the parity test: see
-[references/examples.md](references/examples.md).
 
 ## It's working if
 

@@ -13,10 +13,12 @@ A minimal sitemap entry:
 <url>
   <loc>https://example.com/shop/wireless-keyboard</loc>
   <lastmod>2026-03-10</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
 </url>
 ```
+
+`changefreq` and `priority` are optional and Google ignores both. An
+accurate `lastmod`, changed only when the content really changes, is the
+one worth keeping.
 
 Keep out of the sitemap:
 
