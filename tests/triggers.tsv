@@ -1,3 +1,31 @@
-# skill	expect	prompt (tab-separated)
+# skill	expect	prompt (tab-separated). "fire" cases must invoke the skill; "quiet" cases must not.
 review	fire	Can you look over the changes on my branch before I merge? I want to know if anything is broken or insecure.
 review	quiet	What is the difference between git merge and git rebase?
+untangle	fire	I've got a merge conflict in package-lock.json and two services after pulling develop. How should I sort it out?
+untangle	quiet	Write a Python function that parses ISO dates.
+raise	fire	This branch is finished. Please open a pull request for it.
+raise	quiet	What makes a good pull request description, in general terms?
+shepherd	fire	My pull request #42 keeps failing CI. Can you watch it and get it merged?
+shepherd	quiet	How do GitHub Actions workflow triggers work?
+tidy-build	fire	Build the Tauri app for release and then clear out the target folder, it's eating my disc space.
+tidy-build	quiet	Why is my Rust code failing to compile with a lifetime error?
+changelog	fire	Add a changelog entry for what I've staged before I commit.
+changelog	quiet	Show me the last five commits on this branch.
+doc-sync	fire	I changed the orders API last week. Please update the docs in the repo to match.
+doc-sync	quiet	Explain what an API gateway is.
+cover	fire	Write tests for the invoice calculation service, including the edge cases.
+cover	quiet	What does test-driven development mean?
+realign	fire	The test suite has gone red after the refactor, twelve failures. Can you fix the tests?
+realign	quiet	What is the difference between a mock and a stub?
+reshape	fire	This controller method is 200 lines long and does five things. Refactor it into something cleaner.
+reshape	quiet	Add a new endpoint that returns the current server time.
+sweep	fire	We have 340 static analysis errors of the same kind across the codebase. Fix them all in one go.
+sweep	quiet	Rename this one variable in the function I'm looking at.
+upkeep	fire	Check our dependencies for known vulnerabilities and anything badly out of date.
+upkeep	quiet	Install the lodash package.
+harden	fire	We launch next week. Do a security audit of the app and tell me what an attacker could exploit.
+harden	quiet	What does HTTPS actually encrypt?
+hotspot	fire	The orders page takes eight seconds to load. Find out why and speed it up.
+hotspot	quiet	What is Big O notation?
+careful	quiet	Delete the old build folder for me.
+freeze	quiet	Only change the billing module in this task, please.
