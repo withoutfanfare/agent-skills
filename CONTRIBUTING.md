@@ -58,8 +58,8 @@ allowed-tools: Read Grep Glob Bash
 - Leave out what `--help` or the docs already say; write down the method,
   the judgement calls and the traps.
 - End with **It's working if** and two or three observable signs.
-- Keep `SKILL.md` under about 300 lines; put long material in
-  `references/`.
+- Aim for 60 to 160 lines in `SKILL.md` and put long material in
+  `references/`; the linter rejects anything over 500.
 - British English; commas, colons and full stops rather than long dashes.
 - Rate severity as blocker, major or minor, and confidence as certain,
   likely or possible; the same words in every skill so reports can be read
