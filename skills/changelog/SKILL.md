@@ -60,13 +60,16 @@ Done when: every entry reads sensibly to someone who has not seen the diff.
 
 ## 4. Put them in the right place
 
-Add entries to the newest section, at the top of their category. Search for
-the section first; a second heading for the same release splits the
-entries and breaks anything that parses the file. If headings carry link
+Add entries to the unreleased section (`## [Unreleased]`, or the file's
+own name for it), at the top of their category, and create that section
+above the newest release if it is missing. Never add to a released
+section: its version is already out. Search for the section first; a
+second heading for the same release splits the entries and breaks
+anything that parses the file. If headings carry link
 references, add or update those too.
 
-Done when: the file has one current section, with the new entries at the
-top of their categories.
+Done when: the file has one unreleased section, with the new entries
+at the top of their categories.
 
 ## 5. Show the result
 

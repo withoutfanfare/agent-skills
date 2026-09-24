@@ -66,8 +66,9 @@ in <commit>", with the log line that justified the label.
 
 ## 3. Answer reviews
 
-Only act on comments newer than the latest push; older ones are usually
-dealt with. Sort each remaining comment:
+Act on every unresolved review thread, whatever its age, and on any
+comment newer than the latest push. Older comments on resolved threads are
+dealt with. Sort each one:
 
 - **One obvious answer** (a rename, a missing guard, a typo): make the
   change and quote the comment in the commit message.
@@ -81,8 +82,8 @@ reason. Anything about security or data loss goes to the user.
 Keep the pull request to its original goal. Decline requests that would
 grow it, politely, in a reply.
 
-Done when: every newer comment has a change, a reply, or a question to the
-user.
+Done when: every unresolved thread and newer comment has a change, a
+reply, or a question to the user.
 
 ## 4. Keep it mergeable
 
@@ -105,7 +106,7 @@ When everything is green and approved, arm auto-merge if the repository
 allows it and the base is not protected:
 
 ```bash
-gh repo view --json autoMergeAllowed
+gh api repos/{owner}/{repo} --jq .allow_auto_merge   # needs admin rights to read
 gh pr merge <n> --auto --squash   # or the repository's usual method
 ```
 
@@ -123,8 +124,9 @@ blocked, the exact blocker and the smallest next step.
 - A pending check also makes `gh pr checks` return a failing exit code,
   so judge by what it prints.
 - `gh run rerun` without `--failed` reruns the whole workflow.
-- `gh pr merge --auto` does nothing if auto-merge is switched off for the
-  repository; check first.
+- `gh pr merge --auto` fails if auto-merge is switched off for the
+  repository; check first. Without admin rights the check above prints
+  nothing useful, so try the merge command and read its error.
 - Never use an admin override to merge past a required check.
 - If the pull request becomes obsolete (the base already contains the
   change), stop and ask before closing anything.

@@ -63,7 +63,8 @@ with the package manager.
 
 After resolving, run the tests that cover the conflicted files.
 
-Done when: no conflict markers remain (`git diff --check`), the lockfile
+Done when: no conflict markers remain (`git diff --check` before staging,
+`git diff --cached --check` after), the lockfile
 was regenerated rather than edited, and the relevant tests pass.
 
 ## 4. Cherry-pick with care

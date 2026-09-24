@@ -22,12 +22,14 @@ Done when: start date, end date and week number are known.
 
 ## 2. Gather
 
-Run the gathering commands together:
+Run the gathering commands together. Give git the times as well as the
+dates: a bare date means the current time of day on that date, which drops
+part of the first and last day.
 
 ```bash
-git log --since=<start> --until=<end> --no-merges --pretty=format:'%h|%an|%s'
-git shortlog -sn --since=<start> --until=<end> --no-merges
-git log --since=<start> --until=<end> --pretty=format: --name-only | sort | uniq -c | sort -rn | head -20
+git log --since="<start> 00:00" --until="<end> 23:59:59" --no-merges --pretty=format:'%h|%an|%s'
+git shortlog -sn --since="<start> 00:00" --until="<end> 23:59:59" --no-merges
+git log --since="<start> 00:00" --until="<end> 23:59:59" --pretty=format: --name-only | sort | uniq -c | sort -rn | head -20
 gh pr list --state merged --search "merged:<start>..<end>" --limit 100 --json number,title,author,labels,mergedAt
 ```
 

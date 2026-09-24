@@ -43,9 +43,13 @@ Done when: the base is named and you can say where that choice came from.
 
 ## 3. Read the whole diff
 
+Fetch first, so the comparison is with the base as it is on the remote,
+not a stale local copy:
+
 ```bash
-git diff <base>...HEAD --stat
-git diff <base>...HEAD
+git fetch origin <base>
+git diff origin/<base>...HEAD --stat
+git diff origin/<base>...HEAD
 ```
 
 The diff should do what the user set out to do and nothing else. If it
@@ -94,7 +98,9 @@ request (not a draft, so automated reviews run) unless the repository's own
 flow uses drafts.
 
 ```bash
-gh pr create --base <base> --title "<title>" --body-file <file>
+gh pr create --base <base> --title "<title>" --body-file - <<'EOF'
+<description from step 5>
+EOF
 gh pr view --json url,title,baseRefName,headRefOid
 ```
 
@@ -113,7 +119,9 @@ before=$(git rev-parse 'HEAD^{tree}')
 [ "$(git rev-parse 'HEAD^{tree}')" = "$before" ] && echo "code unchanged"
 ```
 
-Push only after it prints `code unchanged`.
+Push only after it prints `code unchanged`. If the branch was already on
+the remote, the regrouped history needs `git push --force-with-lease`,
+which refuses if anyone else pushed in the meantime.
 
 ## It's working if
 

@@ -10,7 +10,7 @@ allowed-tools: Read Grep Glob Bash
 
 # Usage audit
 
-Every skill Claude can start by itself costs a little attention in every
+Every skill the agent can start by itself costs a little attention in every
 session, and a large library gets harder to choose from. Usage data turns
 "I think nobody uses that" into evidence. This skill reads the local usage
 log, lines it up against the library, and proposes changes. It changes
@@ -26,6 +26,11 @@ The window defaults to 90 days; use the one the user gave. If the log is
 empty, tracking may be off: point to `agent-skills track` and stop. Note
 that the log covers one person on one machine; say so when drawing
 conclusions for a team.
+
+The log records that a skill started, not how. It cannot tell a start the
+user asked for by name from one the agent chose, and a skill typed as a
+slash command may not reach the log at all, so treat a typed-only skill's
+count as a floor. Say this beside any recommendation that leans on it.
 
 Done when: you have uses, projects and last-used dates per skill, and the
 list of unused library skills.
@@ -49,14 +54,17 @@ Each recommendation carries its numbers (uses, projects, last used, age):
 
 - **Keep:** used regularly, across projects. Note any that have not been
   improved in a long time despite heavy use.
-- **Reword the description:** a skill Claude may start itself, used only
-  when named or never, when its job clearly comes up. Suggest the phrases
+- **Reword the description:** a skill the agent may start itself, used
+  rarely or never, although its job clearly comes up. Suggest the phrases
   people actually use.
-- **Make typed-only:** a skill Claude may start itself that is rarely used.
+- **Make typed-only:** a skill the agent may start itself that is rarely used.
   Typed-only skills cost nothing until called.
-- **Let Claude start it:** a typed-only skill used so often that typing it
+- **Let the agent start it:** a typed-only skill used so often that typing it
   is friction.
-- **Merge:** two skills used in the same sessions for the same job.
+- **Merge:** two skills that do the same job and often start in the same
+  session. The report has no session data: read the raw log (its path is
+  the `log` field in the JSON; one line per start, with a `session` field)
+  and group the lines by session.
 - **Retire:** unused across the whole window, old enough to judge, and not
   a deliberate rare ritual (a yearly task that shows zero uses is fine, and
   should be said to be fine).

@@ -32,10 +32,10 @@ Done when: every manifest is listed with its tool.
 | Tool | Command |
 |---|---|
 | npm | `npm audit --omit=dev` then `npm audit` |
-| pnpm / Yarn | `pnpm audit` / `yarn npm audit` |
+| pnpm / Yarn | `pnpm audit` / `yarn audit` (Yarn 1) or `yarn npm audit` (Yarn 2+) |
 | Composer | `composer audit` |
 | Cargo | `cargo audit` (if installed) |
-| pip | `pip-audit` (if installed) |
+| pip | `pip-audit` (if available) |
 | Go | `govulncheck ./...` (if installed) |
 
 For each advisory, record: package, installed version, fixed version,

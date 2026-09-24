@@ -41,7 +41,8 @@ build on.
 - **One call to action per piece**, worded as the action: "Choose your
   print size", not "Click here".
 - **British English:** organise, colour, centre; dates as 4 November 2026;
-  single quotes for emphasis, double for quotations.
+  quotation marks as the brand's style guide sets them (most UK styles use
+  single quotes, with double for a quote inside a quote).
 - **No claims you cannot back.** Leave out "best", "only" and "guaranteed"
   unless they are true and provable.
 
