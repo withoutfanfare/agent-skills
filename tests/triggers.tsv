@@ -83,3 +83,51 @@ road-test	fire	Do a full UAT of the checkout journey locally and tell me what's 
 road-test	quiet	Write unit tests for the basket total calculation.
 bulletin	quiet	What did we ship last week?
 weekly	quiet	Show me the merged pull requests from last week.
+vue	fire	Can you help me build this Vue settings form component with the composition API?
+vue	quiet	Can you make this settings page look nicer and more polished visually?
+nuxt	fire	My Nuxt page's data isn't updating when the URL param changes, can you look into it?
+nuxt	quiet	Can you tidy up the styling on this Vue component's template so it matches our design system?
+tauri	fire	I need to add a new backend function in my Tauri app that reads a file and returns its contents to the UI
+tauri	quiet	Can you help me write a React component for this dashboard page
+user-flow	fire	Can you map out what happens when someone tries to reset their password, and write acceptance criteria for it?
+user-flow	quiet	Can you write the actual password reset form component and hook it up to the API?
+seed	fire	Can you write a factory and seeder for the Order model with some realistic test data?
+seed	quiet	Can you write feature tests that cover the checkout flow?
+schema	fire	I'm adding a subscriptions feature, can you help me design the tables and migrations for it?
+schema	quiet	This customer list page is really slow, can you find out why and speed it up?
+alpine	fire	Can you add a dropdown menu that closes when I click outside it and shows/hides smoothly?
+alpine	quiet	Can you write the Cypress test that checks the checkout flow end to end?
+tailwind	fire	our buttons and cards all use slightly different blues, can you set up a proper colour system so everything's consistent
+tailwind	quiet	can you write end-to-end tests for the checkout flow
+upgrade	fire	We need to move our Laravel app from version 10 to 11, can you plan and carry out the upgrade?
+upgrade	quiet	Can you bump lodash to the latest version in package.json?
+access-audit	fire	Can you check this checkout page for accessibility issues before we ship it?
+access-audit	quiet	Can you make this checkout page load faster on mobile?
+tenancy	fire	we're building a SaaS product where each customer's data needs to stay completely separate from other customers, how should I structure that
+tenancy	quiet	can you review this pull request for bugs before I merge it
+flags	fire	I want to roll out our new checkout page to 10% of users first, how should I set that up as a flag?
+flags	quiet	Can you write end-to-end tests for the checkout page?
+share-safe	fire	is this log file safe to paste into a support ticket, or does it have anything sensitive in it?
+share-safe	quiet	can you review this pull request for bugs before I merge it?
+findable	fire	our category pages all have the same title tag in search results, can you fix that and add a sitemap
+findable	quiet	can you write some blog posts for our product launch next week
+house-style	fire	Can you look at our app's CSS and components and write up what our design system actually looks like?
+house-style	quiet	Can you redesign the checkout page to feel more modern and premium?
+project-setup	quiet	which skill should I use to review this pull request before merging?
+doc-tidy	quiet	tidy up the docs folder, remove anything stale or duplicated, and fix the broken links
+scheduler	fire	Can you set up a nightly job that regenerates our export file and then emails it, with retries if it fails?
+scheduler	quiet	Can you write a test for the export job?
+api-design	fire	We're adding a new orders endpoint, what should the URL and error format look like?
+api-design	quiet	Can you review this pull request for bugs before I merge it?
+mailroom	fire	I need a Laravel mailable for order confirmation emails with a tracking link button
+mailroom	quiet	Can you translate the order confirmation page into French?
+herd-doctor	fire	My site on Herd is showing a 502 and won't load, can you figure out what's wrong?
+herd-doctor	quiet	The site loads fine but Chrome says the connection isn't secure
+localise	fire	We need to add French and Arabic support to the app, including translated dates and RTL layout
+localise	quiet	Can you set up a scheduled job to sync exchange rates nightly?
+sleuth	fire	My users are getting a 500 error on checkout and I can't figure out why
+sleuth	quiet	Can you triage this bug report and tell me how urgent it is?
+livewire	fire	Build a Livewire component for editing a user's profile with live validation
+livewire	quiet	Write a plain Blade view listing all users, no interactivity needed
+usage-audit	quiet	Which of my skills do I use the most?
+which-skill	quiet	Which database should I use for a small side project?

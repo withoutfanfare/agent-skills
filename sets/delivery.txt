@@ -1,0 +1,8 @@
+# Everyday delivery: from a change to a merged pull request
+review
+cover
+raise
+shepherd
+changelog
+doc-sync
+untangle

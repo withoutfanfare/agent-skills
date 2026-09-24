@@ -15,6 +15,7 @@ house rules:
   agents/openai.yaml with policy.allow_implicit_invocation: false, so Codex
   treats it the same way, and the reverse
 - the which-skill router mentions every skill and marks typed-only ones
+- every name in sets/*.txt is a real skill
 - no em dashes (house style)
 - no private terms: if a file called .lint-private-terms exists at the
   repository root (it is git-ignored), each non-blank line in it is a
@@ -155,6 +156,17 @@ def main():
                 continue
             if re.fullmatch(r"[a-z]+(-[a-z0-9]+)+", name):
                 findings.append(f"skills/which-skill: names `{name}`, which is not a skill")
+
+    # Every name in a set must be a real skill.
+    sets_dir = os.path.join(ROOT, "sets")
+    if os.path.isdir(sets_dir):
+        for f in sorted(os.listdir(sets_dir)):
+            if not f.endswith(".txt"):
+                continue
+            for n, line in enumerate(open(os.path.join(sets_dir, f), encoding="utf-8"), 1):
+                name = re.sub(r"#.*", "", line).strip()
+                if name and not os.path.isfile(os.path.join(SKILLS, name, "SKILL.md")):
+                    findings.append(f"sets/{f}:{n}: `{name}` is not a skill")
 
     terms, exempt = private_terms()
     for path in text_files():
