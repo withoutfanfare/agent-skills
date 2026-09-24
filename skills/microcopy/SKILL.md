@@ -51,6 +51,9 @@ Buttons: up to about 25 characters. Errors: one or two short sentences.
 Success: under about 100 characters. If it does not fit, the design may
 need changing, not the words cramming.
 
+Done when: every string fits its limit, or the ones that do not are flagged
+as a design question.
+
 ## 4. Make it accessible
 
 - Icon-only buttons get an accessible name (`aria-label`) and the icon is
@@ -69,6 +72,9 @@ Done when: every interactive element has a meaningful accessible name.
 
 If the project keeps strings in translation files, add them there with
 sensible keys rather than hard-coding them in views.
+
+Done when: each string sits in the project's translation files under a
+clear key, or in the view only if the project has none.
 
 ## It's working if
 

@@ -101,6 +101,9 @@ under the rungs that passed.
 Stack-specific commands and pitfalls: [references/laravel.md](references/laravel.md).
 A worked smoke-check script: [scripts/http-smoke.sh](scripts/http-smoke.sh).
 
+Done when: the report shows the result, each rung with its command, the
+evidence, and what was not verified.
+
 ## It's working if
 
 - Every claim in the report traces to pasted output from something that

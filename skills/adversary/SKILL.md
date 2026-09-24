@@ -105,6 +105,9 @@ Date · Scope · Status: draft|reviewed|accepted
 <the mitigations that must land first, as a checklist>
 ```
 
+Done when: the threat model is saved, and every threat has a risk score and
+either a mitigation with an owner or a named person who accepted it.
+
 ## It's working if
 
 - Each threat is specific enough that a developer knows where the fix goes.

@@ -147,6 +147,8 @@ behaviour, the indexes and which query each one serves, and, for any
 breaking change, the deploy order. This is what the next person reviews,
 so it needs to stand alone from the migration file.
 
+Done when: every table, relationship, index and breaking change is listed.
+
 ## It's working if
 
 - Someone unfamiliar with the feature can read the table and column names

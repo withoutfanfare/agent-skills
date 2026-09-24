@@ -55,6 +55,9 @@ When the user says to lift or end the freeze, or agrees the task is done,
 delete `.claude/freeze-scope` and confirm. A refused edit is not a reason
 to lift it.
 
+Done when: `.claude/freeze-scope` no longer exists and the user has been
+told the freeze is lifted.
+
 ## Limits
 
 - Only the editing tools are checked. Shell commands (`sed -i`, redirects,

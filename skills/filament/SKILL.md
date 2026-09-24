@@ -105,6 +105,9 @@ data volume), hand off to `prove-it` (if installed).
 Full field and widget reference, and further gotchas:
 [references/patterns.md](references/patterns.md).
 
+Done when: the report names the resource, the policy and its test result,
+and anything deliberately left out.
+
 ## It's working if
 
 - An unauthorised user's test against the same routes as the authorised

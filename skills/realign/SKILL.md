@@ -91,6 +91,9 @@ Passing: <n>   Aligned this session: <n>   Flagged: <n>
 
 Every number must trace to named tests.
 
+Done when: the summary line comes from a full run whose exit code you saw,
+and each count names its tests.
+
 ## It's working if
 
 - Every failure that started the session is either aligned or flagged.

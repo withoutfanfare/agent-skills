@@ -90,6 +90,9 @@ Changing a description, flipping to typed-only (add
 merging or retiring a skill is for the owner to approve, then do as normal
 changes with the linter and catalogue run afterwards.
 
+Done when: every recommendation has evidence, and nothing was changed
+without the owner's approval.
+
 ## It's working if
 
 - Every recommendation has numbers beside it.

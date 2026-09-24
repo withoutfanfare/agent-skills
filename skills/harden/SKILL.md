@@ -97,6 +97,9 @@ Done when: every finding has a location, an exploit sketch and a fix.
 Framework specifics for Laravel are in
 [references/laravel.md](references/laravel.md).
 
+Done when: the report has the summary counts, a table row per finding with
+a fix, and the categories checked and found sound.
+
 ## It's working if
 
 - Every blocker or major finding comes with the exact input that exploits

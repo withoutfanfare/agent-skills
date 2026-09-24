@@ -94,6 +94,9 @@ answered.
 Save it where the delegate will find it: the issue, the pull request, a
 `docs/briefs/` file, or the message to the agent. Report where it went.
 
+Done when: the brief is saved where the delegate will look, and the user
+has been told where.
+
 ## It's working if
 
 - The delegate starts work without asking for context.

@@ -140,15 +140,14 @@ in the report, not actions you take.
 Done when: the report fits on one screen and every line names a real skill
 from the catalogue.
 
-## Verify what you built
+## 6. Verify what you built
 
 ```bash
 agent-skills status
 ```
 
-Every entry traces back to a skill you picked in step 3, the number of
-entries agrees with what the report said, and the manifest's `# task:`
-line reflects today's task.
+Done when: every entry traces back to a skill picked in step 3, the count
+agrees with the report, and the manifest's `# task:` line is today's task.
 
 ## It's working if
 

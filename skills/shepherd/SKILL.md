@@ -119,6 +119,9 @@ Final state; what was retried and why; each fix with its commit; comments
 answered, deferred (with reasons) or escalated; conflicts resolved; and, if
 blocked, the exact blocker and the smallest next step.
 
+Done when: the report gives the final state, each fix with its commit, and
+every comment's outcome, or the exact blocker.
+
 ## Gotchas
 
 - A pending check also makes `gh pr checks` return a failing exit code,

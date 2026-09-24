@@ -92,6 +92,8 @@ Save it where the project keeps QA documents (ask, or use
 `docs/<feature>/test-plan.md`), and report the path and a one-line summary
 of what it covers.
 
+Done when: the plan is saved and the user has its path and summary.
+
 ## It's working if
 
 - A tester who has never seen the feature can run every story without

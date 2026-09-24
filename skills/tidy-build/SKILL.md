@@ -80,6 +80,8 @@ Warnings: <count, or none>
 Freed:   <total> (<folder>: <size>, ...)
 ```
 
+Done when: all three lines are filled from real output, not estimates.
+
 ## It's working if
 
 - A failed build never loses its caches.

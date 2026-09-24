@@ -92,6 +92,9 @@ and the test evidence from step 5.
 
 Stack-specific detail: [references/laravel.md](references/laravel.md).
 
+Done when: the report names the trigger, the channels, the failure handling
+and the passing test from step 5.
+
 ## It's working if
 
 - Every channel used has its own test asserting it fired with the right

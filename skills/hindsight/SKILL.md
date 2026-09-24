@@ -110,6 +110,9 @@ Trigger · Root cause · Contributing factors
 Save it where the team keeps incident records (ask, or use
 `docs/incidents/`), and link the actions to the issue tracker.
 
+Done when: the post-mortem is saved and every action has an owner, a due
+date and a tracking link.
+
 ## It's working if
 
 - No sentence in the document blames a person.

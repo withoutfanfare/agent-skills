@@ -93,6 +93,9 @@ Done when: each cause has evidence and a confirming check.
 <one action: investigate X, ask the reporter for Y, hotfix Z>
 ```
 
+Done when: every heading in the template is filled, and the next step is a
+single action.
+
 ## It's working if
 
 - The severity call can be defended from impact, not from how loud the

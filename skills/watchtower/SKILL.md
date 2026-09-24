@@ -91,6 +91,9 @@ Done when: each dashboard has a named audience and question.
 <instrumentation to add in the code, with where>
 ```
 
+Done when: every journey has a measure, a target and an alert with a
+runbook, and what must be built says where.
+
 ## It's working if
 
 - Every alert, when it fires, has a clear action and owner.

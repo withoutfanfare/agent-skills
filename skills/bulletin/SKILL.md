@@ -94,6 +94,9 @@ to a source from step 2.
 Read it as the recipient. Remove jargon for non-technical readers, and
 make sure bad news is stated plainly, with what is being done about it.
 
+Done when: the update has no unexplained jargon for its reader, and any bad
+news sits beside what is being done about it.
+
 ## It's working if
 
 - A leader finds the decisions they need to make in the first screen.

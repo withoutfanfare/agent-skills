@@ -73,10 +73,16 @@ layers did not explain.
 Analogy ideas and layer templates are in
 [references/analogies.md](references/analogies.md).
 
+Done when: every technical term is explained at first use and each
+paragraph carries one idea.
+
 ## 5. Check understanding
 
 End with an offer to go deeper on a specific layer, or a short question
 that checks the key idea landed.
+
+Done when: the reply ends with an offer to go deeper or a checking
+question.
 
 ## It's working if
 

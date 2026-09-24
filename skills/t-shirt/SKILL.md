@@ -84,6 +84,9 @@ Done when: there is one size and one confidence, each with a reason.
 **Unknowns:** <what could not be assessed, and why>
 ```
 
+Done when: every field in the template is filled, with "none" or a reason
+where there is nothing to say.
+
 ## It's working if
 
 - Every size is backed by named modules and boundaries, not adjectives.

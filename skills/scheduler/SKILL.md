@@ -148,6 +148,8 @@ State what was scheduled and its frequency, the overlap and server guard
 decisions, the chain or batch structure if any, the retry and backoff
 configuration, and the command output from step 5 that proves it is live.
 
+Done when: the report quotes the step 5 output showing the task is live.
+
 ## It's working if
 
 - Every schedule entry has a deliberate answer for overlap and

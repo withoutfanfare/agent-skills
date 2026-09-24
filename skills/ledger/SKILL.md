@@ -25,7 +25,7 @@ One file per decision in `docs/decisions/` in the repository, named
 somewhere else (an ADR folder, a wiki, a notes vault). Follow the existing
 place and format when there is one.
 
-## Log a decision
+## 1. Log a decision
 
 Capture it while the reasoning is fresh. Take what the conversation already
 holds; ask only for gaps, one question at a time.
@@ -57,7 +57,7 @@ what else was considered.
 Done when: the file exists with at least two options, an expected outcome
 and a revisit trigger.
 
-## Look up a decision
+## 2. Look up a decision
 
 Search the ledger by title, tags and text. Answer with the decision, its
 date, the reasoning, and its current status, and link the file. If nothing
@@ -66,7 +66,7 @@ is recorded, say so rather than reconstructing a reason from the code.
 Done when: the user has the decision and its source, or a clear "not
 recorded".
 
-## Revisit decisions
+## 3. Revisit decisions
 
 List decisions whose revisit date has passed or whose condition may now be
 true. For each one the user chooses, ask:
@@ -83,12 +83,15 @@ next revisit, or close it.
 Done when: every reviewed decision has a dated outcome entry and a new
 status.
 
-## Spot patterns
+## 4. Spot patterns
 
 When there are enough entries, look across them: decisions made at low
 confidence that later reversed, areas that keep being re-decided,
 expectations that are consistently too optimistic. Report patterns with
 the decisions behind them.
+
+Done when: each pattern named lists the decisions behind it, or you have
+said there are too few entries yet.
 
 ## It's working if
 

@@ -91,6 +91,8 @@ request or tracker item.
 Save it where the project keeps reports (ask, or use
 `docs/reports/week-<nn>.md`).
 
+Done when: the report is saved and the user has its path.
+
 ## It's working if
 
 - The summary alone tells a reader how the week went.

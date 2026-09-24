@@ -102,6 +102,9 @@ Done when: the three strongest objections are addressed in the text.
 Save it where the team keeps proposals (ask, or use `docs/proposals/`), and
 suggest who should review it and by when.
 
+Done when: the proposal is saved, the path is given, and the reviewers and
+a review date are named.
+
 ## It's working if
 
 - A reviewer can disagree precisely, pointing at a named trade-off.

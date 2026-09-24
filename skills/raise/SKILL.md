@@ -123,6 +123,8 @@ Push only after it prints `code unchanged`. If the branch was already on
 the remote, the regrouped history needs `git push --force-with-lease`,
 which refuses if anyone else pushed in the meantime.
 
+Done when: the tree check prints `code unchanged` before anything is pushed.
+
 ## It's working if
 
 - The reviewer's first question is about the approach, not "what is this

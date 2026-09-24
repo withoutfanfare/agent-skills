@@ -85,6 +85,9 @@ Done when: the diff reads like the rest of the codebase.
 The smell, the refactoring, the steps taken, the test runs (command and
 result), and any bugs found but not fixed.
 
+Done when: the report names the smell, the refactoring, each test command
+with its result, and any bugs left unfixed.
+
 ## It's working if
 
 - The tests passed before, during and after, with no expectations changed.

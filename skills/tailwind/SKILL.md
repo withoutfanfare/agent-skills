@@ -144,10 +144,11 @@ one that must be is listed in an `@source inline()` entry.
 
 ## 7. Report
 
-State which tokens you added or reused, which component(s) you built or
-changed, the states covered, and the result of the contrast and dark mode
-check. Flag any arbitrary value left in place and why (a genuine one-off,
-or a token still owed).
+State the tokens added or reused, the component(s) built or changed, the
+states covered, and the contrast and dark mode result. Flag any arbitrary
+value left in place and why (a genuine one-off, or a token still owed).
+
+Done when: the report covers tokens, components, states and the checks.
 
 ## It's working if
 

@@ -127,6 +127,9 @@ needs-decision, and the report path. Also list every record created on a
 remote so it can be cleaned up, and offer (without doing it unasked) to
 raise the confirmed bugs in the tracker and to plan the fixes.
 
+Done when: the user has the blockers, the counts, the report path and the
+list of remote records to clean up.
+
 ## It's working if
 
 - Every scenario has a verdict, and every failure has evidence that exists

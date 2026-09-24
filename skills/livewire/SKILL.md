@@ -113,6 +113,9 @@ context, hand off to `prove-it` (if installed).
 
 Gotchas and full worked examples: [references/patterns.md](references/patterns.md).
 
+Done when: the report names the component, its state, the test that passed
+and anything left for a fuller check.
+
 ## It's working if
 
 - No public property holds a service or a secret, and every ID the user

@@ -108,6 +108,9 @@ number of notes matches what you intended.
 In the conversation: the counts, the blockers and questions in one line
 each, and where the notes are.
 
+Done when: the summary gives the counts, one line per blocker and question,
+and the path to the notes.
+
 ## It's working if
 
 - Every finding carries the command and output that prove it.

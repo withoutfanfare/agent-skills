@@ -85,6 +85,8 @@ is recorded.
 Laravel specifics (Forge, Envoyer or Deployer, artisan steps, example
 workflow) are in [references/laravel.md](references/laravel.md).
 
+Done when: every item is ticked or has a noted exception.
+
 ## It's working if
 
 - Deploying is one action, and it is the same action every time.

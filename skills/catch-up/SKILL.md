@@ -84,6 +84,9 @@ commit.
 Leave out empty sections. If nothing needs the user, say so in two lines;
 a short briefing is a good result.
 
+Done when: the brief fits one screen, names a first job or says nothing
+needs the user, and ends with one concrete next action.
+
 ## It's working if
 
 - The user can start real work straight after reading.

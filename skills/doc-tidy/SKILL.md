@@ -138,6 +138,9 @@ for every folder in scope, or the remainder is explained.
 - <folder>: <index added, files moved, etc.>
 ```
 
+Done when: the report fills each section that applies, and every fix
+names its file and line.
+
 ## It's working if
 
 - The link scanner reports zero broken links and anchors on the folders

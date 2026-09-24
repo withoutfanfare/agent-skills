@@ -141,13 +141,12 @@ under Colour, Typography and Components cites real code.
 ## 7. Prove it is usable, not just accurate
 
 Pick one component type you did not document in detail (say, a tag or a
-tooltip) and sketch, in your head or on paper, how you would build it
-using only the guide. If you keep needing to peek at the original files
-to fill gaps, the guide is too thin in that area; go back and add the
-missing states or values.
+tooltip) and write a five-line spec for it using only the guide. If you keep
+needing to peek at the original files to fill gaps, the guide is too
+thin in that area; go back and add the missing states or values.
 
-Done when: you can describe a plausible new instance of an undocumented
-component using only the guide.
+Done when: a five-line spec of the new component exists that cites only
+guide sections.
 
 ## It's working if
 

@@ -113,6 +113,9 @@ State the confirmed cause, the fix, the regression test added, and the
 commands run with their results. If a cause was suspected but never
 confirmed, say so rather than folding it into the fix silently.
 
+Done when: the report names the cause (or says it is unconfirmed), the fix,
+the regression test, and each command with its result.
+
 ## It's working if
 
 - The reproduction existed, and was seen failing, before any fix was

@@ -76,6 +76,9 @@ at the top of their categories.
 Show the user the new entries as a diff, so they can adjust wording before
 committing.
 
+Done when: the user has seen the diff of the new entries and approved or
+adjusted the wording.
+
 ## It's working if
 
 - A reader can tell what changed for them from the headings and first

@@ -98,6 +98,9 @@ why, and the before and after counts.
 Stack-specific traps (PHP and PHPStan examples) are in
 [references/php.md](references/php.md).
 
+Done when: the commit message states what was fixed, what was left and why,
+and the before and after counts.
+
 ## It's working if
 
 - Every automated edit was seen in a dry run before it was written.

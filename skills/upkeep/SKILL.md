@@ -82,6 +82,9 @@ Order the work so each batch can be tested and reverted on its own:
 Never use a force option that jumps major versions silently (such as
 `npm audit fix --force`) without saying which packages it changes.
 
+Done when: every upgrade sits in a numbered batch that can be tested and
+reverted on its own.
+
 ## 6. Report
 
 ```markdown
@@ -94,6 +97,8 @@ Never use a force option that jumps major versions silently (such as
 ```
 
 Templates for CI checks are in [references/ci.md](references/ci.md).
+
+Done when: every field in the template is filled from the audit output.
 
 ## It's working if
 

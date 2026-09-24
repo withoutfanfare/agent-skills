@@ -96,6 +96,9 @@ a question.
 Save it where on-call people look (ask, or use `docs/runbooks/`), and link
 it from the alert that triggers it, if the alerting tool allows.
 
+Done when: the runbook is saved, its path is given, and the alert links to
+it (or you have said the alerting tool cannot).
+
 ## It's working if
 
 - The person on call reaches a fix or an escalation without improvising.

@@ -90,6 +90,9 @@ untested with the reason.
 
 Laravel and Pest specifics: [references/laravel.md](references/laravel.md).
 
+Done when: the report names the cases covered, the command run and its
+result, and anything left untested with the reason.
+
 ## It's working if
 
 - Every new test has been seen to fail at least once.

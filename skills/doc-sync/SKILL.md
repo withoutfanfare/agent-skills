@@ -98,6 +98,9 @@ Done when: all four checks pass.
 List pages updated and created, and one line per change saying what the
 docs now say.
 
+Done when: the report lists every page updated or created, each with one
+line on what it now says.
+
 ## It's working if
 
 - A reader following the docs gets the behaviour the code actually has.

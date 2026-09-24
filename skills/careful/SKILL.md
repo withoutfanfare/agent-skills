@@ -33,6 +33,8 @@ this skill is a reminder, not a guard.
 Tell the user the guard is active and what it covers, then carry on with
 the task.
 
+Done when: the user has been told the guard is on and what it covers.
+
 ## When a command is refused
 
 1. Stop. A refusal means this action needs a person, not a cleverer

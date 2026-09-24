@@ -86,6 +86,9 @@ Done when: every surprise names the file where it lives.
 Save the tour where the project keeps docs (ask, or use `docs/tours/`),
 with the date and the commit it describes, because code moves on.
 
+Done when: the tour is saved with its date and commit, and you have given
+the path.
+
 ## It's working if
 
 - A newcomer can follow the stops in order without getting lost.

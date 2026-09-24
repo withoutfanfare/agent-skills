@@ -55,6 +55,9 @@ Read the entries for the chosen reader and shape in
 already knows, what they care about, how much jargon is allowed, the tone,
 and the depth.
 
+Done when: you can name the reader's assumed knowledge, jargon level, tone
+and depth from the presets.
+
 ## 4. Rewrite
 
 - **Point first.** The answer, the decision or the "so what" opens the
@@ -84,11 +87,17 @@ is pasted). The product's locale, British English unless the codebase or
 user says otherwise. A warm, human voice at the right formality.
 Commas, colons and full stops rather than long dashes.
 
+Done when: the draft is Markdown, in the right locale, and has no long
+dashes.
+
 ## 6. Deliver
 
 In the conversation by default. Save a file only if asked: next to the
 source file, or wherever the user says, named from the source and the dials
 (for example `payment-outage--client--email.md`). Confirm the path.
+
+Done when: the rewrite is in the conversation, or saved at a path you have
+confirmed to the user.
 
 ## It's working if
 

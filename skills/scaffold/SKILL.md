@@ -90,6 +90,9 @@ The files created, the schema change (and that it reverses cleanly), the
 tests run and their result, and anything intentionally left out (a feature
 listed but not requested).
 
+Done when: the report lists the files, the reversible schema change, the
+test command with its result, and what was left out.
+
 ## It's working if
 
 - Every write path found in step 3 has a matching authorisation test that

@@ -87,6 +87,8 @@ use.
 Show the user the section and suggest committing it, so everyone's
 sessions benefit.
 
+Done when: the user has seen the section and the suggestion to commit it.
+
 ## It's working if
 
 - The next session raises pull requests against the right branch and runs

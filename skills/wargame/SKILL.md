@@ -94,6 +94,8 @@ then launch blockers, first weeks, soon, and "only if the business asks".
 Each task has what, why it hurts, rough effort, and a "done when" that can
 be observed (an alert fires, a restore succeeds), never "code written".
 
+Done when: phase 0 comes first and every task has an observable done when.
+
 ## It's working if
 
 - Severity is measured in business damage: an unrecoverable loss outranks

@@ -85,7 +85,7 @@ future emergency.
 Done when: the change list from step 2 is empty and the codebase builds
 without new warnings from the upgraded framework or language.
 
-## 6. Prove it with the full suite, twice
+## 6. Prove it with the full suite and by hand
 
 Run the complete test suite, not just the areas touched. Then exercise the
 paths a suite typically under-covers by hand: background jobs, scheduled
@@ -108,6 +108,9 @@ upgrade silently.
 Framework-specific detail for PHP and Laravel upgrades, including
 `composer.json` changes and known breaking changes by version, is in
 [references/laravel.md](references/laravel.md).
+
+Done when: the report gives both versions, the fixes, the before and after
+test results and the rollback command.
 
 ## It's working if
 

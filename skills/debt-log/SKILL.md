@@ -36,7 +36,7 @@ requests.
 | Documentation | undocumented APIs, stale setup guides |
 | Operations | manual deploy steps, missing monitoring, hard-coded configuration |
 
-## Find debt (audit)
+## 1. Find debt (audit)
 
 Look for friction, not just smells: very large files, `TODO`, `FIXME` and
 `HACK` comments (`git grep -n -E "TODO|FIXME|HACK"`), duplicated blocks,
@@ -50,7 +50,7 @@ choose which to add.
 Done when: each finding has a location and a concrete cost, and the user
 has picked which to record.
 
-## Record an item
+## 2. Record an item
 
 ```markdown
 ### TD-007: <searchable title>
@@ -74,7 +74,7 @@ ships is a blocker.
 Done when: the item is in the register with all three scores and a
 specific cost of keeping.
 
-## Prioritise
+## 3. Prioritise
 
 Sort open items by priority, then pick out:
 
@@ -87,11 +87,14 @@ speed up.
 
 Done when: the user has a short, ordered list with reasons.
 
-## Keep it honest
+## 4. Keep it honest
 
 When an item is fixed, mark it done with the date and the commit or pull
 request. When debt turns out to be harmless, close it with a note. An
 occasional review removes items nobody would fix.
+
+Done when: every fixed or harmless item is closed with a date and a commit,
+pull request or note.
 
 ## It's working if
 
