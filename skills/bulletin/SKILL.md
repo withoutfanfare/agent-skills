@@ -14,6 +14,11 @@ client. Leaders want what needs a decision; the team wants what is blocked
 and who is on it; clients want what is getting better and when. This
 skill gathers the facts once and writes the version the reader needs.
 
+For the fixed weekly engineering report built from git and the tracker,
+use `weekly` (if installed). To rewrite one existing document for a reader,
+use `plainify` (if installed); its executive reader is the leadership
+audience here.
+
 ## 1. Pick the audience
 
 | Audience | Tone | Detail | Leads with |

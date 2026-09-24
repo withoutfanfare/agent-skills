@@ -17,7 +17,7 @@ Code and Codex both load at the start of every session, so every skill sees
 them without looking.
 
 Run it once per repository, and again when something changes. To choose
-which skills a project links, use `pick` instead.
+which skills a project links, use `pick` (if installed) instead.
 
 ## 1. Find the instructions file
 

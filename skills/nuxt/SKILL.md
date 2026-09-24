@@ -4,9 +4,9 @@ description: >-
   Builds and debugs Nuxt applications: file-based page and API routing,
   server routes and Nitro, data fetching with useFetch/useAsyncData, when to
   render on the server versus the client, runtime config and secrets, and
-  which deployment target to build for. Use for 'Nuxt', 'nuxt.config',
-  'server/api', 'useFetch', 'nitro', 'nuxi build', or a Nuxt page, layout or
-  server route that needs adding or fixing.
+  which deployment target to build for. Use when the user mentions Nuxt,
+  nuxt.config, server/api, useFetch, Nitro or nuxi build, or asks to add or
+  fix a Nuxt page, layout or server route.
 license: MIT
 allowed-tools: Read Grep Glob Bash Write Edit
 ---
@@ -18,8 +18,9 @@ convenient until the convention is broken without an error: a page nobody
 can reach, a secret shipped to the browser, or a fetch that silently reuses
 someone else's cached response. This skill covers Nuxt's own machinery,
 routing, data fetching, rendering mode and deployment. For what happens
-inside a component once it is mounted, hand off to a Vue-focused skill if
-one is available; for how a page should look, hand off to a design skill.
+inside a component once it is mounted (component internals), hand off to
+`vue` (if installed); for how a page should look, hand off to `tailwind`
+or `sketch` (if installed).
 
 Paths below use the Nuxt 4 layout, where `pages/`, `components/`,
 `composables/`, `layouts/` and `app.vue` live inside `app/`, while

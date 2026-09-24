@@ -5,7 +5,8 @@ description: >-
   first, isolates the real cause by narrowing rather than guessing, applies
   the smallest fix, and locks it in with a regression test. Use when the
   user reports an error, exception, crash, stack trace, or says something
-  "used to work" and now doesn't.
+  "used to work" and now doesn't. Not for judging how serious or urgent a
+  report is; use `triage`.
 license: MIT
 allowed-tools: Read Grep Glob Bash Edit Write
 ---
@@ -17,6 +18,9 @@ as a fix. This skill forces the reproduction to exist before any theory
 does, then narrows it down systematically instead of reading code and
 hoping. A fix that was never seen failing, and never seen passing, is not
 verified: it is a hope with extra steps.
+
+To judge how urgent a report is before investigating, use `triage` (if
+installed).
 
 ## 1. Collect what is known
 

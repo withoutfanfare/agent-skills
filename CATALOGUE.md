@@ -21,7 +21,7 @@ Link a whole set with `agent-skills add <set>`.
 
 | Skill | What it does |
 |---|---|
-| [`access-audit`](skills/access-audit/SKILL.md) | Audits a web page, component or design for accessibility against WCAG 2.1, covering keyboard operation, semantic structure, ARIA correctness, colour contrast and screen reader… |
+| [`access-audit`](skills/access-audit/SKILL.md) | Audits a web page, component or design for accessibility against WCAG 2.2, covering keyboard operation, semantic structure, ARIA correctness, colour contrast and screen reader… |
 | [`adversary`](skills/adversary/SKILL.md) | Threat-models a feature or system before it is built, using STRIDE: maps what is worth protecting, how data flows and where trust changes, then rates realistic threats and… |
 | [`alpine`](skills/alpine/SKILL.md) | Builds client-side interactivity with Alpine.js: dropdowns, modals, tabs, toggles, and state shared between components with a store or synced to a backend component with x-model… |
 | [`api-design`](skills/api-design/SKILL.md) | Designs a web API's resources, versioning, pagination, authentication and error format before or alongside implementation, so endpoints are consistent and predictable to any… |
@@ -32,31 +32,31 @@ Link a whole set with `agent-skills add <set>`.
 | [`copydesk`](skills/copydesk/SKILL.md) | Writes marketing and product copy in British English: landing pages, product descriptions, promotional emails, social posts, and search titles and descriptions, specific and… |
 | [`cover`](skills/cover/SKILL.md) | Writes tests for a feature, existing code or a bug, in the project's own test framework and style, and proves each one fails for the right reason before it passes. |
 | [`debt-log`](skills/debt-log/SKILL.md) | Keeps a technical-debt register for a project: finds debt in the code, records each item with what it costs to keep and to fix, scores it, and produces a prioritised list worth… |
-| [`deepen`](skills/deepen/SKILL.md) *(typed)* | Finds shallow modules in a codebase and designs deeper interfaces for the one you pick. |
-| [`design-pack`](skills/design-pack/SKILL.md) *(typed)* | Packages a codebase's design system (colours, type, spacing, components and screenshots of representative pages) into an upload pack for a design tool. |
+| [`deepen`](skills/deepen/SKILL.md) *(typed)* | Finds shallow modules in a codebase and designs deeper interfaces for the one the user picks. |
+| [`design-pack`](skills/design-pack/SKILL.md) *(typed)* | Packages a codebase's design system and page screenshots into an upload pack for a design tool. |
 | [`doc-sync`](skills/doc-sync/SKILL.md) | Brings the documentation inside a repository back in line with the code: updates developer and user docs in place, writes API reference and migration guides for breaking changes,… |
 | [`doc-tidy`](skills/doc-tidy/SKILL.md) *(typed)* | Tidies a project's documentation folder: finds stale, duplicate, orphaned or broken-link docs and organises what is left into a sensible structure. |
-| [`filament`](skills/filament/SKILL.md) | Builds Filament 3 admin panel resources: forms, tables, widgets, actions and relation managers, wired to the underlying policy so access is actually enforced, then proves it with… |
+| [`filament`](skills/filament/SKILL.md) | Builds Filament 4 admin panel resources: forms, tables, widgets, actions and relation managers, wired to the underlying policy so access is actually enforced, then proves it with… |
 | [`findable`](skills/findable/SKILL.md) | Makes a web app's pages easier for search engines to find, understand and rank: page metadata, structured data, sitemaps, robots rules, internal links and Core Web Vitals. |
 | [`flags`](skills/flags/SKILL.md) | Adds or manages a feature flag: a descriptive name, a condition that handles the logged-out case, a staged rollout plan, and consistent checks across code, templates and routing,… |
 | [`freeze`](skills/freeze/SKILL.md) *(typed)* | Limits file edits to an agreed set of files or folders for the rest of the session. |
 | [`handover`](skills/handover/SKILL.md) | Writes a self-contained brief so a colleague or another agent can pick up a task and start straight away: background, the task and its limits, what done looks like, what not to… |
-| [`harden`](skills/harden/SKILL.md) | Audits an application for security weaknesses against the OWASP Top 10 and hardens what it finds: access control, injection, authentication, secrets, configuration, uploads and… |
+| [`harden`](skills/harden/SKILL.md) | Audits an application for security weaknesses against the OWASP Top 10: access control, injection, authentication, secrets, configuration, uploads and outbound requests. |
 | [`herd-doctor`](skills/herd-doctor/SKILL.md) | Diagnoses Laravel Herd sites on macOS that will not load: nginx stuck or serving a stale process, a site missing from the linked list, or a site running the wrong PHP version. |
 | [`hindsight`](skills/hindsight/SKILL.md) | Runs a blameless post-mortem after a production incident: builds the timeline, traces the trigger back to root and contributing causes, and turns them into owned, checkable… |
 | [`hotspot`](skills/hotspot/SKILL.md) | Finds out why a page, endpoint or job is slow and fixes the biggest cause first, with before and after measurements: repeated queries, missing indexes, oversized results, slow… |
 | [`house-style`](skills/house-style/SKILL.md) | Reads an existing codebase's colours, type, spacing and components and writes them up as a style guide document, so new screens match what is already there instead of drifting. |
 | [`launchpad`](skills/launchpad/SKILL.md) | Sets up continuous integration and deployment for a web application: pipeline checks, deploy steps for staging and production, zero-downtime releases, environment configuration,… |
 | [`ledger`](skills/ledger/SKILL.md) | Keeps a living record of technical and product decisions: logs each one with its context, options and reasoning, sets a trigger to revisit it, and later records whether it held up. |
-| [`livewire`](skills/livewire/SKILL.md) | Builds Livewire 3 components: forms, tables, modals and file uploads, with correct property hydration, validation and Alpine interop, then proves the interaction with a component… |
+| [`livewire`](skills/livewire/SKILL.md) | Builds Livewire 4 components: forms, tables, modals and file uploads, with correct property hydration, validation and Alpine interop, then proves the interaction with a component… |
 | [`localise`](skills/localise/SKILL.md) | Adds or extends multi-language support in a Laravel app: translation files, locale switching, localised dates and currency, and RTL layout. |
 | [`mailroom`](skills/mailroom/SKILL.md) | Builds a Laravel mailable and its Markdown template so a transactional email renders correctly in real inboxes, queues instead of blocking the request, and always has a plain… |
-| [`microcopy`](skills/microcopy/SKILL.md) | Writes interface text in British English: buttons, labels, hints, error, success, empty and loading states, confirmations and notifications, clear, short and accessible. |
+| [`microcopy`](skills/microcopy/SKILL.md) | Writes interface text in the product's locale, British English by default: buttons, labels, hints, error, success, empty and loading states, confirmations and notifications,… |
 | [`notify`](skills/notify/SKILL.md) | Builds a notification that reaches a user through the right channel (email, SMS, chat, in-app, push), queued, with a sensible fallback and a test that proves it was actually sent… |
 | [`nuxt`](skills/nuxt/SKILL.md) | Builds and debugs Nuxt applications: file-based page and API routing, server routes and Nitro, data fetching with useFetch/useAsyncData, when to render on the server versus the… |
 | [`pick`](skills/pick/SKILL.md) *(typed)* | Links the skills a task actually needs into this project, and unlinks the rest. |
 | [`pitch`](skills/pitch/SKILL.md) | Writes a technical proposal (an RFC or design document) that argues for a change: the problem, the proposed approach grounded in the real codebase, honest alternatives including… |
-| [`plainify`](skills/plainify/SKILL.md) | Rewrites technical material into clear plain English for a chosen reader and format (an executive briefing, a client email, a user guide, a chat message, release notes), leading… |
+| [`plainify`](skills/plainify/SKILL.md) | Rewrites technical material into clear plain English for a chosen reader and format (an executive briefing, a client email, a user guide, release notes), leading with the point. |
 | [`preflight`](skills/preflight/SKILL.md) | Reviews a design spec or implementation plan before anyone builds from it: checks every factual claim against the real repository, tools and systems without changing anything,… |
 | [`project-setup`](skills/project-setup/SKILL.md) *(typed)* | Records a project's working facts (tracker, base branch, commands, environments) where every agent session will see them. |
 | [`prove-it`](skills/prove-it/SKILL.md) | Proves a change actually works by running it and capturing real evidence: test output, HTTP status codes, database state, or screenshots, never "the code looks correct". Climbs a… |
@@ -65,7 +65,7 @@ Link a whole set with `agent-skills add <set>`.
 | [`relocate`](skills/relocate/SKILL.md) | Plans a safe migration of production data: choosing between a maintenance window, expand-and-contract, dual writes or a shadow table, then writing the step-by-step plan with… |
 | [`reshape`](skills/reshape/SKILL.md) | Restructures code without changing what it does: spots the smell, picks the refactoring that fits (extract, move, rename, replace conditional, value object), and moves in small,… |
 | [`review`](skills/review/SKILL.md) | Reviews a diff, branch or pull request before it merges, answering two questions separately: does it do what was asked, and is it safe, reliable, fast and maintainable? Every… |
-| [`road-test`](skills/road-test/SKILL.md) | Runs browser-driven acceptance testing of a feature, journey or whole site and stays with it until every scenario has a verdict: builds a scenario list from the code, checks the… |
+| [`road-test`](skills/road-test/SKILL.md) | Runs browser-driven acceptance testing of a feature, journey or whole site until every scenario has a verdict, recording evidence and reporting each failure with severity, cause… |
 | [`runbook`](skills/runbook/SKILL.md) | Writes an operational runbook for one failure scenario that works for a tired person at three in the morning: how to recognise it, a two-minute assessment, diagnosis as a decision… |
 | [`scaffold`](skills/scaffold/SKILL.md) | Generates a complete feature end to end: data model, storage layer, request handling, validation, authorisation and tests, wired together and proven to run, not just a pile of… |
 | [`scheduler`](skills/scheduler/SKILL.md) | Sets up Laravel's task scheduler safely: choosing between a scheduled command, job or closure, guarding against overlapping and multi-server runs, and wiring up chains, batches… |
@@ -78,13 +78,13 @@ Link a whole set with `agent-skills add <set>`.
 | [`spike`](skills/spike/SKILL.md) | Investigates an open technical question within a fixed scope and returns a go, no-go or go-with-conditions recommendation backed by evidence from the codebase, documentation and a… |
 | [`sweep`](skills/sweep/SKILL.md) | Makes one automated change safely across many files: static-analysis fixes, renames, deprecation replacements or pattern rewrites. |
 | [`t-shirt`](skills/t-shirt/SKILL.md) | Sizes a feature request as S, M, L or XL by reading the code it would touch: modules affected, system boundaries crossed, test coverage and known risks, with a confidence rating. |
-| [`tailwind`](skills/tailwind/SKILL.md) | Builds and extends a Tailwind CSS design system so a codebase stays visually consistent: reads or sets up the token config (colour, spacing, type scale), writes new UI against… |
+| [`tailwind`](skills/tailwind/SKILL.md) | In a project that uses Tailwind CSS, builds and extends the design system so the codebase stays consistent: theme tokens for colour, spacing and type, new UI built from them, and… |
 | [`takeaways`](skills/takeaways/SKILL.md) | Captures what was learned in a work session before it is forgotten: surprises, misleading signals, what was harder than expected and why, decisions and their reasons, and gotchas,… |
 | [`tauri`](skills/tauri/SKILL.md) | Builds and changes Tauri desktop apps: designs Rust commands and their error types, wraps every invoke() call in a typed frontend function, decides which side of the Rust/JS… |
 | [`tenancy`](skills/tenancy/SKILL.md) | Designs and implements multi-tenant data isolation: choosing between shared tables and separate schemas, resolving the current tenant from the request, scoping every query… |
 | [`test-plan`](skills/test-plan/SKILL.md) | Writes a manual QA test plan for a feature from its code and docs: user stories with exact steps and checkable expected results, edge cases, a regression checklist, accessibility… |
-| [`tidy-build`](skills/tidy-build/SKILL.md) | Builds a Rust, Tauri, Node or Go project, reports where the output landed and how big it is, then removes the build caches to free disc space, but only after a successful build. |
-| [`tour`](skills/tour/SKILL.md) | Writes a guided walkthrough of a codebase, a feature or a single request, following the path data actually takes and explaining what each stop does, why it is built that way and… |
+| [`tidy-build`](skills/tidy-build/SKILL.md) | Builds a Rust, Tauri, Node or Go project, reports where the output landed and how big it is, then removes the build caches to free disk space, but only after a successful build. |
+| [`tour`](skills/tour/SKILL.md) | Writes a guided walkthrough of this codebase, a feature or a single request, following the path data actually takes and explaining what each stop does, why it is built that way… |
 | [`triage`](skills/triage/SKILL.md) | Turns a raw bug report (a complaint, a stack trace, a support ticket, a screenshot description) into a triage assessment: a one-line summary, the affected area in the code,… |
 | [`unpack`](skills/unpack/SKILL.md) | Explains a technical concept, system or technology in layers, from a one-sentence summary to a deep dive, researched from reliable sources and pitched at the reader's level, with… |
 | [`untangle`](skills/untangle/SKILL.md) | Guides git decisions that are easy to get wrong: rebase or merge, resolving conflicts without losing either side, cherry-picks, and preparing releases and hotfixes. |
@@ -97,6 +97,6 @@ Link a whole set with `agent-skills add <set>`.
 | [`wargame`](skills/wargame/SKILL.md) *(typed)* | Runs parallel read-only audits of a project and turns them into a plain-English launch-risk brief. |
 | [`watchtower`](skills/watchtower/SKILL.md) | Designs monitoring before a feature or service ships: the few measures that reflect what users experience, targets for them, alerts that fire on real problems and reach the right… |
 | [`weekly`](skills/weekly/SKILL.md) *(typed)* | Writes the week's engineering progress report from git history, merged pull requests and the issue tracker. |
-| [`which-skill`](skills/which-skill/SKILL.md) *(typed)* | Maps your situation to the right skill in this library, and to what usually comes next. |
-| [`wizard`](skills/wizard/SKILL.md) | Generates an interactive bash script that walks a human, one step at a time, through a manual procedure only they can do: clicking through a dashboard, collecting credentials or… |
+| [`which-skill`](skills/which-skill/SKILL.md) *(typed)* | Maps the user's situation to the right skill in this library, and to what usually comes next. |
+| [`wizard`](skills/wizard/SKILL.md) | Generates an interactive bash script a person runs by hand to step through a manual procedure only they can do, confirming before anything irreversible and hiding secret input. |
 | [`work`](skills/work/SKILL.md) | Picks up an existing issue, pull request or release, decides from fresh evidence which lifecycle stage it has truly reached, checks that against the tracker board, names the gate… |

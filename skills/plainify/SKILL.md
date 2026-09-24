@@ -2,9 +2,8 @@
 name: plainify
 description: >-
   Rewrites technical material into clear plain English for a chosen reader
-  and format (an executive briefing, a client email, a user guide, a chat
-  message, release notes), leading with the point and letting the reader
-  stop once they have enough. Use when the user asks to put something in
+  and format (an executive briefing, a client email, a user guide, release
+  notes), leading with the point. Use when the user asks to put something in
   plain English, simplify it for non-technical people, rewrite it for a
   client or boss, or write a guide someone non-technical must follow.
 license: MIT
@@ -18,6 +17,9 @@ need it the other way round. This skill takes technical material (a pull
 request, an incident, a spec, a diff, a wall of text) and rewrites it for
 one specific reader in one specific shape, so the point comes first and
 every paragraph earns its place.
+
+To explain a concept from scratch, use `unpack` (if installed); to
+re-explain a reply that did not land, `wait-what` (if installed).
 
 ## 1. Get the source
 
@@ -39,6 +41,10 @@ question with the likely options.
 More than one reader means more than one version: a single compromise
 serves nobody. An explicit length from the user overrides the preset
 depth.
+
+The presets only rewrite existing material. To write a full test plan,
+runbook, marketing copy or progress update, `test-plan`, `runbook`,
+`copydesk` or `bulletin` (if installed) does the whole job.
 
 Done when: reader and shape are set, and said out loud if you chose them.
 
@@ -74,7 +80,8 @@ to know.
 ## 5. House style
 
 Markdown always (even for chat messages and emails, so it renders where it
-is pasted). British English. A warm, human voice at the right formality.
+is pasted). The product's locale, British English unless the codebase or
+user says otherwise. A warm, human voice at the right formality.
 Commas, colons and full stops rather than long dashes.
 
 ## 6. Deliver

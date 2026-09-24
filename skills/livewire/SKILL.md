@@ -4,8 +4,8 @@ description: >-
   Builds Livewire 4 components: forms, tables, modals and file uploads, with
   correct property hydration, validation and Alpine interop, then proves the
   interaction with a component test rather than a single browser glance. Use
-  for wire:model, wire:click, Livewire Form Objects, or interactive
-  server-driven Laravel front-end work.
+  when the user works with wire:model, wire:click or Livewire Form Objects,
+  or asks for interactive server-driven Laravel front-end work.
 license: MIT
 allowed-tools: Read Grep Glob Bash Edit Write
 ---
@@ -109,7 +109,7 @@ The component built, the state it owns and why, the test that proves its
 main interaction, and anything deliberately left for a fuller flow check.
 
 For verification of the component inside its full route, auth and page
-context, hand off to `prove-it`.
+context, hand off to `prove-it` (if installed).
 
 Gotchas and full worked examples: [references/patterns.md](references/patterns.md).
 

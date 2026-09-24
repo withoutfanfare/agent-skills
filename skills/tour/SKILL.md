@@ -1,11 +1,12 @@
 ---
 name: tour
 description: >-
-  Writes a guided walkthrough of a codebase, a feature or a single request,
+  Writes a guided walkthrough of this codebase, a feature or a single request,
   following the path data actually takes and explaining what each stop does,
   why it is built that way and what trips people up. Use when the user asks
   for a tour or walkthrough of the code, how a feature works end to end, or
-  help getting up to speed on a project.
+  help getting up to speed on a project. Not for explaining a general
+  concept or technology outside this codebase; use `unpack`.
 license: MIT
 allowed-tools: Read Grep Glob Bash Write
 ---
@@ -16,7 +17,8 @@ The fastest way into an unfamiliar codebase is a colleague saying "start
 here, then look at this, and watch out for that". This skill writes that
 walk-through: a readable path through the code, in the order things
 happen, with the reasons and the traps along the way. It explains what
-exists; judging it is a job for other skills.
+exists; judging it is a job for other skills. To explain a concept rather
+than this codebase, use `unpack` (if installed).
 
 ## 1. Choose the kind of tour
 

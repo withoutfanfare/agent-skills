@@ -1,13 +1,12 @@
 ---
 name: tailwind
 description: >-
-  Builds and extends a Tailwind CSS design system so a codebase stays
-  visually consistent: reads or sets up the theme tokens (colour, spacing,
-  type scale), writes new UI against those tokens rather than one-off
-  values, and checks contrast, dark mode and touch targets before calling a
-  component done. Use when building a UI kit, adding a new component,
-  setting up Tailwind for a project, or the user mentions design tokens,
-  theme colours, or things looking inconsistent across pages.
+  In a project that uses Tailwind CSS, builds and extends the design system
+  so the codebase stays consistent: theme tokens for colour, spacing and
+  type, new UI built from them, and checks on contrast, dark mode and touch
+  targets. Use when building a UI kit or new component, setting up Tailwind,
+  or the user mentions design tokens, theme colours, or pages looking
+  inconsistent.
 license: MIT
 allowed-tools: Read Grep Glob Bash Write Edit
 ---
@@ -28,7 +27,9 @@ below is the same; the v3 stub is at
 
 ## 1. Find the existing tokens
 
-Before adding anything, read what is already there:
+Before adding anything, read what is already there. If a `STYLEGUIDE.md`
+exists (from `house-style`, if installed), read it first: it says which
+values are deliberate.
 
 ```bash
 grep -rlE --include='*.css' --exclude-dir=node_modules \

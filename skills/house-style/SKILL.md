@@ -5,7 +5,9 @@ description: >-
   writes them up as a style guide document, so new screens match what is
   already there instead of drifting. Use for "what's our design system",
   "write a style guide from this codebase", "document our UI patterns", or
-  before building new UI in a project you did not design.
+  before building new UI in a project you did not design. Not for building
+  components or packing screenshots for a design tool; use `tailwind` or
+  `design-pack`.
 license: MIT
 allowed-tools: Read Grep Glob Bash Write
 ---
@@ -19,6 +21,10 @@ stitched together from two different products. This skill reads what is
 actually there, separates the deliberate system from one-off accidents,
 and writes it down once so every later change can match it on sight
 instead of by guesswork.
+
+To build new Tailwind UI against the guide, use `tailwind` (if installed);
+to pack it with screenshots for a design tool, `design-pack` (if installed).
+Both read the `STYLEGUIDE.md` this skill writes.
 
 ## 1. Sample the surfaces, don't read everything
 

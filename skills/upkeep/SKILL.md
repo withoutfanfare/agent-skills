@@ -5,7 +5,8 @@ description: >-
   abandoned packages, and risky version constraints, then plans upgrades in
   safe batches. Works with npm, pnpm, Yarn, Composer, Cargo, pip and Go
   modules. Use when the user asks to audit dependencies, check for CVEs or
-  security advisories, find outdated packages, or plan an upgrade.
+  security advisories, find outdated packages, or plan dependency
+  updates. Not for framework or language version upgrades; use `upgrade`.
 license: MIT
 allowed-tools: Bash Read Grep Glob
 ---

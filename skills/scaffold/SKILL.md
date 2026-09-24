@@ -79,7 +79,7 @@ and reapply it to confirm it is not one-directional. Create one record
 through the real code path (not a hand-built row) and read it back. Run the
 generated tests and show the output.
 
-For full-flow verification against a running app, hand off to `prove-it`.
+For full-flow verification against a running app, hand off to `prove-it` (if installed).
 
 Done when: a record created through the real path round-trips correctly,
 and the test run output is pasted, not summarised.

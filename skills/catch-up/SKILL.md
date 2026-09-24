@@ -35,7 +35,7 @@ Done when: the window's start date is known.
 Collect these, running independent commands together:
 
 - **Handover notes first:** any handover or brief files the project uses
-  (for example `HANDOFF.md`, `docs/handover/`). If one exists, it leads
+  (for example `HANDOFF.md`, `docs/handover/`, `docs/briefs/`). If one exists, it leads
   the briefing, and the rest shows what changed after it was written.
 - **Git:** commits since the window by everyone (teammates' work matters
   too), the current branch, unmerged local branches, stashes, and

@@ -6,7 +6,8 @@ description: >-
   uploads and outbound requests. Reports each issue with where it is, how
   it could be exploited and the fix; it does not change code. Use when the user
   asks for a security audit or review, asks whether code is safe, or wants
-  to harden an app before launch.
+  to harden an app before launch. Not for reviewing one change before it
+  merges; use `review`.
 license: MIT
 context: fork
 background: false
@@ -24,8 +25,9 @@ reviews and reports without changing code; the user or another session
 applies the fixes.
 
 For a review of one change, `review` (if installed) covers security as part
-of a wider review. For content leaving the machine, use a scanning tool for
-secrets instead.
+of a wider review. For a design not yet built, use `adversary` (if
+installed); for a business launch-risk brief, `wargame` (if installed); for
+content leaving the machine, `share-safe` (if installed).
 
 ## 1. Map the attack surface
 

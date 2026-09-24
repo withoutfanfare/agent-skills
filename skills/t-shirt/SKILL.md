@@ -59,14 +59,14 @@ Done when: each module has a coverage rating.
 | S | a few files in one module, an existing pattern, no new boundary |
 | M | several files across two or three modules, perhaps one boundary, mostly familiar patterns |
 | L | many modules, more than one boundary, something new to design |
-| XL | deep changes across the system, several boundaries, real unknowns; consider splitting or a spike first |
+| XL | deep changes across the system, several boundaries, real unknowns; consider splitting or a `spike` (if installed) first |
 
 These are guides. Two files across a critical boundary can be an L; fifteen
 files following a template can be an M.
 
 Rate confidence: **certain** (read everything; should land within a third
 either way), **likely** (some areas unclear; could be off by double), or
-**possible** (key parts unseen or requirements vague; suggest a spike).
+**possible** (key parts unseen or requirements vague; suggest a `spike`).
 
 Done when: there is one size and one confidence, each with a reason.
 

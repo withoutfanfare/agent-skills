@@ -3,9 +3,9 @@ name: schema
 description: >-
   Designs relational database schemas: tables, keys, relationships,
   indexes and constraints, and writes the migration that creates or
-  changes them safely. Use for 'design a schema', 'add a table', 'what
-  columns should this have', 'add an index', 'add a foreign key', or
-  'is this migration safe to run on a live database'.
+  changes them safely. Use when the user asks to design a schema, add a
+  table, add an index or a foreign key, asks what columns something should
+  have, or asks whether a migration is safe to run on a live database.
 license: MIT
 allowed-tools: Read Grep Glob Bash Write Edit
 ---

@@ -16,6 +16,7 @@ other, surface the risks a project half-knows about but has never written
 down, ranked by how badly each would hurt, in words an owner can act on.
 
 This is an assessment. No application code changes during a wargame.
+For a security audit of the code itself, use `harden` (if installed).
 
 ## 1. Orient
 

@@ -18,6 +18,9 @@ as evidence collection, not code review: every claim it makes is backed by
 something that actually ran, with output pasted, not summarised from
 memory of what the code appears to do.
 
+For acceptance testing a whole journey or site until every scenario has a
+verdict, use `road-test` (if installed).
+
 ## 1. Work out what the change touches
 
 Read the diff or the description of the change and list what kind of

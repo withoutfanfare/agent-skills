@@ -2,12 +2,11 @@
 name: road-test
 description: >-
   Runs browser-driven acceptance testing of a feature, journey or whole site
-  and stays with it until every scenario has a verdict: builds a scenario
-  list from the code, checks the environment, drives a real browser, records
-  evidence, and reports each failure with severity, cause and a proposed
-  fix. Local by default. Finds problems; never changes code. Use when the
+  until every scenario has a verdict, recording evidence and reporting each
+  failure with severity, cause and a fix. Never changes code. Use when the
   user asks for UAT, acceptance testing, to test something end to end, or to
-  walk through the site and find what is broken.
+  walk through the site and find what is broken. Not for proving one change
+  works; use `prove-it`.
 license: MIT
 allowed-tools: Read Grep Glob Bash Write
 ---
@@ -22,7 +21,8 @@ the list is complete, or when something genuinely needs a person, with the
 reason stated.
 
 This skill finds and diagnoses. It writes no application code during the
-run; fixing mid-run spoils the coverage.
+run; fixing mid-run spoils the coverage. To prove one change works with
+the lightest evidence that will do, use `prove-it` (if installed).
 
 ## 1. Agree the contract
 
@@ -55,6 +55,9 @@ to be broken; it is not a new finding.
 Done when: each journey has an expected outcome grounded in the code.
 
 ## 3. Build the scenario list
+
+If a test plan exists (from `test-plan`, if installed), build the scenario
+list from it.
 
 Numbered scenarios in the report, each with steps, expected result and
 priority, in this order:

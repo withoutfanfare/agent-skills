@@ -17,6 +17,10 @@ it up does not know why a file exists, which areas are fragile, or what was
 already tried. A good brief gives them all of that up front, so they can
 start in minutes rather than after an hour of archaeology or a meeting.
 
+To pick up a project yourself after time away, use `catch-up` (if
+installed); to capture what a session taught, use `takeaways` (if
+installed).
+
 ## 1. Know the audience
 
 A brief for an experienced colleague can leave room for judgement. A brief

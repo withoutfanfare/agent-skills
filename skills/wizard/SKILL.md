@@ -1,14 +1,12 @@
 ---
 name: wizard
 description: >-
-  Generates an interactive bash script that walks a human, one step at a
-  time, through a manual procedure only they can do: clicking through a
-  dashboard, collecting credentials or CI secrets, or running a one-off
-  cutover. The script shows progress, confirms before anything irreversible,
-  hides secret input, and writes values into an env file and CI secrets
-  idempotently. Use when the user needs to provision infrastructure, set up
-  credentials, walk a third-party dashboard, or run a migration that needs a
-  human at the controls.
+  Generates an interactive bash script a person runs by hand to step
+  through a manual procedure only they can do, confirming before anything
+  irreversible and hiding secret input. Use when the user needs a guided
+  script to provision infrastructure, set up credentials, walk a
+  third-party dashboard, or run a migration that needs a human at the
+  controls. Not for CI or deploy pipelines; use `launchpad`.
 license: MIT
 allowed-tools: Read Grep Glob Write Bash
 ---

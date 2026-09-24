@@ -5,7 +5,8 @@ description: >-
   updates developer and user docs in place, writes API reference and
   migration guides for breaking changes, and creates a README where none
   exists. Use when the user asks to update, sync or write the docs, document
-  a feature or API, or write a migration guide.
+  a feature or API, or write a migration guide. Not for tidying a docs
+  folder of stale or duplicate pages; use `doc-tidy`.
 license: MIT
 allowed-tools: Bash Read Edit Write Grep Glob
 ---
@@ -17,7 +18,9 @@ This skill closes the gap for a set of changes: it finds what the code now
 does, finds where the docs describe it, and edits them in place. When the
 docs and the code disagree, the code is right.
 
-For a changelog entry, use `changelog` (if installed) instead.
+For a changelog entry, use `changelog` (if installed) instead. To tidy a
+docs folder of stale, duplicate or broken-link pages, use `doc-tidy` (if
+installed).
 
 ## 1. Find what changed
 

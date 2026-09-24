@@ -35,7 +35,9 @@ Find what exists before packing anything:
   file, a tokens JSON, SCSS variables.
 - **Components**: the component directory and roughly how many there are.
 - **Written rules**: any existing design or brand document, style guide,
-  or retrospective that records decisions.
+  or retrospective that records decisions. A `STYLEGUIDE.md` from
+  `house-style` (if installed) already holds the extracted system: reuse
+  it rather than extracting again.
 - **Fonts**: self-hosted files or a font service link.
 - **Imagery**: the public image folders, grouped by kind (photography,
   illustration, icons, logos).

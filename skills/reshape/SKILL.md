@@ -5,7 +5,7 @@ description: >-
   refactoring that fits (extract, move, rename, replace conditional, value
   object), and moves in small, tested steps. Also cleans up tell-tale signs
   of generated code before a commit. Use when the user asks to refactor,
-  clean up, extract, simplify or untangle a piece of code.
+  clean up, extract, simplify or restructure a piece of code.
 license: MIT
 allowed-tools: Bash Read Edit Write Grep Glob
 ---
@@ -18,7 +18,8 @@ change at a time, a green run after each. Mix in a feature or a bug fix and
 nobody can tell which change broke what.
 
 For the same mechanical change across many files, use `sweep` (if
-installed).
+installed). To redesign a module's interface rather than tidy its code,
+use `deepen` (if installed).
 
 ## 1. Pin the behaviour down
 

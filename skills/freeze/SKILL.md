@@ -58,7 +58,7 @@ to lift it.
 ## Limits
 
 - Only the editing tools are checked. Shell commands (`sed -i`, redirects,
-  `tee`) can still change files, and `careful` does not catch them either,
+  `tee`) can still change files, and `careful` (if installed) does not catch them either,
   so the rule in step 3 is what holds.
 - The scope file belongs to the project root of this session. In a git
   worktree, that is the worktree, not the main checkout.

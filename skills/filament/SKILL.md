@@ -100,7 +100,7 @@ The resource built, the policy wired and its test evidence from step 4,
 and any field, filter or widget deliberately left out.
 
 For verification of the resource inside the full app (auth flow, real
-data volume), hand off to `prove-it`.
+data volume), hand off to `prove-it` (if installed).
 
 Full field and widget reference, and further gotchas:
 [references/patterns.md](references/patterns.md).

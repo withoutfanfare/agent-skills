@@ -18,6 +18,9 @@ lesson. The aim is to change the system so the same failure cannot happen
 the same way again. That only works if people speak freely, which is why
 every finding is about systems, processes and tools, never about a person.
 
+For lessons from an ordinary work session rather than an incident, use
+`takeaways` (if installed).
+
 ## Blameless wording
 
 | Instead of | Write |

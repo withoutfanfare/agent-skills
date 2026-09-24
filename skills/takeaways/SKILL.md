@@ -19,6 +19,9 @@ way, which approach failed and why. It evaporates when the session ends.
 The most valuable parts are the ones nobody would think to write down
 unprompted, so this skill asks.
 
+For a production incident, run a blameless post-mortem with `hindsight`
+(if installed) instead.
+
 ## 1. Rebuild the session yourself first
 
 Before asking anything, look at what happened: the commits and changed
@@ -42,7 +45,7 @@ naturally:
 - **Surprises:** what did not behave as expected, and why.
 - **Harder than expected:** where the estimate broke, and the cause.
 - **Patterns:** approaches that worked and will work again here.
-- **Hindsight:** what you would do differently from the start.
+- **Do differently:** what you would do differently from the start.
 - **Decisions:** what was chosen, what was rejected, and why.
 - **Useful finds:** documentation, code paths or tools worth finding
   again.

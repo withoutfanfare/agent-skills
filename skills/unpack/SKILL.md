@@ -19,6 +19,9 @@ familiar things to carry unfamiliar ones. This skill researches first, so
 the simple version is simple because it is well understood, not because
 detail was skipped.
 
+To rewrite an existing document for a different reader, use `plainify` (if
+installed).
+
 ## 1. Know the reader
 
 Work out, from the conversation or one question: what they already know,

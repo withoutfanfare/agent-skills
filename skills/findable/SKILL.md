@@ -6,6 +6,8 @@ description: >-
   links and Core Web Vitals. Use when adding SEO metadata, generating a
   sitemap, fixing robots.txt, improving internal linking, or when the user
   mentions SEO, meta tags, canonical URLs, schema markup or page speed.
+  Not for writing the meta titles and descriptions themselves; use
+  `copydesk`.
 license: MIT
 allowed-tools: Read Grep Glob Bash Write Edit
 ---

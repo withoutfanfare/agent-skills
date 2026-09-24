@@ -4,9 +4,10 @@ description: >-
   Builds and changes Tauri desktop apps: designs Rust commands and their
   error types, wraps every invoke() call in a typed frontend function,
   decides which side of the Rust/JS boundary owns each piece of state, and
-  keeps secrets out of logs and plain files. Use for 'tauri', 'a Tauri
-  desktop app', 'src-tauri', 'invoke command', a Rust backend paired with a web frontend,
-  or packaging a Tauri build for release.
+  keeps secrets out of logs and plain files. Use when the user mentions
+  Tauri, a Tauri desktop app, src-tauri or an invoke command, works on a
+  Rust backend paired with a web frontend, or asks to package a Tauri build
+  for release.
 license: MIT
 allowed-tools: Read Grep Glob Bash Edit Write
 ---

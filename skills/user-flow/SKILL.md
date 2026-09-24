@@ -4,7 +4,8 @@ description: >-
   Maps a user flow end to end, checks it against the surrounding information
   architecture, and turns it into testable acceptance criteria and a short
   usability plan. Use when shaping a new feature, asking "what should this
-  screen do", mapping a journey, writing acceptance criteria, or reviewing
+  screen do", mapping a journey, writing acceptance criteria for a journey
+  or screen flow, or reviewing
   navigation and page structure for usability problems.
 license: MIT
 allowed-tools: Read Grep Glob Write Edit

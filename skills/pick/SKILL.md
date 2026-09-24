@@ -12,12 +12,12 @@ allowed-tools: Bash Edit Glob Grep Read Write
 # Pick
 
 Every linked skill is loaded into every session in that project, whether or
-not the current work touches it, and once the roster grows past a handful
-it gets genuinely harder to pick the right one out of the list. This skill
-narrows the linked set down to whatever the work in front of you actually
-calls for, rather than leaving whatever was linked last time. Run it again
-whenever the work changes shape: a design task and a review task pull in
-almost entirely different skills, even inside the same repository.
+not the current work touches it, and past a handful it gets harder to pick
+the right one. This skill narrows the linked set to what the work actually
+calls for. Run it again whenever the work changes shape: a design task and
+a review task pull in almost entirely different skills. To find which skill
+fits a situation, use `which-skill` (if installed); to record a project's
+tracker, branch and commands, `project-setup` (if installed).
 
 ## 1. Know the task
 

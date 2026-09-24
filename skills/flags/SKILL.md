@@ -5,8 +5,8 @@ description: >-
   handles the logged-out case, a staged rollout plan, and consistent checks
   across code, templates and routing, followed by full removal once the
   flag has served its purpose. Use for 'feature flag', 'toggle this behind
-  a flag', 'percentage rollout', 'canary release', 'A/B test', or cleaning
-  up an old flag.
+  a flag', 'percentage rollout', 'canary release', or cleaning up an old
+  flag.
 license: MIT
 allowed-tools: Read Grep Glob Edit Write Bash
 ---

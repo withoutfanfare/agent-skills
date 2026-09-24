@@ -19,7 +19,10 @@ leaves a record of why the choice was made. It is an argument, not a plan:
 it makes the case for a direction the team has not yet agreed, and it
 invites disagreement by being honest about the weaknesses.
 
-Once a direction is agreed, turning it into work is a different job.
+Once a direction is agreed, turning it into work is a different job;
+check the resulting plan with `preflight` (if installed). If it is not yet
+known whether the approach can work at all, run a `spike` (if installed)
+first, and size the work with `t-shirt` (if installed).
 
 ## 1. Pin down the proposal
 

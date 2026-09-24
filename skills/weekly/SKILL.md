@@ -13,6 +13,9 @@ A weekly report should take minutes to produce and seconds to skim. Most
 of it is already in git and the issue tracker; the work is gathering it,
 grouping it by what it means, and saying the important thing first.
 
+For an ad hoc update pitched to a particular audience, use `bulletin` (if
+installed).
+
 ## 1. Set the period
 
 Default to the last full working week, Monday to Friday. Work out the ISO

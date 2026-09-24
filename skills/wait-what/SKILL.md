@@ -3,9 +3,10 @@ name: wait-what
 description: >-
   Re-explains the last reply when it did not land: shorter, in plain words,
   starting with the point and filling in the step that was skipped. Use when
-  the user says "wait, what?", "I don't follow", "come again", "in plain
-  English please", "you've lost me", or replies with confusion to what was
-  just said.
+  the user says "wait, what?", "I don't follow", "come again", "you've lost
+  me", asks for the last reply in plain English, or replies with confusion
+  to what was just said. Not for rewriting a document for a reader; use
+  `plainify`.
 license: MIT
 disallowed-tools: Edit Write NotebookEdit Bash
 ---
@@ -16,6 +17,9 @@ The last reply did not land. The fix is a better pitch, not the same one
 louder and not a defence of it. Confusion nearly always means a step was
 skipped: a term used before it was explained, or a conclusion given before
 the problem it solves.
+
+To rewrite a document or other material for a particular reader, use
+`plainify` (if installed).
 
 ## How to re-pitch
 

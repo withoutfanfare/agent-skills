@@ -6,7 +6,8 @@ description: >-
   request, and always has a plain fallback link. Use when creating a
   mailable, running make:mail, building a transactional or notification
   email, or the user asks for an order confirmation, welcome email or
-  similar.
+  similar. Not for choosing channels or sending SMS, chat or push alerts;
+  use `notify`.
 license: MIT
 allowed-tools: Read Write Edit Grep Glob Bash
 ---
@@ -19,6 +20,9 @@ Outlook, or a mailable that blocks the HTTP request while it talks to the
 mail server. None of that shows up until a real recipient reports it. This
 skill builds the mailable so the common failures are ruled out before the
 first send.
+
+To pick channels or fire one event across email, SMS, chat or push, use
+`notify` (if installed).
 
 ## 1. Scaffold with the right structure
 

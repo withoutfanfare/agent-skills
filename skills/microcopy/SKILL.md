@@ -1,9 +1,9 @@
 ---
 name: microcopy
 description: >-
-  Writes interface text in British English: buttons, labels, hints, error,
-  success, empty and loading states, confirmations and notifications, clear,
-  short and accessible. Use when the user asks for UI copy or microcopy,
+  Writes interface text in the product's locale, British English by default:
+  buttons, labels, hints, error, success, empty and loading states,
+  confirmations and notifications, clear, short and accessible. Use when the user asks for UI copy or microcopy,
   button text, error or success messages, empty states, or wants interface
   wording reviewed.
 license: MIT
@@ -39,8 +39,9 @@ Done when: you can describe the moment each piece of text appears in.
 | Field hint | what to enter and why | We use this to send your receipts. | Enter email. |
 
 Rules throughout: sentence case; the second person ("your"); no filler
-("please", "simply", "just"); no blame ("you entered it wrong"); British
-spelling; dates as 4 November 2026.
+("please", "simply", "just"); no blame ("you entered it wrong"); the
+product's locale, British English unless the codebase or user says
+otherwise; dates as 4 November 2026.
 
 Done when: every string follows its element's pattern.
 

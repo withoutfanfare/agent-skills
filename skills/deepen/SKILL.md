@@ -22,6 +22,9 @@ it ends with a proposal ready to implement.
 Software Design". The shape of this skill was inspired by Matt Pocock's
 architecture-improvement skill.*
 
+For a behaviour-preserving tidy of one area, use `reshape` (if installed);
+for the same mechanical change across many files, `sweep` (if installed).
+
 ## 1. Explore like a newcomer
 
 Pick a real task someone might do in this codebase and follow it: read the

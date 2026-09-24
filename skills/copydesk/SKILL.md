@@ -5,7 +5,8 @@ description: >-
   product descriptions, promotional emails, social posts, and search titles
   and descriptions, specific and factual rather than hyped. Use when the
   user asks for marketing copy, a product description, landing page text,
-  an email campaign, or meta titles and descriptions.
+  an email campaign, or meta titles and descriptions. Not for technical
+  SEO such as sitemaps, structured data or canonical tags; use `findable`.
 license: MIT
 allowed-tools: Read Grep Glob Write Edit WebFetch
 ---
@@ -17,8 +18,9 @@ the artist" sells; "stunning quality you'll love" does not. This skill
 writes copy that knows its reader, leads with what they get, and backs
 every claim with a detail.
 
-For interface text (buttons, errors, empty states) use `microcopy`; for
-plain-English rewrites of technical material, `plainify` (if installed).
+For interface text (buttons, errors, empty states) use `microcopy` (if
+installed); for plain-English rewrites of technical material, `plainify`
+(if installed); for technical SEO, `findable` (if installed).
 
 ## 1. Brief yourself
 
