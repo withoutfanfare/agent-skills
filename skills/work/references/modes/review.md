@@ -25,9 +25,10 @@ or the [review report](../../assets/review-report.md).
 `review` performs the independent review, `raise` creates the pull request,
 and `shepherd` carries it through CI and comment threads until it merges.
 Whatever they hand back is restated in this mode's terms (severity,
-disposition, the stage map). A `review` finding keeps its own severity word
-on the shared scale below, though a "nice to have" minor can drop to
-Polish. Anything brought back begins life as `disposition: Open`. When none
+disposition, the stage map). A `review` finding arrives on the same
+blocker/major/minor scale as below, though a "nice to have" minor can drop
+to Polish; its confidence words certain, likely and possible map to High,
+Medium and Low. Anything brought back begins life as `disposition: Open`. When none
 of them is installed, this file is the process.
 
 ## Inputs

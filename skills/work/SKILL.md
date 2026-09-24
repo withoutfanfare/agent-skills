@@ -226,7 +226,7 @@ Done when: every item on the receipt checklist in that reference holds.
 
 - Boards trail branches, pull requests and deploys, so check both sides.
 - Passing CI says nothing about a browser journey or a product outcome.
-- Report WIP limits and staleness to an owner; never enforce them.
+- Report work-in-progress (WIP) limits and staleness to an owner; never enforce them.
 - A criterion changed after review can stale more than the brief: do the
   freshness pass.
 

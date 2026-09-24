@@ -18,8 +18,10 @@ the job.
 | Lasting decision records | `ledger` | [decision record template](../assets/decision-record.md) |
 | Writing the code | the project's own engineering skills | the project's instruction files |
 
-Convert what comes back into this skill's terms: review findings carry a
-severity on the shared scale and begin as `disposition: Open`; browser
+Convert what comes back into this skill's terms: review findings arrive on
+the same blocker/major/minor scale, their confidence words certain, likely
+and possible map to High, Medium and Low, and they begin as
+`disposition: Open`; browser
 results become `PASS`, `FAIL` or `NEEDS DECISION` against a named release
 candidate, and anything not run gets no verdict.
 

@@ -134,7 +134,8 @@ Unexecuted work gets no verdict, since that would be inventing a result.
 
 ## Scenario results
 
-Three words only:
+Three words only. `NOT_RUN` is an execution state, not a result, and the
+JSON below writes each word with underscores (`NEEDS_DECISION`).
 
 - **PASS**: on the named release candidate, the specified behaviour was
   seen, backed by current evidence that is good enough, and reached through

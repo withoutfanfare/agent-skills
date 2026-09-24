@@ -12,14 +12,12 @@ Just before the receipt, read again:
 - repository: dirty files, branch heads, check results;
 - tracker: state, assignee, cycle, linked pull requests, new comments.
 
-If a
-re-read fails, show the value from the last good read with its time, say it
-may have moved since and why the read failed, and propose nothing that
-depends on it. If no read of it has succeeded at any point in this
-run, say exactly that; never invent a time.
-Never restate an early snapshot as if it were current. Each
-operation stands alone: one failed call does not cast doubt on another that
-just succeeded.
+If a re-read fails, show the value from the last good read with its time,
+say it may have moved since and why the read failed, and propose nothing
+that depends on it. If no read of it has succeeded at any point in this run,
+say exactly that; never invent a time. Never restate an early snapshot as if
+it were current. Each operation stands alone: one failed call does not cast
+doubt on another that just succeeded.
 
 ## Needs you
 
@@ -32,7 +30,9 @@ numbered block. Each entry gives:
 3. one line on what it costs or changes;
 4. the exact words that unblock it: the item key plus a letter for a
    one-off choice (`ABC-123 b`), or for a lasting decision that belongs in a
-   brief or decision record, its `DEC-<n>` id (`DEC-2 a`).
+   brief or decision record, its `DEC-<n>` id (`DEC-2 a`). A `D-<n>` is an
+   open question in a brief's decision table; a `DEC-<n>` is the decision
+   record drafted when that choice will outlive the item.
 
 Readers skip decisions buried in tables, paragraphs or the Next list, so it always has its own entry here as well. Leave the
 heading out only when nothing is needed.

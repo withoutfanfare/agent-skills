@@ -43,7 +43,7 @@ The single worst scenario sets the overall result:
 
 ### UAT-001: <scenario>
 
-- Result: PASS / FAIL / NEEDS DECISION
+- Result: PASS / FAIL / NEEDS DECISION / Not run (reason)
 - Requirement: <criterion or rule ID>
 - Expected: <what the spec says should happen>
 - Observed: <what actually happened>

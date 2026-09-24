@@ -153,7 +153,7 @@ or what is still absent rather than reciting the issue.
 ## When intent changes
 
 Say precisely which pieces may now be out of step: assumptions baked into
-code, reviews, hand-overs, UAT scenarios, evidence already gathered, and the
+code, reviews, handovers, UAT scenarios, evidence already gathered, and the
 conditions for acceptance or release. Anything the change does not touch
 keeps its evidence.
 

@@ -14,10 +14,9 @@ pieces:
 - **Note on entry**: the update the board expects on arrival.
 
 A project with no anchors (no profile, a profile without a lifecycle
-section, or an old-style one) still gets the
-generic names Intent, Build, Review, Document, Verify, Accept and Release,
-but only as labels for modes. None of them can be reported as the evidence
-state.
+section, or an old-style one) still gets the generic names Intent, Build,
+Review, Document, Verify, Accept and Release, but only as labels for modes.
+None of them can be reported as the evidence state.
 
 ## Choosing the evidence state
 
@@ -62,8 +61,8 @@ Every weaker situation keeps the state on the route, gate and all:
   `Inferred` or `Unverified`.
 
 Until the condition is settled, the check that settles it (the changed
-paths) is the first action for that gate,
-ahead of drafting anything for it, since the answer may delete the gate.
+paths) is the first action for that gate, ahead of drafting anything for
+it, since the answer may delete the gate.
 
 ### 4. Report the highest proven anchor
 

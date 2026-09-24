@@ -1,6 +1,6 @@
 # Recover mode
 
-Work that was inherited, abandoned half way, left to go stale or never
+Work that was inherited, abandoned halfway, left to go stale or never
 properly understood needs a safe footing before anyone chooses what to do
 with it. This mode finds that footing. It produces an assessment, and it
 does not drift into writing code.
@@ -10,7 +10,7 @@ If the assessment has to survive past this conversation, fill in
 
 ## Sources
 
-- what the hand-over asks for, and by when;
+- what the handover asks for, and by when;
 - the spec as it stands, with its decisions and acceptance notes;
 - the code: its repository, branch, precise commit, related history and any
   pull requests;
@@ -132,7 +132,7 @@ recovery gate, so it is obvious what needs deciding before anyone carries on.
 
 ## Staying current
 
-A pull-request hand-over or review written earlier only counts once it has
+A pull-request handover or review written earlier only counts once it has
 been regenerated, or checked against the recorded head. If reviewability
 analysis is also safe to do, carry straight on into it within the same
 `work` run instead of asking the user to choose.

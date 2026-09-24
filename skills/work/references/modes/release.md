@@ -11,7 +11,7 @@ release controls.
 Everything here comes from the **Release** section of the
 [delivery profile](../delivery-profile.md). That section should say: which
 branch releases are cut from and who is allowed to merge to it; the
-schedule and its cutoffs; the rule for eligibility; the urgent route; what
+schedule and its cut-offs; the rule for eligibility; the urgent route; what
 triggers a deploy; which smoke checks run; how to roll back; and how an
 issue gets closed. If the profile does not cover something, point that out
 and ask. A release command, window or rollback method is never made up,
@@ -41,7 +41,7 @@ First, test the item against the eligibility rule in the profile, showing
 each part as a tick. Typically that means: the tracker holds the state the
 profile asks for (often `Approved`, with the acceptance owner's sign-off on
 the issue); the item belongs to the current cycle; and it was approved
-before the cutoff. Missing the cutoff means waiting for the next release.
+before the cut-off. Missing the cut-off means waiting for the next release.
 Say so plainly; the schedule is not up for negotiation. The urgent route is
 open only to an item with the profile's urgent priority, and only when the
 release owner calls for it.
@@ -160,7 +160,7 @@ Confirm everything again immediately before executing.
 ## Report
 
 A brief status note, not the runbook written out again. Give the release
-state (one word from the list above), how the smoke checks went, any stop
+state (one state from the list above), how the smoke checks went, any stop
 condition that fired and what it set off, and who owns the next action.
 Link to the Decision-to-Live record and the evidence instead of copying
 them in.

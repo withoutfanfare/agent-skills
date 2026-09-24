@@ -41,9 +41,9 @@ check them where you are and log a missing one as a read gap.
    A state that appears on one side only is a contradiction; report it and
    leave it for the owner.
 4. The active cycle, if release eligibility hangs on it.
-5. The column and its arrival note. If the profile sets WIP limits, count
-   what sits in the current and the next state and report any breach along
-   with who should hear about it. Check whether the note the profile wants
+5. The column and its arrival note. If the profile sets work-in-progress
+   (WIP) limits, count what sits in the current and the next state and
+   report any breach along with who should hear about it. Check whether the note the profile wants
    on arrival in the current state is there; if it is missing, say so and
    draft it.
 

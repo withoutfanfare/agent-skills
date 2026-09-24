@@ -1,14 +1,35 @@
 # Results
 
+## 24 September 2026, late: wording-only re-check
+
+After wording-only edits (spelling, rewraps, one-line clarifications, the
+shared severity scale named in the review hand-off), the Claude Code
+classifier was run again: 72 of 75, with one run each of `no-profile`,
+`legacy-profile-gates-only` and `two-plausible-candidates` failing. To
+separate variance from regression, the committed and edited versions were
+then run side by side on those three fixtures (five runs each), and on
+`legacy-profile-gates-only` alone (ten runs each). `no-profile` and
+`two-plausible-candidates` passed 5 of 5 in both. `legacy-profile-gates-only`
+passed 11 of 15 for the committed version and 15 of 20 for the edited one,
+failing for the same reason each time (the run lists ticked In Review gate
+criteria beneath a correct Unknown map). The fixture is flaky against the
+judge for both versions; the edits did not change behaviour. Codex was not
+re-run.
+
 ## 24 September 2026: rewrite equivalence run
 
 The rewritten skill against the version it replaced. Both were run on the
 same anonymised fixtures, with the same models, flags and scorer.
 
 **Verdict:** the two versions behave the same. In Claude Code both pass
-every run (75 of 75). In Codex they fail on the same fixture: 70 of 75 for
-the rewrite, 69 of 75 for the previous version. Triggering is identical in
-both harnesses. No run in either harness attempted a write.
+every run (75 of 75). In Codex both fail runs of
+`acceptance-scope-changed-after-approval`; the rewrite also fails one run
+of `board-state-missing-from-profile` (70 of 75), and the previous version
+also fails one run each of `stage-in-review-entry-breach`, `terminal-live`
+and `live-without-production-verification` (69 of 75). The README's release
+threshold (every critical fixture passing all five runs in both harnesses)
+was not met in Codex by either version. Triggering is identical in both
+harnesses. No run in either harness attempted a write.
 
 ### Setup
 
