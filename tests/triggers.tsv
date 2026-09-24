@@ -59,3 +59,27 @@ handover	fire	I'm going on leave tomorrow. Write a brief so a colleague can pick
 handover	quiet	Remind me what the payments refactor was about.
 deepen	quiet	This module is confusing. What does it do?
 wargame	quiet	We launch next week. Is there anything I should check?
+hindsight	fire	Checkout was down for two hours yesterday. Help me write up a blameless post-mortem with actions.
+hindsight	quiet	How do I read a stack trace?
+runbook	fire	Write an on-call runbook for when the queue workers stop processing jobs.
+runbook	quiet	What is a message queue?
+watchtower	fire	We're launching the new billing service. What should we monitor and alert on?
+watchtower	quiet	Install the Sentry SDK.
+launchpad	fire	Set up a GitHub Actions pipeline that tests every pull request and deploys main to staging with zero downtime.
+launchpad	quiet	What does CI stand for?
+triage	fire	A customer says invoices show last month's totals since this morning. How serious is this and where should we look?
+triage	quiet	What is the difference between a bug and a feature request?
+unpack	fire	Explain how OAuth works, starting simple, like I'm new to it.
+unpack	quiet	Add OAuth sign-in with GitHub to the app.
+plainify	fire	Rewrite this pull request description in plain English for our client, they're not technical.
+plainify	quiet	Fix the grammar in this sentence: their going to the shop.
+copydesk	fire	Write a product description for our hand-printed A3 botanical prints, and a meta description for the page.
+copydesk	quiet	Write the error message for when an upload fails.
+microcopy	fire	Write the button labels, empty state and error messages for the new invoices screen.
+microcopy	quiet	Write a blog post announcing the invoices feature.
+test-plan	fire	Write a manual QA test plan for the team invitations feature so our testers can run through it.
+test-plan	quiet	Write automated tests for the team invitations feature.
+road-test	fire	Do a full UAT of the checkout journey locally and tell me what's broken.
+road-test	quiet	Write unit tests for the basket total calculation.
+bulletin	quiet	What did we ship last week?
+weekly	quiet	Show me the merged pull requests from last week.
