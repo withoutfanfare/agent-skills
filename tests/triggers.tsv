@@ -49,7 +49,7 @@ sketch	fire	I can't decide between a wizard and a single long form for onboardin
 sketch	quiet	Style this button with a blue background.
 preflight	fire	Here's our implementation plan in docs/plans/billing.md. Sanity-check it before we start building. Any blockers?
 preflight	quiet	Write me an implementation plan for adding search.
-wait-what	fire	Wait, what? You've lost me. Can you say that again in plain English?
+wait-what	fire	You just told me: "the handler is idempotent because the unique constraint on the dedupe key short-circuits the side effects on retry". Wait, what? You've lost me. Say that again in plain English.
 wait-what	quiet	Summarise the README for me.
 catch-up	fire	I've been away for two weeks. Catch me up on what's happened in this project.
 catch-up	quiet	Show me the git log for today.
