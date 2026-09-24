@@ -9,8 +9,10 @@ hooks:
       hooks:
         - type: command
           command: >-
-            sh -c 'for d in "$CLAUDE_PROJECT_DIR/.claude/skills/careful" "$HOME/.claude/skills/careful";
-            do [ -f "$d/scripts/guard.py" ] && exec python3 "$d/scripts/guard.py"; done; exit 0'
+            sh -c 'for d in ${CLAUDE_SKILL_DIR:+"$CLAUDE_SKILL_DIR"}
+            "$CLAUDE_PROJECT_DIR/.claude/skills/careful" "$HOME/.claude/skills/careful";
+            do [ -f "$d/scripts/guard.py" ] && exec python3 "$d/scripts/guard.py"; done;
+            echo "careful: guard script not found, commands are NOT being checked" >&2; exit 0'
 ---
 
 # Careful
@@ -45,9 +47,11 @@ alternative, or dropped it.
 
 ## What is refused
 
-Recursive force deletes, `find -delete`, git force pushes (plain `--force`,
-not `--force-with-lease`), hard resets, `git clean -f`, deleting a main
-branch, `DROP TABLE` or `DROP DATABASE`, `TRUNCATE`, framework commands
+Recursive force deletes (in any flag spelling), `find -delete`, git force
+pushes (`--force`, `-f` or a `+branch` refspec, not `--force-with-lease`),
+deleting a remote branch, hard resets, `git clean -f`, discarding every
+uncommitted change (`git checkout -- .`, `git restore .`), deleting a main
+branch, `DROP TABLE` or `DROP DATABASE`, SQL `TRUNCATE`, framework commands
 that wipe a database, Redis flushes, `kubectl delete`, `terraform destroy`
 or unattended apply, and downloads fed directly to a shell. The patterns
 are in [scripts/guard.py](scripts/guard.py); add patterns as new hazards

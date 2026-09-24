@@ -13,11 +13,12 @@
  * transitions. Without this a full-page capture routinely shows a half
  * faded-in section or a blank gap where a lazy image had not arrived yet.
  *
- * Usage:
- *   node scripts/capture-pages.mjs --base https://example.test \
+ * Usage (from the project root; Playwright is found in the project, or
+ * add `npx -p playwright` in front when the project does not have it):
+ *   node <skill>/scripts/capture-pages.mjs --base https://example.test \
  *     --out design-pack/screenshots --routes / /catalogue /product/example
  *
- *   node scripts/capture-pages.mjs --config routes.json \
+ *   npx -p playwright node <skill>/scripts/capture-pages.mjs --config routes.json \
  *     --out design-pack/screenshots
  *
  * A config file (--config) is a JSON array, either plain route strings or
@@ -36,7 +37,9 @@
  */
 
 import { mkdir } from 'node:fs/promises';
+import { createRequire } from 'node:module';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 function parseArgs(argv) {
     const opts = { routes: [], width: 1440, prefix: '', out: 'screenshots', reveal: 'reveal:in' };
@@ -96,6 +99,27 @@ async function settlePage(page, revealPairs) {
     await page.waitForTimeout(500);
 }
 
+// A bare import('playwright') would look beside this script, in the skill's
+// folder, where it is never installed. Look in the project (the current
+// folder) first, then in any node_modules/.bin on PATH, which is where
+// `npx -p playwright` puts its temporary copy.
+async function loadPlaywright() {
+    const binSuffix = path.join('node_modules', '.bin');
+    const bases = [process.cwd(), ...(process.env.PATH || '').split(path.delimiter)
+        .filter((dir) => dir.endsWith(binSuffix))
+        .map((dir) => path.dirname(path.dirname(dir)))];
+    for (const base of bases) {
+        try {
+            const resolved = createRequire(path.join(base, 'noop.js')).resolve('playwright');
+            const mod = await import(pathToFileURL(resolved).href);
+            return mod.chromium ? mod : mod.default;
+        } catch {
+            // Not installed here; try the next place.
+        }
+    }
+    throw new Error('Playwright not found. Install it in the project, or run: npx -p playwright node <this script> ...');
+}
+
 async function main() {
     const opts = parseArgs(process.argv.slice(2));
     const routes = await loadRoutes(opts);
@@ -103,7 +127,7 @@ async function main() {
 
     await mkdir(opts.out, { recursive: true });
 
-    const { chromium } = await import('playwright');
+    const { chromium } = await loadPlaywright();
     const browser = await chromium.launch();
     const page = await browser.newPage({ viewport: { width: opts.width, height: 900 } });
 

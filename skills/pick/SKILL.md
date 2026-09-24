@@ -33,8 +33,10 @@ debugging).
 
 ## 2. Read the catalogue
 
+Run the bundled script (in Claude Code the folder is `${CLAUDE_SKILL_DIR}`;
+otherwise use the path this skill was linked from):
 ```bash
-python3 .claude/skills/pick/scripts/catalogue.py
+python3 "${CLAUDE_SKILL_DIR:-.}/scripts/catalogue.py"
 ```
 
 This prints the stack signals found in the project folder, the current

@@ -49,7 +49,10 @@ system rather than folding stray values in as if they were intentional;
 [scripts/value_census.py](scripts/value_census.py) greps a directory for
 hex/rgb/hsl colours and length values and counts how often each one
 repeats, which is a fast way to tell a token from a one-off before you
-start reading component code closely.
+start reading component code closely. It counts literal values only, so
+Tailwind classes (`bg-blue-600`, `p-4`) are missed: in a Tailwind project,
+read the theme config and grep the class names instead. It skips
+`node_modules`, `vendor`, `dist` and `public/build`.
 
 Done when: every value you plan to document is backed by a source file
 and a usage count, and the drift list is separate from it.

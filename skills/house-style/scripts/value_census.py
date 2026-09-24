@@ -17,13 +17,19 @@ Usage:
 Only colour (hex, rgb(a), hsl(a)) and length (px, rem, em) literals are
 counted. CSS variable *declarations* like `--brand: #2563eb;` are counted
 under the value they declare, so a well-tokenised codebase naturally shows
-its tokens as the highest counts.
+its tokens as the highest counts. Tailwind utility classes (`bg-blue-600`,
+`p-4`) are not literals, so they are not counted.
+
+Dependency and build folders (node_modules, vendor, dist, public/build,
+.git) are skipped, so only the project's own code is counted.
 """
 import argparse
 import re
 import sys
 from collections import Counter
 from pathlib import Path
+
+SKIP_DIRS = {"node_modules", "vendor", "dist", ".git"}
 
 STYLE_EXTENSIONS = {".css", ".scss", ".sass", ".less", ".vue", ".jsx", ".tsx", ".js", ".ts", ".blade.php", ".html"}
 
@@ -35,9 +41,16 @@ LENGTH_PATTERN = re.compile(
 )
 
 
+def skipped(path: Path, root: Path) -> bool:
+    folders = path.relative_to(root).parts[:-1]
+    if SKIP_DIRS.intersection(folders):
+        return True
+    return any(a == "public" and b == "build" for a, b in zip(folders, folders[1:]))
+
+
 def iter_style_files(root: Path):
     for path in root.rglob("*"):
-        if not path.is_file():
+        if not path.is_file() or skipped(path, root):
             continue
         name = path.name.lower()
         if any(name.endswith(ext) for ext in STYLE_EXTENSIONS):
@@ -92,7 +105,7 @@ def main():
         print(f"  {count:>4}  {kind:<7} {value}")
 
     one_offs = sum(1 for v in counts.values() if v < args.min)
-    print(f"\n{one_offs} distinct value(s) seen fewer than {args.min} time(s) — check these by hand before calling them drift.")
+    print(f"\n{one_offs} distinct value(s) seen fewer than {args.min} time(s): check these by hand before calling them drift.")
 
 
 if __name__ == "__main__":

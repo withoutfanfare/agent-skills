@@ -17,10 +17,14 @@ import os
 import re
 import sys
 import unicodedata
+from urllib.parse import unquote
 
-LINK_RE = re.compile(r"(?<!!)\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
+# A destination is either <in angle brackets, spaces allowed> or bare.
+LINK_RE = re.compile(r"(?<!!)\[[^\]]*\]\((<[^>]*>|[^)\s]+)(?:\s+\"[^\"]*\")?\)")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*#*$", re.M)
 FENCE_RE = re.compile(r"```.*?```|~~~.*?~~~", re.S)
+CODE_SPAN_RE = re.compile(r"(`+)(.+?)\1")
+FOLDER_PAGES = ("readme", "index")
 
 
 def slugify(heading):
@@ -34,6 +38,27 @@ def slugify(heading):
 
 def strip_code_fences(text):
     return FENCE_RE.sub("", text)
+
+
+def heading_slugs(text):
+    """Slugs for every heading. A repeated heading gets -1, -2 and so on,
+    as GitHub and most renderers do."""
+    slugs, seen = set(), {}
+    for _, heading in HEADING_RE.findall(text):
+        base = slugify(heading)
+        count = seen.get(base, 0)
+        seen[base] = count + 1
+        slugs.add(base if count == 0 else f"{base}-{count}")
+    return slugs
+
+
+def folder_page(folder, exts):
+    """The README or index page a link to a folder shows, if there is one."""
+    for name in sorted(os.listdir(folder)):
+        stem, ext = os.path.splitext(name)
+        if stem.lower() in FOLDER_PAGES and ext in exts:
+            return os.path.join(folder, name)
+    return None
 
 
 def find_docs(root, exts):
@@ -69,7 +94,7 @@ def main():
     anchors_by_file = {}
     for path in docs:
         text = strip_code_fences(load(path))
-        anchors_by_file[path] = {slugify(h) for _, h in HEADING_RE.findall(text)}
+        anchors_by_file[path] = heading_slugs(text)
 
     incoming = {path: 0 for path in docs}
     broken_links, broken_anchors = [], []
@@ -77,15 +102,19 @@ def main():
     for path in docs:
         text = strip_code_fences(load(path))
         for lineno, line in enumerate(text.splitlines(), start=1):
-            for target in LINK_RE.findall(line):
+            for target in LINK_RE.findall(CODE_SPAN_RE.sub("", line)):
+                if target.startswith("<"):
+                    target = target[1:-1]
                 if re.match(r"^[a-z][a-z0-9+.-]*:", target, re.I):
                     continue  # scheme link (http, mailto, tel...): not ours to check
-                file_part, _, anchor = target.partition("#")
+                file_part, _, anchor = unquote(target).partition("#")
                 if not file_part:
                     if anchor and slugify(anchor) not in anchors_by_file[path]:
                         broken_anchors.append((path, lineno, target))
                     continue
                 candidate = os.path.normpath(os.path.join(os.path.dirname(path), file_part))
+                if os.path.isdir(candidate):
+                    candidate = folder_page(candidate, exts) or candidate
                 if not os.path.isfile(candidate):
                     broken_links.append((path, lineno, target))
                     continue

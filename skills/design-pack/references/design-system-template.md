@@ -6,6 +6,12 @@ one padded with guesses. Aim for 300 to 500 lines: much shorter and there
 is not enough to work from, much longer and the important rules get lost
 in the rest.
 
+**Every value traces back to code or a rendered page.** Resolve a
+`clamp()` to a real pixel figure at a stated viewport. Check a claim
+before writing it down, such as confirming a button label in the source
+before calling it the standard one. A guessed rationale is worse than
+leaving the line out, because whatever you write here gets followed.
+
 ## 1. What it looks and feels like
 
 One paragraph, written last, after you have looked through the
@@ -92,7 +98,9 @@ duplicated here.
 The most useful section, and the one that is easiest to skip. Everything
 above describes the target; this describes the dead ends, which is far
 more actionable because it comes from this product's own history rather
-than general best practice.
+than general best practice. A rule paired with the real decision that
+produced it is far more useful than a list of dos, and it is the one part
+a plain CSS scan can never produce on its own.
 
 Look for it in commit messages describing a revert, review comments,
 retrospectives, or a written changelog. Write each one as a short rule plus

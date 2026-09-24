@@ -18,7 +18,6 @@ It reports, for the current project (found by walking up to the nearest
 No arguments are required and no external packages are used, only the
 standard library.
 """
-import os
 import re
 import sys
 from pathlib import Path
@@ -126,7 +125,7 @@ def read_manifest(path: Path) -> str:
 
 
 def linked_names(root: Path):
-    """Names of symlinks pointing into the library, from both tool folders."""
+    """Names of every symlinked skill in both tool folders, from any library."""
     names = set()
     for rel in (".claude/skills", ".agents/skills"):
         d = root / rel

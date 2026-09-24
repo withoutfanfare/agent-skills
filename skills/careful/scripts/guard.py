@@ -8,15 +8,23 @@ import json
 import re
 import sys
 
+# Keeps a match inside one command, so flags from the next command in a chain
+# (after ;, && or |) are not counted.
+ARGS = r"[^;&|\n]*"
+
 RULES = [
-    (r"\brm\s+(-\w*r\w*f|-\w*f\w*r)\w*\b", "recursive force delete"),
+    (r"(?<![\w-])rm\b(?=" + ARGS + r"\s(-\w*r|--recursive\b))(?=" + ARGS + r"\s(-\w*f|--force\b))",
+     "recursive force delete"),
     (r"\bfind\b.*\s-delete\b", "find -delete"),
-    (r"\bgit\s+push\b.*(\s--force(?!-with-lease)\b|\s-f\b)", "git force push"),
+    (r"\bgit\s+push\b" + ARGS + r"(\s--force(?!-with-lease|-if-includes)\b|\s-\w*f\w*\b|\s\+\S)",
+     "git force push"),
+    (r"\bgit\s+push\b" + ARGS + r"(\s--delete\b|\s-d\b|\s:\S)", "deleting a remote branch"),
     (r"\bgit\s+reset\s+--hard\b", "git hard reset"),
-    (r"\bgit\s+clean\s+-\w*f", "git clean -f"),
+    (r"\bgit\s+clean\b" + ARGS + r"\s(-\w*f|--force\b)", "git clean -f"),
+    (r"\bgit\s+(checkout\s+--|restore)\s+\.(\s|$)", "discarding all uncommitted changes"),
     (r"\bgit\s+branch\s+-D\s+(main|master|develop)\b", "deleting a main branch"),
     (r"\bdrop\s+(table|database|schema)\b", "DROP TABLE or DATABASE"),
-    (r"(^|[^a-z])truncate(\s+table)?\s", "TRUNCATE"),
+    (r"\btruncate\s+(table\b|[\w.`\"]+\s*(;|[\"']|$))|(^|[;&|]\s*)truncate\s+-", "TRUNCATE"),
     (r"\bartisan\s+(migrate:fresh|migrate:reset|db:wipe)\b", "wiping the database"),
     (r"\b(flushall|flushdb)\b", "flushing Redis"),
     (r"\bkubectl\s+delete\b", "kubectl delete"),

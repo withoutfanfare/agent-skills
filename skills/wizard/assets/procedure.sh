@@ -146,6 +146,14 @@ _saved_value() {
   printf '%s' "$raw"
 }
 
+# _input_closed - input ended (Ctrl-D, or a pipe ran dry) before a
+# required answer arrived. Stop, rather than re-prompt forever.
+_input_closed() {
+  printf '\n'
+  caution "input closed before this was answered - stopping; run it again to carry on"
+  exit 1
+}
+
 # collect VAR "Prompt" - visible input, re-prompting until non-empty; Enter
 # alone keeps a previously saved value.
 collect() {
@@ -157,7 +165,7 @@ collect() {
     else
       printf '  %s%s%s ' "$C_BOLD" "$prompt" "$C_OFF"
     fi
-    read -r answer || true
+    read -r answer || [[ -n "$answer" ]] || _input_closed
     [[ -z "$answer" && -n "$saved" ]] && answer="$saved"
     [[ -n "$answer" ]] && break
     caution "that cannot be empty - try again"
@@ -175,7 +183,7 @@ collect_hidden() {
     else
       printf '  %s%s%s ' "$C_BOLD" "$prompt" "$C_OFF"
     fi
-    read -rs answer || true
+    read -rs answer || [[ -n "$answer" ]] || _input_closed
     printf '\n'
     [[ -z "$answer" && -n "$saved" ]] && answer="$saved"
     [[ -n "$answer" ]] && break
@@ -201,7 +209,7 @@ _quote_for_env() {
 }
 
 env_upsert() {
-  local key="$1" value="$2" scratch
+  local key="$1" value="$2" scratch rc=0
   if [[ "$value" == *$'\n'* ]]; then
     caution "not writing $key - the value has a newline in it"
     LEFT_FOR_LATER+=("$key in $ENV_TARGET (multiline value, add by hand)")
@@ -209,7 +217,15 @@ env_upsert() {
   fi
   touch "$ENV_TARGET"
   scratch=$(mktemp)
-  grep -vE "^${key}=" "$ENV_TARGET" > "$scratch" || true
+  # grep exits 1 when every line matched the key (nothing to keep); only
+  # 2 or more means it failed, and moving that output in would lose the file.
+  grep -vE "^${key}=" "$ENV_TARGET" > "$scratch" || rc=$?
+  if (( rc > 1 )); then
+    rm -f "$scratch"
+    caution "could not read $ENV_TARGET - $key not saved"
+    LEFT_FOR_LATER+=("$key in $ENV_TARGET (the file could not be read)")
+    return
+  fi
   printf '%s="%s"\n' "$key" "$(_quote_for_env "$value")" >> "$scratch"
   mv "$scratch" "$ENV_TARGET"
   ENV_KEYS_WRITTEN+=("$key")
@@ -252,6 +268,7 @@ ci_variable() {
     (cd "$PROJECT_ROOT" && gh variable set "$name" --body "$value") >/dev/null 2>&1 || ok=0
   fi
   if [[ "$ok" -eq 1 ]]; then
+    CI_NAMES_WRITTEN+=("$name")
     printf '  %s** set%s repository variable %s\n' "$C_GREEN" "$C_OFF" "$name"
     return
   fi
@@ -290,7 +307,7 @@ intro "Example service setup"
 
 # -- Sample step: replace with the real procedure -------------------------
 begin_step "Example service - API keys"
-explain "This collects the API keys and save them for local use and CI."
+explain "This collects the API keys and saves them for local use and CI."
 visit "https://example.com/dashboard/api-keys"
 instruct "Copy the publishable key shown on that page."
 collect EXAMPLE_PUBLISHABLE_KEY "Paste the publishable key:"

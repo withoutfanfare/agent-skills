@@ -9,8 +9,10 @@ hooks:
       hooks:
         - type: command
           command: >-
-            sh -c 'for d in "$CLAUDE_PROJECT_DIR/.claude/skills/freeze" "$HOME/.claude/skills/freeze";
-            do [ -f "$d/scripts/guard.py" ] && exec python3 "$d/scripts/guard.py"; done; exit 0'
+            sh -c 'for d in ${CLAUDE_SKILL_DIR:+"$CLAUDE_SKILL_DIR"}
+            "$CLAUDE_PROJECT_DIR/.claude/skills/freeze" "$HOME/.claude/skills/freeze";
+            do [ -f "$d/scripts/guard.py" ] && exec python3 "$d/scripts/guard.py"; done;
+            echo "freeze: guard script not found, edits are NOT being checked" >&2; exit 0'
 ---
 
 # Freeze
@@ -56,7 +58,8 @@ to lift it.
 ## Limits
 
 - Only the editing tools are checked. Shell commands (`sed -i`, redirects,
-  `tee`) can still change files. Pair with `careful` when that matters.
+  `tee`) can still change files, and `careful` does not catch them either,
+  so the rule in step 3 is what holds.
 - The scope file belongs to the project root of this session. In a git
   worktree, that is the worktree, not the main checkout.
 - Deleting the scope file lifts the freeze silently, which is why the file

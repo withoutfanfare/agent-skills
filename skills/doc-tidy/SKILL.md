@@ -35,10 +35,12 @@ a last-changed date.
 
 ## 2. Scan for broken links
 
-Run the link mapper against each docs folder:
+Run the link mapper bundled with this skill against each docs folder (in
+Claude Code the skill's folder is `${CLAUDE_SKILL_DIR}`; otherwise use the
+path this skill was linked from):
 
 ```bash
-python3 scripts/doc_map.py docs/
+python3 "${CLAUDE_SKILL_DIR:-.}/scripts/doc_map.py" docs/
 ```
 
 It reports broken internal links, broken heading anchors, and files with
