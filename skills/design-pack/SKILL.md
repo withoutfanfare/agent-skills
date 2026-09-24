@@ -11,7 +11,7 @@ allowed-tools: Read Write Edit Bash Grep Glob
 Design tools that learn a house style from uploaded material are only as
 good as what gets uploaded. A folder of random screenshots and a copied
 colour list teaches them the wrong lesson: which page happened to be open,
-not what the system actually is. This skill turns a codebase into a
+not what the system is. This skill turns a codebase into a
 focused pack: real tokens, a written account of the rules, screenshots
 chosen to show every layout, and any text the tool's setup form asks for.
 
@@ -110,7 +110,7 @@ or png. If the folder is heavy and inside the repository, say so, so it
 can be gitignored.
 
 Done when: every folder above exists with real content or is left out
-because the project genuinely has none.
+because the project has none.
 
 ## 7. Draft the upload form text, if the tool needs it
 
@@ -123,7 +123,7 @@ does not ask for them.
 
 ## 8. Verify before handing over
 
-State what you actually checked: screenshot dimensions read back and a few
+State what you checked: screenshot dimensions read back and a few
 opened and looked at, the token file's structure (balanced braces, the
 blocks you expected), and the file count in each pack folder. Against each
 claim in `design-system.md`, note how you confirmed it.
@@ -139,6 +139,6 @@ between what you checked and what only the upload itself will confirm.
 - Every screenshot shows a distinct layout, none carry real user data, and
   the tall ones were checked at the bottom, not just the top.
 - Every value in `design-system.md` and `tokens.css` traces to a file or a
-  rendered page you actually looked at, not a guess.
+  rendered page you looked at, not a guess.
 - The person uploading the pack knows exactly what to drag in, what to
   leave out, and what still needs checking after upload.

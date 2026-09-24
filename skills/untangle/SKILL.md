@@ -54,7 +54,7 @@ untouched.
 
 For each conflicted file, work out what each side was trying to do before
 editing a line. The resolution keeps both behaviours. When the two sides
-genuinely contradict each other, stop and ask rather than guess whose
+contradict each other, stop and ask rather than guess whose
 intent wins.
 
 Lockfiles (`package-lock.json`, `composer.lock`, `yarn.lock`, `Cargo.lock`)

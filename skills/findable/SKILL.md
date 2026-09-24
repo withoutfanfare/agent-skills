@@ -60,7 +60,7 @@ Cover, per page:
 - **Open Graph and Twitter card tags**: title, description, image and type,
   so shared links render properly.
 - **Robots directive**: explicit `index, follow` on public pages, and
-  `noindex` only where genuinely intended (thank-you pages, internal
+  `noindex` only where intended (thank-you pages, internal
   search results, duplicate filtered views).
 
 Build this from a single place per page type (a template, a component, a
@@ -109,7 +109,7 @@ internal paths, and always list the sitemap. Framework-specific generation
 detail is in [references/sitemaps-and-robots.md](references/sitemaps-and-robots.md).
 
 Done when: fetching the live sitemap URL returns valid XML with no dead
-links, and `robots.txt` disallows only paths that genuinely shouldn't be
+links, and `robots.txt` disallows only paths that shouldn't be
 crawled.
 
 ## 5. Strengthen internal links
@@ -154,7 +154,7 @@ Done when: the report lists concrete changes per page type, not a generic
 
 - Every page type has a unique title and description built from its own
   data, not a copy-pasted default.
-- The sitemap and robots.txt agree with each other and with what's actually
+- The sitemap and robots.txt agree with each other and with what's
   live.
 - Structured data validates and Core Web Vitals fixes carry a real
   measurement, not just the code.

@@ -25,7 +25,7 @@ running any command below; every example uses a placeholder domain.
 
 ## 1. Get the exact symptom
 
-Reproduce the failure and capture what actually comes back, not a
+Reproduce the failure and capture what comes back, not a
 paraphrase of it: a browser error screen, a connection refused, a 502, a
 blank response, or the wrong content entirely. The exact wording narrows
 which of the three causes below is likely before you touch anything.
@@ -72,7 +72,7 @@ and worker set up from its own configuration, so nothing is lost.
 Done when: `ps aux | grep nginx` shows a fresh master and worker set, and
 the symptom from step 1 either changes or is ruled out.
 
-## 3. Check the site is actually linked and secured
+## 3. Check the site is linked and secured
 
 A site that returns "not found" at the domain level, rather than an error
 from the application, usually was never linked, or its link broke.
@@ -135,7 +135,7 @@ expected status code and body), not just "no error was printed".
 
 - You can point to the exact one of nginx, linking, or PHP version that
   was wrong, not a guess at which fix "probably" did it.
-- The final check in step 5 was actually run and its real output read,
+- The final check in step 5 was run and its real output read,
   not assumed from the fix having been applied.
 - No site name, domain, or folder path from this session was hardcoded
   into anything left behind, so the same steps work unchanged for a

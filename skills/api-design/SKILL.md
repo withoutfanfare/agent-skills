@@ -131,7 +131,7 @@ does not break most clients immediately, but it breaks any tooling that
 inspects status codes to decide whether to retry, which is most HTTP
 client libraries.
 
-Done when: each endpoint's success status matches what it actually did, not
+Done when: each endpoint's success status matches what it did, not
 a copy-pasted `200` from a neighbouring endpoint.
 
 ## 7. Write it down where clients will find it

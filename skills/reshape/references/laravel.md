@@ -24,7 +24,7 @@ Anything more is a candidate to move.
 
 Eloquent is already a data-access layer. Add a repository only when there
 is a real need: complex queries reused in many places, or a data source
-that genuinely might change. Otherwise, scopes and query objects are
+that might change. Otherwise, scopes and query objects are
 lighter.
 
 ## Useful checks while refactoring

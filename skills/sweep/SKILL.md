@@ -15,7 +15,7 @@ allowed-tools: Bash Read Edit Write Grep Glob
 
 A script that edits two hundred files can fix two hundred problems or
 create two hundred subtle ones. The difference is process: a baseline to
-compare against, a dry run you actually read, a small sample before the
+compare against, a dry run you read, a small sample before the
 full run, and a count afterwards that proves nothing new appeared.
 
 For restructuring one area by hand, use `reshape` (if installed).

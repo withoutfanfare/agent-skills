@@ -25,7 +25,7 @@ writes its notes, placed beside the lines they question.
 
 Read every target document in full (the spec before the plan, because the
 plan inherits its assumptions). Note its status: a draft is reviewed for
-direction, an approved plan for whether it can actually be carried out.
+direction, an approved plan for whether it can be carried out.
 
 List every checkable claim in a scratch file, with where it appears:
 paths, functions, tables and packages; versions and branch state;
@@ -62,8 +62,8 @@ as a blocker wastes someone's decision.
 - **Blocker:** the plan cannot be carried out as written, or doing so
   would break a stated constraint or lose data.
 - **Push back:** a decision you would make differently. Offer the
-  alternative that is cheaper or less risky, and what it would cost. Scope counts: name the slice that could
-  ship alone.
+  alternative that is cheaper or less risky, and what it would cost. Scope
+  counts: name the slice that could ship alone.
 - **Suggestion:** improves the plan; work can proceed without it.
 - **Question:** needs an answer before a task can start; give both
   readings and which you would take.

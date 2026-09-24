@@ -13,7 +13,7 @@ allowed-tools: Read Grep Glob Bash Write Edit
 
 # Takeaways
 
-During real work you build a detailed picture of how the system actually
+During real work you build a detailed picture of how the system
 behaves: which documentation was wrong, which signal sent you the wrong
 way, which approach failed and why. It evaporates when the session ends.
 The most valuable parts are the ones nobody would think to write down

@@ -30,7 +30,7 @@ audience: it is the safer failure.
 Done when: an audience is set, either stated or defaulted to public with
 that noted in the report.
 
-## 2. Gather what will actually travel
+## 2. Gather what will travel
 
 Read every file named, plus anything they point at: a config that loads
 from an `.env`, a log that references a request ID worth pulling, a

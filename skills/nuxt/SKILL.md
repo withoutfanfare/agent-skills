@@ -34,7 +34,7 @@ A page under `app/pages/` is routed by its path and filename; there is no
 router file to edit by hand. `[id].vue` captures one dynamic segment,
 `[...rest].vue` catches everything below it, and a folder without an
 `index.vue` has no route of its own. When a page seems unreachable, check
-its file is actually where the URL implies before suspecting the router.
+its file is where the URL implies before suspecting the router.
 
 A server endpoint follows the same idea under `server/api/` (JSON) or
 `server/routes/` (anything else), with the HTTP verb as a filename suffix:
@@ -74,7 +74,7 @@ Anything under `app/` (pages, components, `app.vue`) is bundled for the
 client. Database access, third-party API keys and anything from
 `server/utils/` belongs only in `server/`, never imported from a page or
 component, even indirectly through a shared file. A stray import like this
-produces no build error; it just puts a secret in a file anyone can view.
+produces no build error; it puts a secret in a file anyone can view.
 
 Done when: a search of the client build output for a server-only symbol or
 secret finds nothing.
@@ -83,11 +83,12 @@ secret finds nothing.
 
 Server-side rendering is Nuxt's default, and it is wrong for anything that
 depends on a browser-only API. Turn it off for a whole route in
-`nuxt.config.ts` with `routeRules: { '/admin/**': { ssr: false } }`, or wrap the browser-only part in `<ClientOnly>` for a section of
-one, rather than reaching for `window` or `localStorage` in code that also
-runs on the server. A hydration mismatch warning in the console almost
-always means the server-rendered markup and the first client render
-disagree, usually because of exactly this.
+`nuxt.config.ts` with `routeRules: { '/admin/**': { ssr: false } }`, or wrap
+the browser-only part in `<ClientOnly>` for a section of one, rather than
+reaching for `window` or `localStorage` in code that also runs on the
+server. A hydration mismatch warning in the console almost always means the
+server-rendered markup and the first client render disagree, usually because
+of exactly this.
 
 Done when: the page's rendered HTML (viewed as the server sent it, not the
 live DOM) contains what SSR is meant to provide, and the console shows no
@@ -119,7 +120,7 @@ project's own preview, and report what the network tab and console showed,
 not what the code is supposed to do.
 
 Done when: typecheck and build both complete without error, and you can
-describe the requests and console output you actually saw for the page you
+describe the requests and console output you saw for the page you
 changed.
 
 ## 7. Match the deployment target to what the app needs at runtime
@@ -132,12 +133,12 @@ SSR working. Pick deliberately, and re-check the choice whenever a static
 site grows its first API route, since a static rebuild will drop it without
 a build failure to flag it.
 
-Done when: the deployment command matches whether the app actually needs a
+Done when: the deployment command matches whether the app needs a
 running server at request time.
 
 ## It's working if
 
-- Every route, page and endpoint, is reachable at the URL its file path and
+- Every route, page and endpoint is reachable at the URL its file path and
   filename suggest, with no manually registered route anywhere.
 - `nuxi typecheck` and `nuxi build` (or the project's equivalents) both
   complete cleanly, and a real page load shows the expected requests with

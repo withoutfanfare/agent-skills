@@ -3,7 +3,7 @@
 Structured data is a block of JSON describing the page's content in terms
 a search engine already understands. It doesn't change what a user sees;
 it changes what can appear in results (a star rating, a price, an event
-date). Add one block per page, matched to what the page actually is.
+date). Add one block per page, matched to what the page is.
 
 ## Product page
 
@@ -87,9 +87,9 @@ policies and can get the listing penalised.
   rating or availability the visible page doesn't show is treated as
   spam by some search engines, not just ignored.
 - **Validate every time, not just the first time.** A refactor that
-  renames a field silently breaks the JSON without touching the rendered
+  renames a field breaks the JSON without touching the rendered
   page, so nobody notices until a search console report flags it weeks
   later. Run a schema validator after any change nearby.
 - **One schema type per concept.** Don't wrap a Product schema and an
   Article schema around the same block trying to cover both; pick the type
-  that matches what the page actually is.
+  that matches what the page is.

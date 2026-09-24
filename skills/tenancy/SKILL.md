@@ -58,7 +58,7 @@ Whichever method you pick, resolve it from the host matched against
 tenants you know, or from the authenticated user, never from a value the
 client can freely set such as a form field or query string. The host is
 client-supplied too, so it only selects a tenant; it grants nothing. After
-resolving, confirm the signed-in user actually belongs to that tenant, or
+resolving, confirm the signed-in user belongs to that tenant, or
 anyone can point a request at `other-tenant.example.com` with their own
 session. A request claiming `?tenant_id=4` proves nothing.
 
@@ -99,7 +99,7 @@ the tenant explicitly into the job (an id or the resolved record) and have
 the job re-establish tenant context for itself at the start of its work,
 the same way the request middleware would.
 
-A job that silently runs unscoped either does nothing useful (the global
+A job that runs unscoped either does nothing useful (the global
 scope finds no tenant and returns nothing) or, worse, touches every
 tenant's data at once. Check any code that catches "no tenant resolved" and
 treats it as "all tenants" rather than an error.

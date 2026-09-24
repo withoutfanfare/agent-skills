@@ -59,7 +59,7 @@ For anything beyond a trivial form, put the fields and validation rules on
 a Form Object rather than the component itself, and call it from the
 component's action method. Use `wire:model` for input that only needs to
 sync on submit (the default since Livewire 3), and reach for `wire:model.live`
-only where the interface genuinely needs to react before that, since every
+only where the interface needs to react before that, since every
 `.live` binding is a round trip on every keystroke.
 
 Validate on submit with the form's own validation, and on a per-field basis
@@ -67,7 +67,7 @@ with an `updated{Property}()` hook calling `validateOnly()` where
 field-level feedback matters.
 
 Done when: validation rules live in one place, and a bad submission is
-rejected with the field-level error the user actually needs to see.
+rejected with the field-level error the user needs to see.
 
 ## 4. Handle tables, modals and uploads deliberately
 
@@ -84,7 +84,7 @@ rejected with the field-level error the user actually needs to see.
   record is saved.
 - **Nested components in a loop**: always set `:key` to a stable, unique
   value. Without it, adding, removing or reordering items lets a child
-  silently keep displaying another item's state.
+  keep displaying another item's state.
 
 Done when: each of these that the component uses behaves correctly after
 an add, remove or reorder, not just on first render.

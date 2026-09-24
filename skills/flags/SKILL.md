@@ -87,7 +87,7 @@ down somewhere other than your memory.
 ## 4. Check the flag in the same way everywhere it appears
 
 A flag checked with a plain string in some places and a constant or a
-typo'd name in others silently drifts out of sync. Search the codebase for
+typo'd name in others drifts out of sync. Search the codebase for
 every place the new behaviour needs to branch: server-side logic,
 templates/views, client-side code, and routing or middleware. Use one
 canonical name or constant for the flag and reference it, rather than

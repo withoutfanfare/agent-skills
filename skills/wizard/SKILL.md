@@ -26,7 +26,7 @@ up where it left off.
 
 ## 1. Work out every step and every value
 
-Before writing anything, read the project for what the procedure actually
+Before writing anything, read the project for what the procedure
 needs: `.env` and `.env.example` files, README setup notes, CI workflow
 files (search for the secrets and variables they reference), and any
 existing setup scripts. For a migration or cutover, work out the current
@@ -66,7 +66,7 @@ item from step 1, in order, and update the step count.
 Match the template's helpers to what each step needs: open the target page
 before asking for a value, use the hidden-entry helper for anything
 secret, write every value that belongs in the env file, only push to CI
-what the workflow actually reads, and gate any irreversible action behind
+what the workflow reads, and gate any irreversible action behind
 a yes/no confirmation.
 
 Keep the guard that refuses to write the env file anywhere outside the

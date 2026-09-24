@@ -19,7 +19,7 @@ added because nobody got round to it, and a migration that locks a live
 table because nobody asked what it would cost. This skill designs the
 shape first, then writes the migration to match it.
 
-## 1. Work out what you are actually storing
+## 1. Work out what you are storing
 
 List the entities the feature needs and, for each one, how it is
 identified, which other entities it belongs to or owns, and roughly how
@@ -60,10 +60,10 @@ shapes it is, because the shape decides where the foreign key lives:
 | One record can belong to several different kinds of thing (polymorphic) | A type column plus an id column on the dependent table |
 
 For a many-to-many join table, name it after both sides
-(`order_product`, not `order_items` if `order_items` actually carries its
+(`order_product`, not `order_items` if `order_items` carries its
 own data like quantity and price, which makes it a real table, not a pure
 join). Add a unique constraint on the pair of foreign keys so the same
-pairing cannot be inserted twice, unless the join genuinely allows
+pairing cannot be inserted twice, unless the join allows
 repeats.
 
 Then decide, for every foreign key, what happens when the row it points

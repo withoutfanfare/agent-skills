@@ -14,7 +14,7 @@ allowed-tools: Read Grep Glob Bash Edit Write
 # Notify
 
 A notification class that compiles is not a notification a user ever
-receives. This skill builds the message for the channels it actually needs,
+receives. This skill builds the message for the channels it needs,
 wires it to fire on the right event, and proves delivery with a fake rather
 than a real email landing in someone's inbox during development.
 
@@ -42,7 +42,7 @@ Done when: the trigger and recipient are both named, not implied.
 
 A notification can go to more than one channel at once, but each channel
 adds a place it can fail silently, so only add the ones the requirement
-actually needs. If the recipient can choose their channel, read that
+needs. If the recipient can choose their channel, read that
 preference rather than hard-coding one.
 
 Done when: the channel list is justified by the requirement, not just
@@ -71,14 +71,14 @@ still hears about it through the channel that worked, and the failure is
 recorded somewhere a person will see it, not just logged and forgotten.
 
 Done when: the notification is queued, and a single channel's failure is
-handled without silently swallowing it.
+handled without swallowing it.
 
 ## 5. Prove delivery with fakes, then check the real path once
 
 In tests, fake the outbound channel and assert the notification was
 queued or sent, with the right recipient and the right content, not just
 that no exception was thrown. Separately, confirm at least once (locally
-or in a staging environment) that the real channel actually delivers: a
+or in a staging environment) that the real channel delivers: a
 faked assertion proves the code path, not the provider configuration.
 
 Done when: a test asserts the notification was sent with specific content,
@@ -101,5 +101,5 @@ and the passing test from step 5.
   content, not a single generic assertion covering all of them.
 - A failure on one channel does not silently prevent the others or vanish
   unseen.
-- The real channel has been checked to actually deliver at least once, not
+- The real channel has been checked to deliver at least once, not
   only faked in tests.

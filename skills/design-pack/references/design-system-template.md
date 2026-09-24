@@ -20,12 +20,12 @@ work: type, photography, illustration, data, white space. Say what the
 product deliberately avoids as well as what it does.
 
 This paragraph carries more weight than any table below it. It is what
-keeps generated output from drifting toward a generic default look.
+keeps generated output from drifting towards a generic default look.
 
 ## 2. Colour
 
 Start with backgrounds, layered darkest or lightest first, then the text
-colours in their ramp, then accent colours in the order they are actually
+colours in their ramp, then accent colours in the order they are
 used (which one carries the most weight, which is reserved for rare
 moments). Where the code or docs record why a colour was chosen, include
 it: a rationale tells a designer something a hex value cannot.
@@ -106,9 +106,9 @@ Look for it in commit messages describing a revert, review comments,
 retrospectives, or a written changelog. Write each one as a short rule plus
 the real instance that produced it:
 
-> **A label repeated on every card carries no information and just adds
+> **A label repeated on every card carries no information and adds
 > noise.** One listing page put the same status word on 19 of 22 cards.
-> Removing it, rather than restyling the card, was what actually calmed
+> Removing it, rather than restyling the card, was what calmed
 > the page down.
 
 If the project's history has nothing recorded, say that plainly rather

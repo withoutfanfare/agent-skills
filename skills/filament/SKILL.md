@@ -14,7 +14,7 @@ allowed-tools: Read Grep Glob Bash Edit Write
 
 A Filament resource that renders is not the same as one an authorised user
 can use and an unauthorised one is blocked from. This skill builds the
-resource's form, table and actions, wires it to a policy that actually
+resource's form, table and actions, wires it to a policy that
 runs, and proves both the access it grants and the access it denies.
 
 It targets Filament 4, where forms are schemas (`Filament\Schemas\Schema`,
@@ -38,7 +38,7 @@ form).
 Done when: you know which fields go on the form, which on the table, and
 which are deliberately left off both.
 
-## 2. Build the form around how it will actually be edited
+## 2. Build the form around how it will be edited
 
 Group related fields with `Section::make()`, and mark a field `->live()`
 only where another field needs to react to it (a slug generated from a
@@ -53,17 +53,17 @@ takes the relationship's method name, not the foreign key column.
 Done when: every field that should react to another one is marked
 `->live()`, and none that shouldn't are.
 
-## 3. Build the table for how it will actually be scanned
+## 3. Build the table for how it will be scanned
 
 Add `->searchable()` and `->sortable()` to the columns someone will
-actually search or sort by, not every column reflexively. Use filters for
-the dimensions users will actually narrow by (status, owner, date range).
+search or sort by, not every column reflexively. Use filters for
+the dimensions users will narrow by (status, owner, date range).
 Bulk actions can sit in a `BulkActionGroup::make([...])` dropdown or be
 listed directly as buttons; both work, so follow what the panel already
 does.
 
 Done when: the columns, filters and actions match how the resource will
-actually be used, not just what the generator produced.
+be used, not just what the generator produced.
 
 ## 4. Wire authorisation and prove it both ways
 
@@ -74,7 +74,7 @@ php artisan make:policy PostPolicy --model=Post
 ```
 
 A `viewAny()` that returns `false` for a given user removes the resource
-from their navigation entirely and 403s the routes directly, which looks
+from their navigation entirely and returns 403 Forbidden on its pages directly, which looks
 like the resource vanished rather than like a permissions problem: check
 the policy first if a resource "disappears".
 
@@ -87,7 +87,7 @@ Done when: both tests exist, both have been run, and both pass.
 ## 5. Add widgets and custom actions only where they earn their place
 
 A stats widget or a custom row action should answer a question someone
-actually has ("how many are pending") or perform a real workflow step
+has ("how many are pending") or perform a real workflow step
 ("mark as shipped"), not decorate the panel. Confirm destructive custom
 actions with `->requiresConfirmation()`.
 
@@ -111,7 +111,7 @@ and anything deliberately left out.
 ## It's working if
 
 - An unauthorised user's test against the same routes as the authorised
-  one actually fails without the fix, and passes with it.
+  one fails without the fix, and passes with it.
 - Every `->live()` field has a reason another field needs to react to it.
 - Selecting rows in the table shows the bulk actions the resource
   offers, and each one runs.

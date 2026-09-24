@@ -2,7 +2,7 @@
 
 Three metrics, three distinct causes, three distinct fixes. Don't apply all
 three blindly; measure first and match the fix to the metric that's
-actually failing.
+failing.
 
 ## Largest Contentful Paint (LCP)
 

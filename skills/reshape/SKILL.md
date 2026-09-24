@@ -32,7 +32,7 @@ Done when: a passing test run covers every path you are about to touch.
 
 ## 2. Name the smell
 
-Say what is actually wrong before choosing a fix:
+Say what is wrong before choosing a fix:
 
 | Smell | Usual refactoring |
 |---|---|
@@ -53,7 +53,7 @@ which refactoring removes it.
 
 ## 3. Move in small steps
 
-Make the smallest change that moves toward the target, run the tests, and
+Make the smallest change that moves towards the target, run the tests, and
 commit or checkpoint. Repeat. If a step turns tests red, undo that step
 rather than patching forward.
 

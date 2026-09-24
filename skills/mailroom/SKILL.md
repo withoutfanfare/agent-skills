@@ -117,7 +117,7 @@ Mail::to($order->customer_email)->queue(new OrderConfirmation($order));
 Sending synchronously (`send()` instead of `queue()`) ties the mail
 server's response time to the request the user is waiting on; a slow or
 down mail server then makes an unrelated action feel broken. Queue by
-default, and reserve `send()` for something that genuinely must be
+default, and reserve `send()` for something that must be
 confirmed sent before the response returns (rare).
 
 If the mailable can fail to build (a missing attachment, absent data),
@@ -138,7 +138,7 @@ write a test with `Mail::fake()` and `Mail::assertQueued()`.
 `Mail::fake()` proves the mailable was dispatched to the right recipient
 without touching a real mail server. Instantiate the mailable directly in
 a second assertion to check its rendered subject and that key content
-(the order reference, the tracking link) actually appears in the body;
+(the order reference, the tracking link) appears in the body;
 "was sent" and "says the right thing" are different claims and both need
 covering.
 

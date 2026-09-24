@@ -115,7 +115,7 @@ examples reference).
 Done when: a deliberately untranslated key produces a visible log entry in
 development, not just the raw key on the page.
 
-## 7. Prove every locale actually has every key
+## 7. Prove every locale has every key
 
 A regression test that compares each configured locale's key set against
 the base locale's catches a string added in English and never carried

@@ -48,7 +48,7 @@ removed.
 
 ## 3. Show what was built
 
-List the outputs a person would actually use, with sizes: the app bundle
+List the outputs a person would use, with sizes: the app bundle
 and installer for Tauri, the release binary for Rust, the binaries in `bin/`
 for Go, the output folder for Node.
 

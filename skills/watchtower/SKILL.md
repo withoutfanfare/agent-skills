@@ -27,7 +27,7 @@ code for the journeys' entry points, outside calls and background jobs.
 
 Done when: the key user journeys are listed, each with its entry point.
 
-## 2. Choose the measures (SLIs)
+## 2. Choose the measures: service level indicators (SLIs)
 
 For each journey, pick the few measures that match what a user feels:
 
@@ -44,7 +44,7 @@ Skip measures nobody would act on.
 Done when: each journey has two to four measures, and each can be computed
 from data you have or can add.
 
-## 3. Set targets (SLOs)
+## 3. Set targets: service level objectives (SLOs)
 
 For each measure, a target and a window: "99.9% of checkout requests
 succeed over 30 days"; "95% of searches return within 400 ms over 7 days".

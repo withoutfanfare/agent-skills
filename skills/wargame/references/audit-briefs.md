@@ -18,7 +18,7 @@ You are auditing <stack> at <path>, which <one-line description>. Check:
 1. **Backups:** what is backed up, how often, where to, and whether a
    restore has ever been tested. Is the one thing that cannot be recreated
    (uploaded files, a particular database) included?
-2. **Errors and alerts:** where exceptions go; whether anyone is actually
+2. **Errors and alerts:** where exceptions go; whether anyone is
    notified; whether the alert destination is configured.
 3. **Scheduled work:** every scheduled task and queue worker; what happens
    if one stops; whether anything notices.
@@ -47,11 +47,11 @@ Check:
 4. **Tax:** calculated where, and for which regions.
 5. **Stale items:** can someone pay for something removed or changed
    during checkout? Is it re-checked at payment?
-6. **Customer emails:** which exist and which are actually sent:
+6. **Customer emails:** which exist and which are sent:
    confirmation, dispatch, failure, refund.
 7. **Order visibility:** can customers see their order's status?
 8. **Recovery:** abandoned checkout follow-up, if any, and whether it is
-   actually scheduled.
+   scheduled.
 9. **Fraud checks:** what exists, and whether it is called from the order
    flow (search for where it is used, not only where it is defined).
 

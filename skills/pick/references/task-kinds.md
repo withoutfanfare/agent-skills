@@ -22,4 +22,4 @@ the union of its rows rather than forcing one kind.
 When a task names a specific framework or platform in the stack signals
 (a Laravel install, a Nuxt front end, a Tauri desktop shell), prefer that
 stack's own skill over a generic one with similar wording, and only when
-the catalogue's stack signals actually show that framework in use.
+the catalogue's stack signals show that framework in use.

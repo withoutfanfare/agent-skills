@@ -13,7 +13,7 @@ allowed-tools: Read Grep Glob Bash Write Edit
 # Launchpad
 
 A deploy should be boring: the same checks every time, the same steps
-every time, and a way back that has actually been tried. This skill builds
+every time, and a way back that has been tried. This skill builds
 that path from a commit to production, using the project's hosting and
 tools, with nothing that only works on one person's laptop.
 

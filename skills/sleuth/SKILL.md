@@ -36,7 +36,7 @@ understand.
 ## 2. Build a loop that goes red for the right reason
 
 Before forming any theory about the cause, get one command, script, or
-request that you have actually run and that reliably reproduces the
+request that you have run and that reliably reproduces the
 symptom: not "throws an error" but the user's exact wrong output or
 behaviour. Quote its failing output.
 

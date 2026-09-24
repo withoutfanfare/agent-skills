@@ -79,12 +79,12 @@ frontend owns it. Rust should own anything that must survive a page
 reload or be visible to more than one window: managed state, or a plugin
 that persists to disk. The frontend's own state store should own things
 that are only ever about the current screen. A value written from both
-sides drifts out of sync silently, so when in doubt, make one side the
+sides drifts out of sync, so when in doubt, make one side the
 source of truth and have the other side read or subscribe to it.
 
 For anything long-running, have Rust emit progress events rather than
 have the frontend poll for status: polling adds constant load and can
-race against the moment the work actually finishes. Make sure any event
+race against the moment the work finishes. Make sure any event
 listener is removed when its component goes away, or navigating back and
 forth leaves a growing pile of listeners each reacting to the same event.
 
@@ -109,7 +109,7 @@ Done when: a test proves a path outside the app's own directories is
 rejected rather than followed, and no secret value appears in a log line,
 an error message, or a file written in plain text.
 
-## 6. Decide what closing the window actually does
+## 6. Decide what closing the window does
 
 A menu-bar style app that people expect to keep running usually hides its
 window on close and stays alive in the tray; a document-style app usually
@@ -143,7 +143,7 @@ and "it will open on someone else's Mac" are different claims: without a
 valid signing identity and, for wider distribution, notarisation, a build
 that runs locally will still be blocked by Gatekeeper elsewhere.
 
-Done when: you can describe what you actually saw happen in the running
+Done when: you can describe what you saw happen in the running
 app, not what the code is supposed to do.
 
 Traps that only show up at run time are collected in

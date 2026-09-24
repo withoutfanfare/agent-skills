@@ -18,7 +18,7 @@ Left to guess, an agent building a new screen reaches for a plausible
 blue and a round number for spacing, both close enough to pass a glance
 and both wrong. Multiply that across a few features and the app looks
 stitched together from two different products. This skill reads what is
-actually there, separates the deliberate system from one-off accidents,
+there, separates the deliberate system from one-off accidents,
 and writes it down once so every later change can match it on sight
 instead of by guesswork.
 
@@ -44,7 +44,7 @@ Look for where design values are declared on purpose, roughly in this
 order of reliability: CSS custom properties under `:root` or a theme
 selector, a Tailwind or similar config's theme section, Sass/Less
 variables, a JS/TS theme object. Then look at how the sampled files
-actually use colour, size and spacing values, not just where they are
+use colour, size and spacing values, not just where they are
 declared.
 
 A value used the same way in three or more unrelated places is part of
@@ -69,7 +69,7 @@ For colour, record the brand palette, the semantic set (success, error,
 warning, info), the neutral/grey ramp, and how each shifts for hover,
 active, disabled and focus, not just its resting state. For type,
 record the font stack with fallbacks, the full size scale with what each
-step is actually used for (not just "h1, h2, h3"), the weights in use,
+step is used for (not just "h1, h2, h3"), the weights in use,
 and line-height paired with each size. A scale that skips a step ("we
 have 14px and 24px but nothing between") is worth noting as-is; don't
 invent the missing step.
@@ -79,13 +79,13 @@ including interactive states, not as isolated values.
 
 ## 4. Extract spacing, layout and component patterns
 
-Record the spacing scale (the arithmetic between steps matters more than
-the exact numbers), container widths, breakpoints, radius and shadow
-values, in the order they actually recur. Then catalogue the components
-your sample touched: for each, its variants, its states (default, hover,
-active, disabled, loading, error) and one real code excerpt, copied from
-the codebase, not paraphrased. [references/component-catalogue.md](references/component-catalogue.md)
-lists the component types and states worth checking so none are missed.
+Record the spacing scale (the arithmetic between steps matters more than the
+exact numbers), container widths, breakpoints, radius and shadow values, in
+the order they recur. Then catalogue the components your sample touched: for
+each, its variants, its states (default, hover, active, disabled, loading,
+error) and one real code excerpt, copied from the codebase, not paraphrased.
+[references/component-catalogue.md](references/component-catalogue.md) lists
+the component types and states worth checking so none are missed.
 
 Done when: every documented component has at least one real excerpt and
 its state variations are named, even where a state is missing ("no

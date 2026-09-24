@@ -32,7 +32,7 @@ public function seller(): BelongsTo
 
 Any column not named in `$fillable` is silently dropped whenever you call
 `create()` or `update()` with it, no exception, no warning: the record
-looks saved and one field is simply missing. Setting `$guarded = []`
+looks saved and one field is missing. Setting `$guarded = []`
 swings to the other extreme and lets mass assignment touch every column on
 the table, including something like an `is_admin` flag if one exists.
 

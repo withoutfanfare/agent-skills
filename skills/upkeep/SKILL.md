@@ -41,7 +41,7 @@ Done when: every manifest is listed with its tool.
 
 For each advisory, record: package, installed version, fixed version,
 severity, and whether it is a direct or indirect dependency. Check whether
-the vulnerable code path is actually reachable in this project before
+the vulnerable code path is reachable in this project before
 calling it urgent; say which ones you could not check.
 
 Done when: every advisory is listed with its fixed version and severity.

@@ -30,7 +30,7 @@ Done when: the user has one starting skill and knows what comes after it.
 
 ## Existing work: the front door
 
-`work` takes an issue, pull request or release, works out where it really
+`work` takes an issue, pull request or release, works out where it
 stands, what gate comes next, and the one safe next step. Start here when
 there is already a ticket.
 

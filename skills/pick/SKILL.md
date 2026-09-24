@@ -13,7 +13,7 @@ allowed-tools: Bash Edit Glob Grep Read Write
 
 Every linked skill is loaded into every session in that project, whether or
 not the current work touches it, and past a handful it gets harder to pick
-the right one. This skill narrows the linked set to what the work actually
+the right one. This skill narrows the linked set to what the work
 calls for. Run it again whenever the work changes shape: a design task and
 a review task pull in almost entirely different skills. To find which skill
 fits a situation, use `which-skill` (if installed); to record a project's
@@ -111,7 +111,7 @@ agent-skills status
 
 `sync` clears every symlink this tool owns in `.claude/skills` and
 `.agents/skills` and relinks from `.agent-skills` plus `.agent-skills.local`,
-so a skill drops out simply by no longer being listed. Leave
+so a skill drops out by no longer being listed. Leave
 `.agent-skills.local` alone; it holds one person's own extras and `sync`
 reads it on its own.
 

@@ -38,7 +38,7 @@ handler. List:
 
 - which fields can be set by a user, and which are computed or system-owned
   (an ID, a timestamp, an owner reference);
-- indexes needed for lookups this feature will actually perform;
+- indexes needed for lookups this feature will perform;
 - relationships to existing data, and which side owns the foreign key.
 
 Done when: the field list and relationships are written down before any

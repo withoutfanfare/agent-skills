@@ -13,7 +13,7 @@ allowed-tools: Read Grep Glob Bash Edit Write
 Docs rot quietly. A page that was right on the day it was written keeps
 looking authoritative long after the code it describes has changed, so
 readers and agents alike trust it and get misled. Two pages that started
-as one copy drift apart until they disagree. A broken link just looks like
+as one copy drift apart until they disagree. A broken link looks like
 carelessness, but it is usually a sign the target moved or was deleted
 and nobody updated the pointer. This skill finds all three problems and
 puts the surviving docs into a structure that makes sense, without
@@ -97,7 +97,7 @@ scratch. Give every folder with more than a couple of files an index
 (`README.md` or `index.md`) that links to everything in it, so nothing
 becomes an orphan again. Prefer moving and relinking over renaming when a
 file's content did not change: a rename breaks every inbound link, so do
-it only when the current name is genuinely misleading, and update every
+it only when the current name is misleading, and update every
 reference (docs and code comments) in the same change.
 
 Use relative links between docs (`../guide.md`, not an absolute path from

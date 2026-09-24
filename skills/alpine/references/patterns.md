@@ -170,7 +170,7 @@ property directly. In Livewire 3 and 4 that is `$wire.quantity`, or
 `$wire.entangle('quantity')` when you need a two-way copy; entangled values
 wait for the next server request unless you add `.live`, and the older
 `@entangle` Blade directive is deprecated. Use these only for values the
-server genuinely needs to know about; for anything purely visual (an open
+server needs to know about; for anything purely visual (an open
 flag, a hover state) keep it in local `x-data` instead.
 
 ```html

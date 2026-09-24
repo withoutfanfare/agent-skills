@@ -103,6 +103,6 @@ line on what it now says.
 
 ## It's working if
 
-- A reader following the docs gets the behaviour the code actually has.
+- A reader following the docs gets the behaviour the code has.
 - No topic is described in two places.
 - Breaking changes come with a way through them.

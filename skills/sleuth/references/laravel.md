@@ -35,7 +35,7 @@ eager loading (`with()`), not by silencing the symptom.
   "loses" a column or a constraint between requests, look there, and prefer
   a `#[Computed]` property for data the component only reads.
 - An untyped public property hydrates as a string. `$this->count === 1`
-  fails when the browser actually sent `"1"`.
+  fails when the browser sent `"1"`.
 - Check the `hydrate()`/`dehydrate()` hooks and `wire:model` binding when a
   value "isn't updating" between requests.
 
@@ -64,7 +64,7 @@ Work through these in order:
 
 Check each boundary in order rather than guessing which layer is at fault:
 
-1. Browser network tab: what payload actually went out, what came back.
+1. Browser network tab: what payload went out, what came back.
 2. `prepareForValidation()` / `failedValidation()` on the Form Request: did
    validation see and accept what you expect?
 3. The controller: log the validated data at the top of the method.

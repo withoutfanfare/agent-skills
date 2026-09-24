@@ -64,7 +64,7 @@ row: a subscriber has one plan, a customer has between one and five orders,
 a product has zero to a dozen reviews.
 
 Done when: every foreign key on a generated row points at a row that
-actually exists, and the count on each side looks like real usage rather
+exists, and the count on each side looks like real usage rather
 than a fixed number repeated everywhere.
 
 ## 4. Cover named scenarios, not just bulk rows

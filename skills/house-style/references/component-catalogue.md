@@ -1,7 +1,7 @@
 # Component catalogue
 
 A checklist of component types and the states worth checking for each.
-Not every project has every component; skip what genuinely isn't there
+Not every project has every component; skip what isn't there
 rather than inventing it, but check before assuming it's missing.
 
 ## Buttons

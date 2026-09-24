@@ -76,7 +76,7 @@ to the table:
 - the content at its most extreme: the longest title, the largest number,
   the fullest list, not just the sample data used to design it.
 
-Skip a case only when it genuinely cannot happen, and say why, rather than
+Skip a case only when it cannot happen, and say why, rather than
 leaving it out silently.
 
 Done when: every step has a stated first-time, empty, error and extreme

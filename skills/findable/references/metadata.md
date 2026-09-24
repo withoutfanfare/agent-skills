@@ -54,7 +54,7 @@ buildMeta(page):
   and add an ellipsis, or truncate at the nearest space.
 - **A single-page app needs the tags in the initial HTML, not injected
   after load.** If the framework renders meta tags client-side only, check
-  what a crawler actually receives (view source, or fetch the raw HTML)
+  what a crawler receives (view source, or fetch the raw HTML)
   rather than what the browser shows after JavaScript runs.
 - **Don't reuse the homepage's Open Graph image everywhere.** A page-specific
   image (the product photo, the article's header image) gets a noticeably

@@ -35,7 +35,7 @@ looking like an error state.
 - Meaningful UI outlines (an input border, a focus ring, an icon that
   carries information alone): 3:1.
 
-Check the pair that will actually render, including any background tint a
+Check the pair that will render, including any background tint a
 card or panel adds, not the token's contrast against plain white.
 
 ## Dark mode

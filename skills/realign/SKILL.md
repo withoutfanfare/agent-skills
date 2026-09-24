@@ -40,7 +40,7 @@ Done when: every failing test is listed, grouped by suspected cause.
 
 ## 3. Ask one question per failure
 
-**Does the feature this test covers actually work?** Check by reading the
+**Does the feature this test covers work?** Check by reading the
 code, and by trying the behaviour if you can.
 
 - **Yes, it works:** the test drifted. Align it (step 4).

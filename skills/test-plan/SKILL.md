@@ -15,7 +15,7 @@ allowed-tools: Read Grep Glob Bash Write
 A tester with a vague plan tests the happy path and signs it off. A tester
 with a good plan knows the exact steps, the exact values to type and what
 they should see, and has a list of the awkward cases to try. This skill
-writes that plan from the code itself, so it matches what was actually
+writes that plan from the code itself, so it matches what was
 built.
 
 For automated tests, use `cover`; to run a plan in a browser, `road-test`

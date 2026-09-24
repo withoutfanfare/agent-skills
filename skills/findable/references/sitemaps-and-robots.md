@@ -17,7 +17,7 @@ A minimal sitemap entry:
 ```
 
 `changefreq` and `priority` are optional and Google ignores both. An
-accurate `lastmod`, changed only when the content really changes, is the
+accurate `lastmod`, changed only when the content changes, is the
 one worth keeping.
 
 Keep out of the sitemap:
@@ -55,7 +55,7 @@ Gotchas:
   with no description, because the crawler can see the link but not the
   page. Use a `noindex` meta tag (which requires the page to be crawlable)
   for pages that must never appear in results at all.
-- **Check the file is actually served at the root**, `/robots.txt`, not
+- **Check the file is served at the root**, `/robots.txt`, not
   under a subpath, and that it isn't behind the same authentication as the
   rest of a staging environment (a very common way a whole site quietly
   vanishes from search results after a migration).
@@ -66,4 +66,4 @@ Gotchas:
 
 After generating or changing either file, fetch both live and check they
 agree: every sitemap URL should be allowed by robots.txt, and the sitemap
-URL named in robots.txt should be the one that's actually being generated.
+URL named in robots.txt should be the one that's being generated.

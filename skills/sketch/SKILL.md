@@ -32,7 +32,7 @@ Done when: the user has agreed the question.
 | Question is about | Build |
 |---|---|
 | State, logic or a flow | One self-contained HTML file: inline CSS and JavaScript, no build step, opens with a double-click. Buttons drive the states and the current state is always visible. |
-| Look and feel | Three genuinely different variations, switchable from one place: a variant picker in one HTML file, or one temporary route in the app. Three different directions beat six tweaks of one. |
+| Look and feel | Three different variations, switchable from one place: a variant picker in one HTML file, or one temporary route in the app. Three different directions beat six tweaks of one. |
 
 Done when: the shape is chosen and the user knows what they will get.
 

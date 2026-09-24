@@ -85,4 +85,4 @@ the conversation.
 Larger apps benefit from a small checked-in config naming the base URL, the
 test command, the routes worth smoke-checking and their expected statuses,
 and the two or three flows that must never break. Keep it small: a handful
-of routes and flows that actually matter, not an exhaustive site map.
+of routes and flows that matter, not an exhaustive site map.

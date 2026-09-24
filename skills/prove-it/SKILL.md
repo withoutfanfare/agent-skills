@@ -11,11 +11,11 @@ license: MIT
 allowed-tools: Read Grep Glob Bash
 ---
 
-# Prove It
+# Prove it
 
-"Should work" is a guess wearing a lab coat. This skill treats verification
+"Should work" is a guess, not evidence. This skill treats verification
 as evidence collection, not code review: every claim it makes is backed by
-something that actually ran, with output pasted, not summarised from
+something that ran, with output pasted, not summarised from
 memory of what the code appears to do.
 
 For acceptance testing a whole journey or site until every scenario has a
@@ -35,7 +35,7 @@ Done when: you can name which surfaces changed, and which did not.
 Before running anything, clear whatever could make old behaviour look like
 the current code: build caches, compiled config, a stale served asset
 bundle. Confirm any background workers this change depends on (a queue
-processor, a scheduled job) are actually running if the verification needs
+processor, a scheduled job) are running if the verification needs
 them, rather than assuming they are.
 
 Done when: you know the run will exercise the current code, not a cached
@@ -107,7 +107,7 @@ evidence, and what was not verified.
 ## It's working if
 
 - Every claim in the report traces to pasted output from something that
-  actually ran.
+  ran.
 - The rungs chosen match what the change touches, not a fixed checklist
   run every time.
 - Anything that could not be verified is named, not silently dropped.

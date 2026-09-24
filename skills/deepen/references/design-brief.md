@@ -26,4 +26,4 @@ Produce:
    breaking anything.
 
 Stay within your direction even if another seems better; the value is in
-comparing genuinely different shapes. Keep it under a page.
+comparing different shapes. Keep it under a page.

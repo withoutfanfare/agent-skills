@@ -56,7 +56,7 @@ Each recommendation carries its numbers (uses, projects, last used, age):
   improved in a long time despite heavy use.
 - **Reword the description:** a skill the agent may start itself, used
   rarely or never, although its job clearly comes up. Suggest the phrases
-  people actually use.
+  people use.
 - **Make typed-only:** a skill the agent may start itself that is rarely used.
   Typed-only skills cost nothing until called.
 - **Let the agent start it:** a typed-only skill used so often that typing it

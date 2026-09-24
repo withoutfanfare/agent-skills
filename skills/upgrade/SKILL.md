@@ -44,7 +44,7 @@ Write these as a short numbered list. A guide with forty entries usually
 touches five things in a given project; the other thirty-five are noise to
 filter out, not copy in.
 
-Done when: you have a list of changes that actually apply here, each with
+Done when: you have a list of changes that apply here, each with
 where it applies in the code.
 
 ## 3. Protect a way back

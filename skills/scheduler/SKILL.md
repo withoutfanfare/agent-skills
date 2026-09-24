@@ -18,7 +18,7 @@ production: two servers running the same job, or a slow run overlapping the
 next one. The failure only shows up as an odd number in a report or a
 double-charged row weeks later. This skill builds the schedule with the
 guards in place from the start, then checks that a dependent chain of jobs
-actually recovers when one link fails.
+recovers when one link fails.
 
 ## 1. Choose the right kind of task
 
@@ -55,12 +55,12 @@ inside `schedule()` in `app/Console/Kernel.php`; follow whichever style the
 project already uses.
 
 `withoutOverlapping()` needs a working cache lock, so confirm the cache
-driver is not `array` or `null` in the environment the schedule actually
-runs in. `onOneServer()` is stricter: the default cache must be `database`,
-`redis`, `memcached` or `dynamodb`, and every server must share that same
-cache, or each server takes its own lock and the task runs everywhere. Set an explicit expiry (`withoutOverlapping(120)`, in minutes) for
-any task that could itself hang, so a crashed run does not lock the task out
-forever.
+driver is not `array` or `null` in the environment the schedule runs in.
+`onOneServer()` is stricter: the default cache must be `database`, `redis`,
+`memcached` or `dynamodb`, and every server must share that same cache, or
+each server takes its own lock and the task runs everywhere. Set an explicit
+expiry (`withoutOverlapping(120)`, in minutes) for any task that could
+itself hang, so a crashed run does not lock the task out forever.
 
 Done when: every new schedule entry has an explicit overlap and
 single-server decision, not the framework's defaults by omission.
@@ -92,7 +92,7 @@ Done when: the choice between chain and batch is written down, and the
 failure path (`catch()`, or `allowFailures()` plus checking
 `$batch->failedJobCount`) is implemented, not just the happy path.
 
-## 4. Make failure handling actually recover
+## 4. Make failure handling recover
 
 Set `$tries`, `$backoff` and `$timeout` on the job class itself, not just at
 dispatch time, so they survive a retry from the failed-jobs table. Backoff
@@ -122,7 +122,7 @@ immediately for the second kind instead of burning through `$tries`.
 Done when: a job that cannot possibly succeed on retry fails fast, and one
 that legitimately might recover backs off between attempts.
 
-## 5. Verify the schedule actually runs
+## 5. Verify the schedule runs
 
 Reading the code proves nothing about production. Confirm the pieces that
 make a schedule real:
@@ -133,7 +133,7 @@ php artisan schedule:run           # runs anything due right now, for a manual c
 crontab -l                          # confirms the single cron line calling schedule:run exists
 ```
 
-For a queued job, also confirm a queue worker is actually running
+For a queued job, also confirm a queue worker is running
 (`php artisan queue:work` under a process supervisor, not a bare terminal),
 since a perfectly scheduled job that never gets picked up looks identical
 to one that silently failed.
@@ -155,6 +155,6 @@ Done when: the report quotes the step 5 output showing the task is live.
 - Every schedule entry has a deliberate answer for overlap and
   multi-server, not the framework default by accident.
 - A failing link in a chain stops the chain and is reported, instead of the
-  next step silently running on missing data.
-- `schedule:list` and a check of the queue worker were actually run, not
+  next step running on missing data.
+- `schedule:list` and a check of the queue worker were run, not
   assumed.
