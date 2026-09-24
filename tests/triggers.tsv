@@ -29,3 +29,33 @@ hotspot	fire	The orders page takes eight seconds to load. Find out why and speed
 hotspot	quiet	What is Big O notation?
 careful	quiet	Delete the old build folder for me.
 freeze	quiet	Only change the billing module in this task, please.
+spike	fire	Could we realistically replace our home-grown search with Meilisearch? Investigate whether it's feasible and give me a recommendation.
+spike	quiet	What is Meilisearch?
+t-shirt	fire	How big a job would it be to add team accounts to the billing system? Give me a rough size.
+t-shirt	quiet	Add a created_at column to the users table.
+tour	fire	I'm new to this codebase. Can you walk me through how checkout works from end to end?
+tour	quiet	Fix the typo in the README heading.
+pitch	fire	I want to propose moving our background jobs from cron to a proper queue. Help me write an RFC the team can review.
+pitch	quiet	What does RFC stand for?
+ledger	fire	We've just decided to use Postgres instead of MySQL for the new service. Log this decision with our reasoning.
+ledger	quiet	What are the main differences between Postgres and MySQL?
+debt-log	fire	Audit this codebase for technical debt and help me prioritise what to pay down first.
+debt-log	quiet	What does the term technical debt mean?
+relocate	fire	We need to split the full_name column into first and last name across four million live customer rows without downtime. Plan the migration.
+relocate	quiet	Write a migration that adds a nullable phone column.
+adversary	fire	Before we build the new file-sharing feature, threat model it. How could someone abuse it?
+adversary	quiet	What is the OWASP Top 10?
+sketch	fire	I can't decide between a wizard and a single long form for onboarding. Mock up a few versions so I can try them.
+sketch	quiet	Style this button with a blue background.
+preflight	fire	Here's our implementation plan in docs/plans/billing.md. Sanity-check it before we start building. Any blockers?
+preflight	quiet	Write me an implementation plan for adding search.
+wait-what	fire	Wait, what? You've lost me. Can you say that again in plain English?
+wait-what	quiet	Summarise the README for me.
+catch-up	fire	I've been away for two weeks. Catch me up on what's happened in this project.
+catch-up	quiet	Show me the git log for today.
+takeaways	fire	Before we wrap up, let's capture what we learned in this session so we don't lose it.
+takeaways	quiet	Commit these changes with a good message.
+handover	fire	I'm going on leave tomorrow. Write a brief so a colleague can pick up the payments refactor without needing to ask me anything.
+handover	quiet	Remind me what the payments refactor was about.
+deepen	quiet	This module is confusing. What does it do?
+wargame	quiet	We launch next week. Is there anything I should check?
