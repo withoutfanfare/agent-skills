@@ -119,20 +119,20 @@ Done when: every finding has a severity, a confidence and a file and line.
 ## 6. Report
 
 ```markdown
-# Review: <what was reviewed>
+## Review: <what was reviewed>
 
 **Intent:** <one paragraph>
 **Verdict:** blocked / changes needed / ready
 
-## Is this the right change?
+### Is this the right change?
 <missing, unasked-for and built-differently items, each quoting the spec, or "no spec available">
 
-## Is it built well?
+### Is it built well?
 | ID | Severity | Confidence | Where | Finding | Suggested fix |
 |---|---|---|---|---|---|
 | R1 | blocker | certain | src/Search.php:45 | User input joined into SQL | Bind the parameter |
 
-## Notes
+### Notes
 <one short section per blocker or major: the code, the fix, what it prevents>
 ```
 

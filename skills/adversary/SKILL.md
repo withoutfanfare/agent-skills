@@ -68,7 +68,8 @@ moderate skill or access; 3: any motivated attacker) and **impact** (1:
 minor, contained; 2: significant breach or outage; 3: full compromise,
 legal or regulatory consequences). Risk is likelihood times impact:
 6 or more must be mitigated before release; 3 or 4 are mitigated or
-explicitly accepted with monitoring.
+explicitly accepted with monitoring. On the shared severity scale, 6 to 9
+is a blocker, 3 or 4 major, and 1 or 2 minor.
 
 Done when: every threat has both scores and a risk.
 
@@ -107,5 +108,5 @@ Date · Scope · Status: draft|reviewed|accepted
 ## It's working if
 
 - Each threat is specific enough that a developer knows where the fix goes.
-- High risks are either mitigated or explicitly accepted by a named person.
+- Blocker risks are either mitigated or explicitly accepted by a named person.
 - The model is written before the code, and updated when the design moves.

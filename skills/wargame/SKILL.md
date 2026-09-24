@@ -42,9 +42,10 @@ Run one read-only audit per area at the same time, using the briefs in
 [references/audit-briefs.md](references/audit-briefs.md), adapted to this
 stack. If parallel helpers are not available, run the audits one after
 another from the same briefs. Every audit must return, per item: what
-exists (with file and line), what is missing, and a severity
-(before launch, soon after, later). Audits read code; they do not run the
-application.
+exists (with file and line), what is missing, a severity (blocker: must
+be fixed before launch; major: should be fixed, a real problem; minor:
+worth fixing, low risk) and a timing (before launch, soon after, later).
+Audits read code; they do not run the application.
 
 Done when: every area has a structured report.
 

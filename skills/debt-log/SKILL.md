@@ -66,8 +66,10 @@ Impact: 1-3 · Risk: 1-3 · Effort: 1-3 · Priority: <score>
 Score each from 1 to 3: **impact** (annoyance, regular friction, blocks
 work or causes bugs), **risk** (stable, slowly worsening, getting worse
 fast), **effort** (hours, days, weeks). Priority is
-`(impact × 2 + risk × 2) ÷ effort`. It is a guide for discussion, so show
-the three scores beside it.
+`(impact + risk) ÷ effort`. It is a guide for discussion, so show the
+three scores beside it. On the shared blocker/major/minor scale, impact 3
+is major and impact 1 or 2 minor; debt that must be fixed before something
+ships is a blocker.
 
 Done when: the item is in the register with all three scores and a
 specific cost of keeping.

@@ -68,6 +68,9 @@ as a blocker wastes someone's decision.
 - **Question:** needs an answer before a task can start; give both
   readings and which you would take.
 
+On the shared blocker/major/minor scale, a blocker is a blocker, push back
+is major and a suggestion is minor; a question is not rated.
+
 Prefer the smallest change, built-in features over new machinery, and no
 abstraction with a single user. Thorough authors tend to over-build; ask
 whether the first release needs each piece.

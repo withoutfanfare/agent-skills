@@ -78,7 +78,7 @@ gap.
 
 ```markdown
 ## Verification: <what was verified>
-**Result:** <passed / failed / partially verified>
+**Result:** <passed / failed / blocked (could not run)>
 
 ### Rungs run
 | Rung | Command | Result |

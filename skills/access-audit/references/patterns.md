@@ -120,7 +120,7 @@ rest are reached with the arrow keys once focus is inside the tab list.
 | Arrow keys | Move within a single composite control (tabs, menu, radio group) |
 
 A focus trap, where Tab moves the user in but nothing moves them back out,
-is one of the most disabling bugs there is; treat it as blocking severity
+is one of the most disabling bugs there is; treat it as a blocker
 wherever it shows up.
 
 ```js

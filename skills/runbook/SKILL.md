@@ -46,7 +46,7 @@ read-only ones have been run where safe.
 
 ```markdown
 # Runbook: <scenario>
-Updated · Owner · Severity · Typical time to fix
+Updated · Owner · Severity: blocker|major|minor · Typical time to fix
 
 ## You are here because
 <alert name, error text or symptom, exactly as it appears>

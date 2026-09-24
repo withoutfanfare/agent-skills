@@ -5,9 +5,9 @@ or remove items to fit the stack and business. Every brief ends with the
 same contract.
 
 **Contract for every audit:** return a structured list. For each item:
-what exists (file and line), what is missing, and a severity: *before
-launch*, *soon after launch* or *later*. Read code only; do not run the
-application. Facts, not prose.
+what exists (file and line), what is missing, a severity (*blocker*,
+*major* or *minor*) and a timing: *before launch*, *soon after launch* or
+*later*. Read code only; do not run the application. Facts, not prose.
 
 ---
 

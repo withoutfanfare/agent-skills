@@ -111,7 +111,9 @@ Done when: every scenario has a verdict in the report.
 
 For each failure: severity, cause class and the smallest proposed fix,
 traced to a file and line in the local code where possible. Rubric and
-evidence rules: [references/triage.md](references/triage.md).
+evidence rules: [references/triage.md](references/triage.md). Blocker,
+major and minor mean what they mean in every other skill; polish is a
+fourth, lowest level used only here.
 
 Done when: every failure has all the evidence the triage guide requires.
 

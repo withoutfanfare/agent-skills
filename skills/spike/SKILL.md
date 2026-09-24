@@ -96,7 +96,8 @@ Date: <date> · Scope: <narrow|comparative|exploratory>
 <three to five sentences a decision-maker can read alone>
 
 ## Options
-| | Fit | Effort | Gain | Cost |
+| Option | Fit | Effort | Gain | Cost | Cheaper path |
+|---|---|---|---|---|---|
 
 ## Evidence
 <findings with sources; verified and assumed marked separately>

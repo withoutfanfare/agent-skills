@@ -61,6 +61,11 @@ allowed-tools: Read Grep Glob Bash
 - Keep `SKILL.md` under about 300 lines; put long material in
   `references/`.
 - British English; commas, colons and full stops rather than long dashes.
+- Rate severity as blocker, major or minor, and confidence as certain,
+  likely or possible; the same words in every skill so reports can be read
+  side by side.
+- Start a report template's headings at `##`, so the report reads the same
+  whichever skill wrote it.
 
 ## Checks
 

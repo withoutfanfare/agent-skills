@@ -64,9 +64,9 @@ Done when: each module has a coverage rating.
 These are guides. Two files across a critical boundary can be an L; fifteen
 files following a template can be an M.
 
-Rate confidence: **high** (read everything; likely within a third either
-way), **medium** (some areas unclear; could be off by double), or **low**
-(key parts unseen or requirements vague; suggest a spike).
+Rate confidence: **certain** (read everything; should land within a third
+either way), **likely** (some areas unclear; could be off by double), or
+**possible** (key parts unseen or requirements vague; suggest a spike).
 
 Done when: there is one size and one confidence, each with a reason.
 
@@ -74,7 +74,7 @@ Done when: there is one size and one confidence, each with a reason.
 
 ```markdown
 ## Sizing: <feature>
-**Size:** <S|M|L|XL> · **Confidence:** <high|medium|low>
+**Size:** <S|M|L|XL> · **Confidence:** <certain|likely|possible>
 <one or two sentences on why>
 
 **Touches:** <module: what changes>
@@ -87,5 +87,5 @@ Done when: there is one size and one confidence, each with a reason.
 ## It's working if
 
 - Every size is backed by named modules and boundaries, not adjectives.
-- Confidence is honest: low confidence comes with what would raise it.
+- Confidence is honest: a possible rating comes with what would raise it.
 - Risks point at real code, not general worries.

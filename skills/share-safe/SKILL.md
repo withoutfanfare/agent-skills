@@ -74,9 +74,9 @@ example the first and last few characters with the middle replaced.
 
 | Severity | Meaning |
 |---|---|
-| high | a working credential or personal data that identifies someone |
-| medium | infrastructure detail or a credential that looks inactive or expired |
-| low | sensitive-but-not-secret content, wrong only for this audience |
+| blocker | must be fixed before this is shared: a working credential or personal data that identifies someone |
+| major | should be fixed: infrastructure detail or a credential that looks inactive or expired |
+| minor | worth fixing, low risk: sensitive-but-not-secret content, wrong only for this audience |
 
 For each finding: where it is (file and line, or commit), what it is, the
 masked value, and what could happen if it shipped as-is.
@@ -109,7 +109,7 @@ End with exactly one of:
 - "Safe to share with <audience>."
 - "Not yet: N item(s) to fix first, redacted copy below."
 
-Done when: the verdict matches the findings; a high-severity finding never
+Done when: the verdict matches the findings; a blocker never
 sits under a "safe" verdict.
 
 ## It's working if

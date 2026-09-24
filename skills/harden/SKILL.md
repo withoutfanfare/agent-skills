@@ -65,21 +65,30 @@ and found sound.
 ## 3. Prove and rate each finding
 
 For each issue: the file and line, the input an attacker would send, what
-happens, and the fix. Rate severity (critical, high, medium, low) by what an
-attacker gains and how easily. Mark anything not confirmed from the code as
-"to verify" and say how.
+happens, and the fix. Rate severity by what an attacker gains and how
+easily, on the same blocker/major/minor scale as `review` (if installed):
+
+| Severity | Meaning |
+|---|---|
+| blocker | must be fixed before this ships |
+| major | should be fixed; a real weakness |
+| minor | worth fixing, low risk |
+
+Rate confidence as certain (confirmed from the code), likely or possible.
+Mark anything not confirmed from the code as possible and say how to
+confirm it.
 
 Done when: every finding has a location, an exploit sketch and a fix.
 
 ## 4. Report
 
 ```markdown
-# Security review: <app>
-**Summary:** <critical n, high n, medium n, low n>; top three risks in one line each
-| # | Severity | Category | Where | Issue | Fix |
-## Details
-<one short section per critical or high: vulnerable code, attack, fixed code>
-## Checked and sound
+## Security review: <app>
+**Summary:** <blocker n, major n, minor n>; top three risks in one line each
+| # | Severity | Confidence | Category | Where | Issue | Fix |
+### Details
+<one short section per blocker or major: vulnerable code, attack, fixed code>
+### Checked and sound
 <categories with no findings, and what was checked>
 ```
 
@@ -88,7 +97,7 @@ Framework specifics for Laravel are in
 
 ## It's working if
 
-- Every critical or high finding comes with the exact input that exploits
+- Every blocker or major finding comes with the exact input that exploits
   it.
 - Categories with no findings still say what was checked.
 - The code is unchanged, and every finding carries a fix someone else can

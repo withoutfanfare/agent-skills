@@ -101,17 +101,16 @@ Grade each finding:
 
 | Severity | Meaning |
 |---|---|
-| blocking | stops a keyboard or screen reader user completing the task |
-| serious | usable with real difficulty, or wrong information is announced |
-| moderate | an inconvenience or a smaller standard not met |
-| cosmetic | technically non-compliant but no real effect on use |
+| blocker | must be fixed before this ships: stops a keyboard or screen reader user completing the task |
+| major | should be fixed: usable with real difficulty, or wrong information is announced |
+| minor | worth fixing, low risk: an inconvenience, a smaller standard not met, or non-compliant with no real effect on use |
 
 ```markdown
 ## Accessibility audit: <what was audited>
 
 | # | Severity | Area | Location | Issue | WCAG | Fix |
 |---|---|---|---|---|---|---|
-| 1 | blocking | keyboard | header nav | menu only opens on hover | 2.1.1 | add click/Enter handler, keep focus inside while open |
+| 1 | blocker | keyboard | header nav | menu only opens on hover | 2.1.1 | add click/Enter handler, keep focus inside while open |
 
 ### Needs manual verification
 - <question that couldn't be settled from the available evidence>
@@ -125,7 +124,7 @@ and open questions are listed separately from confirmed findings.
 
 ## It's working if
 
-- A blocking finding always names the specific interaction that fails and
+- A blocker always names the specific interaction that fails and
   who it fails for.
 - Every fix in the report is something a developer could act on without
   asking a follow-up question.

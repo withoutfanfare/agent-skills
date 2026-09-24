@@ -42,10 +42,9 @@ Done when: the likely area and files are named.
 
 | Severity | Means |
 |---|---|
-| Critical | data loss or exposure, money affected, or a core feature down for everyone |
-| High | an important feature broken without a workaround, or many users affected |
-| Medium | degraded but usable, a workaround exists, or few users affected |
-| Low | cosmetic, rare edge case, minor annoyance |
+| blocker | must be fixed before anything else: data loss or exposure, money affected, or a core feature down for everyone |
+| major | should be fixed; a real problem: an important feature broken without a workaround, or many users affected |
+| minor | worth fixing, low risk: degraded but usable, a workaround exists, few users affected, or a rare edge case |
 
 Weigh how many are affected (one user, one account, everyone), whether
 data is at risk or only its display, whether there is a workaround, and
@@ -63,8 +62,8 @@ Priority is when to act, which is severity adjusted for context:
 | Next | in the next cycle |
 | Later | backlog |
 
-A medium bug hitting the biggest customer before a renewal may be "now";
-a high bug in a feature nobody uses may be "next".
+A minor bug hitting the biggest customer before a renewal may be "now";
+a major bug in a feature nobody uses may be "next".
 
 Done when: priority is set, with the context that moved it, if any.
 
@@ -80,7 +79,7 @@ Done when: each cause has evidence and a confirming check.
 
 ```markdown
 ## Triage: <one-line summary>
-**Severity:** <level>, <reason> · **Priority:** <now|next|later>, <reason>
+**Severity:** <blocker|major|minor>, <reason> · **Priority:** <now|next|later>, <reason>
 **Area:** <business area>, <files>
 **Affected:** <who, how many> · **Workaround:** <yes: how | no>
 

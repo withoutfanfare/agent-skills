@@ -90,7 +90,7 @@ an owner and a date, or an explicit decision to accept it.
 
 ```markdown
 # Post-mortem: <what happened>
-Date · Severity · Duration · Status: draft|final
+Date · Severity: blocker|major|minor · Duration · Status: draft|final
 
 ## Summary
 <four to six lines: user impact, how long, how many affected, how detected>
