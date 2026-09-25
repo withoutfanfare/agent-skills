@@ -23,7 +23,7 @@ Software Design". The shape of this skill was inspired by Matt Pocock's
 architecture-improvement skill.*
 
 For a behaviour-preserving tidy of one area, use `refactor` (if installed);
-for the same mechanical change across many files, `codemod` (if installed).
+for the same mechanical change across many files, `bulk-edit` (if installed).
 
 ## 1. Explore like a newcomer
 

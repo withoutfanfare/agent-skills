@@ -27,7 +27,7 @@ applies the fixes.
 For a review of one change, `review` (if installed) covers security as part
 of a wider review. For a design not yet built, use `threat-model` (if
 installed); for a business launch-risk brief, `launch-risk` (if installed); for
-content leaving the machine, `share-safe` (if installed).
+content leaving the machine, `secret-scan` (if installed).
 
 ## 1. Map the attack surface
 

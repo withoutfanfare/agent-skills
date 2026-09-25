@@ -24,12 +24,12 @@ three things are true: the item has merged and reached the named
 environment, a plan exists, and the run used that deployment rather than a
 build on someone's machine.
 
-**Hand-offs.** `road-test` (when installed) drives browser scenarios
+**Hand-offs.** `acceptance-test` (when installed) drives browser scenarios
 through to a verdict; `test-plan` (when installed) drafts plan material
 from code and docs. Results from any tool come back in this mode's terms:
 `PASS`, `FAIL` or `NEEDS DECISION`, tied to a named release candidate, and
 no verdict at all for work that never ran. A browser-testing skill such as
-`road-test`, or any tool with its own result words, is translated
+`acceptance-test`, or any tool with its own result words, is translated
 explicitly:
 
 | Tool says | This mode records |

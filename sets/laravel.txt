@@ -5,7 +5,7 @@ schema
 seed
 upgrade
 tenancy
-flags
+feature-flags
 scheduler
 notify
 mailable

@@ -18,7 +18,7 @@ reactive object, a loading spinner that never clears because the user
 navigated away mid-request, a prop typed so loosely that a bad value only
 surfaces at runtime. This skill is about getting the component's shape and
 behaviour right. For how it should look, hand off to `tailwind` or
-`house-style` (if installed) instead.
+`style-guide` (if installed) instead.
 
 ## 1. Decide what the component owns
 

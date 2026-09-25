@@ -18,7 +18,7 @@ they should see, and has a list of the awkward cases to try. This skill
 writes that plan from the code itself, so it matches what was
 built.
 
-For automated tests, use `write-tests`; to run a plan in a browser, `road-test`
+For automated tests, use `write-tests`; to run a plan in a browser, `acceptance-test`
 (if installed).
 
 ## 1. Learn the feature

@@ -1,3 +1,0 @@
-# Codex: run only when asked for by name ($bulletin). Mirrors disable-model-invocation.
-policy:
-  allow_implicit_invocation: false

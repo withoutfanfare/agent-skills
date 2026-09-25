@@ -2,7 +2,7 @@
 vue
 nuxt
 tailwind
-house-style
+style-guide
 user-flow
 access-audit
 microcopy

@@ -22,7 +22,7 @@ invites disagreement by being honest about the weaknesses.
 Once a direction is agreed, turning it into work is a different job;
 check the resulting plan with `plan-review` (if installed). If it is not yet
 known whether the approach can work at all, run a `spike` (if installed)
-first, and size the work with `t-shirt` (if installed).
+first, and size the work with `estimate` (if installed).
 
 ## 1. Pin down the proposal
 

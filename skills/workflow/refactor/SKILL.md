@@ -17,7 +17,7 @@ same. The discipline is in that promise: tests before the first edit, one
 change at a time, a green run after each. Mix in a feature or a bug fix and
 nobody can tell which change broke what.
 
-For the same mechanical change across many files, use `codemod` (if
+For the same mechanical change across many files, use `bulk-edit` (if
 installed). To redesign a module's interface rather than tidy its code,
 use `deep-modules` (if installed).
 

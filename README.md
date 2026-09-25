@@ -46,7 +46,7 @@ Codex. Each link points back at this repository, so `git pull` updates
 every project at once. Personal extras for one project go in
 `.agent-skills.local`.
 
-Not sure what fits? `/pick <what you are about to do>` links the right few
+Not sure what fits? `/pick-skills <what you are about to do>` links the right few
 for the task in hand, and `/which-skill` maps a situation to a skill and
 what comes after it.
 

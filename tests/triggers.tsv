@@ -21,8 +21,8 @@ fix-tests	fire	The test suite has gone red after the refactor, twelve failures. 
 fix-tests	quiet	What is the difference between a mock and a stub?
 refactor	fire	This controller method is 200 lines long and does five things. Refactor it into something cleaner.
 refactor	quiet	Add a new endpoint that returns the current server time.
-codemod	fire	We have 340 static analysis errors of the same kind across the codebase. Fix them all in one go.
-codemod	quiet	Rename this one variable in the function I'm looking at.
+bulk-edit	fire	We have 340 static analysis errors of the same kind across the codebase. Fix them all in one go.
+bulk-edit	quiet	Rename this one variable in the function I'm looking at.
 dep-audit	fire	Check our dependencies for known vulnerabilities and anything badly out of date.
 dep-audit	quiet	Install the lodash package.
 security-audit	fire	We launch next week. Do a security audit of the app and tell me what an attacker could exploit.
@@ -34,10 +34,10 @@ careful	quiet	Delete the old build folder for me.
 freeze	quiet	Only change the billing module in this task, please.
 spike	fire	Could we realistically replace our home-grown search with Meilisearch? Investigate whether it's feasible and give me a recommendation.
 spike	quiet	What is Meilisearch?
-t-shirt	fire	How big a job would it be to add team accounts to the billing system? Give me a rough size.
-t-shirt	quiet	Add a created_at column to the users table.
-tour	fire	I'm new to this codebase. Can you walk me through how checkout works from end to end?
-tour	quiet	Fix the typo in the README heading.
+estimate	fire	How big a job would it be to add team accounts to the billing system? Give me a rough size.
+estimate	quiet	Add a created_at column to the users table.
+walkthrough	fire	I'm new to this codebase. Can you walk me through how checkout works from end to end?
+walkthrough	quiet	Fix the typo in the README heading.
 proposal	fire	I want to propose moving our background jobs from cron to a proper queue. Help me write an RFC the team can review.
 proposal	quiet	What does RFC stand for?
 decision-log	fire	We've just decided to use Postgres instead of MySQL for the new service. Log this decision with our reasoning.
@@ -48,12 +48,12 @@ migrate-data	fire	We need to split the full_name column into first and last name
 migrate-data	quiet	Write a migration that adds a nullable phone column.
 threat-model	fire	Before we build the new file-sharing feature, threat model it. How could someone abuse it?
 threat-model	quiet	What is the OWASP Top 10?
-sketch	fire	I can't decide between a wizard and a single long form for onboarding. Mock up a few versions so I can try them.
-sketch	quiet	Style this button with a blue background.
+prototype	fire	I can't decide between a wizard and a single long form for onboarding. Mock up a few versions so I can try them.
+prototype	quiet	Style this button with a blue background.
 plan-review	fire	Here's our implementation plan in docs/plans/billing.md. Sanity-check it before we start building. Any blockers?
 plan-review	quiet	Write me an implementation plan for adding search.
-wait-what	fire	You just told me: "the handler is idempotent because the unique constraint on the dedupe key short-circuits the side effects on retry". Wait, what? You've lost me. Say that again in plain English.
-wait-what	quiet	Summarise the README for me.
+re-explain	fire	You just told me: "the handler is idempotent because the unique constraint on the dedupe key short-circuits the side effects on retry". Wait, what? You've lost me. Say that again in plain English.
+re-explain	quiet	Summarise the README for me.
 catch-up	fire	I've been away for two weeks. Catch me up on what's happened in this project.
 catch-up	quiet	Show me the git log for today.
 takeaways	fire	Before we wrap up, let's capture what we learned in this session so we don't lose it.
@@ -83,10 +83,10 @@ microcopy	fire	Write the button labels, empty state and error messages for the n
 microcopy	quiet	Write a blog post announcing the invoices feature.
 test-plan	fire	Write a manual QA test plan for the team invitations feature so our testers can run through it.
 test-plan	quiet	Write automated tests for the team invitations feature.
-road-test	fire	Do a full UAT of the checkout journey locally and tell me what's broken.
-road-test	quiet	Write unit tests for the basket total calculation.
-bulletin	quiet	What did we ship last week?
-weekly	quiet	Show me the merged pull requests from last week.
+acceptance-test	fire	Do a full UAT of the checkout journey locally and tell me what's broken.
+acceptance-test	quiet	Write unit tests for the basket total calculation.
+status-update	quiet	What did we ship last week?
+weekly-report	quiet	Show me the merged pull requests from last week.
 vue	fire	Can you help me build this Vue settings form component with the composition API?
 vue	quiet	Can you make this settings page look nicer and more polished visually?
 nuxt	fire	My Nuxt page's data isn't updating when the URL param changes, can you look into it?
@@ -109,14 +109,14 @@ access-audit	fire	Can you check this checkout page for accessibility issues befo
 access-audit	quiet	Can you make this checkout page load faster on mobile?
 tenancy	fire	we're building a SaaS product where each customer's data needs to stay completely separate from other customers, how should I structure that
 tenancy	quiet	can you review this pull request for bugs before I merge it
-flags	fire	I want to roll out our new checkout page to 10% of users first, how should I set that up as a flag?
-flags	quiet	Can you write end-to-end tests for the checkout page?
-share-safe	fire	is this log file safe to paste into a support ticket, or does it have anything sensitive in it?
-share-safe	quiet	can you review this pull request for bugs before I merge it?
+feature-flags	fire	I want to roll out our new checkout page to 10% of users first, how should I set that up as a flag?
+feature-flags	quiet	Can you write end-to-end tests for the checkout page?
+secret-scan	fire	is this log file safe to paste into a support ticket, or does it have anything sensitive in it?
+secret-scan	quiet	can you review this pull request for bugs before I merge it?
 seo	fire	our category pages all have the same title tag in search results, can you fix that and add a sitemap
 seo	quiet	can you write some blog posts for our product launch next week
-house-style	fire	Can you look at our app's CSS and components and write up what our design system actually looks like?
-house-style	quiet	Can you redesign the checkout page to feel more modern and premium?
+style-guide	fire	Can you look at our app's CSS and components and write up what our design system actually looks like?
+style-guide	quiet	Can you redesign the checkout page to feel more modern and premium?
 project-setup	quiet	which skill should I use to review this pull request before merging?
 doc-tidy	quiet	tidy up the docs folder, remove anything stale or duplicated, and fix the broken links
 scheduler	fire	Can you set up a nightly job that regenerates our export file and then emails it, with retries if it fails?
@@ -146,7 +146,7 @@ prove-it	fire	Prove that the refund flow actually works before I merge this
 prove-it	quiet	Review this pull request and tell me if the code looks right
 filament	fire	Add a Filament admin resource for managing subscriptions
 filament	quiet	Build a public-facing signup form for subscriptions
-pick	quiet	Reviewing the open pull request for the checkout page and fixing what it finds
+pick-skills	quiet	Reviewing the open pull request for the checkout page and fixing what it finds
 work	fire	Pick up issue ABC-123 and tell me where it's at
 work	fire	What stage is pull request 88 at, and what's blocking it?
 work	quiet	How do I undo my last git commit but keep the changes?

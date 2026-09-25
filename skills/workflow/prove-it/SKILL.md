@@ -19,7 +19,7 @@ something that ran, with output pasted, not summarised from
 memory of what the code appears to do.
 
 For acceptance testing a whole journey or site until every scenario has a
-verdict, use `road-test` (if installed).
+verdict, use `acceptance-test` (if installed).
 
 ## 1. Work out what the change touches
 

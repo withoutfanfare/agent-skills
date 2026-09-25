@@ -20,7 +20,7 @@ someone else's cached response. This skill covers Nuxt's own machinery,
 routing, data fetching, rendering mode and deployment. For what happens
 inside a component once it is mounted (component internals), hand off to
 `vue` (if installed); for how a page should look, hand off to `tailwind`
-or `sketch` (if installed).
+or `prototype` (if installed).
 
 Paths below use the Nuxt 4 layout, where `pages/`, `components/`,
 `composables/`, `layouts/` and `app.vue` live inside `app/`, while

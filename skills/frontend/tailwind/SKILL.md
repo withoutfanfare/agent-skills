@@ -28,7 +28,7 @@ below is the same; the v3 stub is at
 ## 1. Find the existing tokens
 
 Before adding anything, read what is already there. If a `STYLEGUIDE.md`
-exists (from `house-style`, if installed), read it first: it says which
+exists (from `style-guide`, if installed), read it first: it says which
 values are deliberate.
 
 ```bash

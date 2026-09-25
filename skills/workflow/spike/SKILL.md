@@ -18,7 +18,7 @@ evidence that led there. Research that changes no decision is not worth
 doing, so the first step is making sure the question is real.
 
 Once the answer is in, argue for the direction with `proposal` (if
-installed) and size the work with `t-shirt` (if installed).
+installed) and size the work with `estimate` (if installed).
 
 ## 1. Frame the question
 

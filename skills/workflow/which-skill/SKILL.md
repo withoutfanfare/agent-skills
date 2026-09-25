@@ -36,8 +36,8 @@ there is already a ticket.
 
 ## From idea to shipped
 
-1. **Shape it.** `spike` to test feasibility; `sketch` when a question needs
-   something to click; `t-shirt` for a rough size; `proposal` to argue a
+1. **Shape it.** `spike` to test feasibility; `prototype` when a question needs
+   something to click; `estimate` for a rough size; `proposal` to argue a
    direction in writing; `threat-model` to threat-model before building;
    `migrate-data` when production data has to move; `user-flow` for journeys and
    acceptance criteria.
@@ -46,7 +46,7 @@ there is already a ticket.
 3. **Build.** `scaffold` for a new feature slice, `schema` for tables,
    `api-design` for endpoints, plus the stack skills below. `write-tests` writes
    the tests.
-4. **Prove it.** `prove-it` runs the change for real; `road-test` drives a
+4. **Prove it.** `prove-it` runs the change for real; `acceptance-test` drives a
    browser through whole journeys; `test-plan` writes scripts for human
    testers.
 5. **Review.** `review` answers "is this the right change?" and "is it
@@ -66,24 +66,24 @@ will not load: `herd-doctor`.
 
 ## Keeping the codebase healthy
 
-`refactor` for one area, `codemod` for the same change across many files,
+`refactor` for one area, `bulk-edit` for the same change across many files,
 `deep-modules` *(typed)* to find shallow modules, `debt-log` to rank technical
 debt, `dep-audit` for dependencies, `security-audit` for a security audit,
 `access-audit` for accessibility, `seo` for search visibility,
-`upgrade` for framework versions, `tour` to understand what is there.
+`upgrade` for framework versions, `walkthrough` to understand what is there.
 
 ## Before a launch
 
 `launch-risk` *(typed)* runs parallel audits into a plain-English risk brief;
-follow with `security-audit`, `road-test` and `monitoring` on whatever it flags.
+follow with `security-audit`, `acceptance-test` and `monitoring` on whatever it flags.
 
 ## Words for people
 
 `plainify` rewrites for a chosen reader; `explain` explains a concept in
-layers; `bulletin` *(typed)* writes an update for leaders, the team or
-clients; `weekly` *(typed)* writes the week's engineering report;
+layers; `status-update` *(typed)* writes an update for leaders, the team or
+clients; `weekly-report` *(typed)* writes the week's engineering report;
 `copywriter` for marketing copy; `microcopy` for interface text;
-`wait-what` when a reply did not land.
+`re-explain` when a reply did not land.
 
 ## Memory and continuity
 
@@ -93,13 +93,13 @@ at the end of a session; `catch-up` briefs you after time away;
 
 ## Laravel and PHP
 
-`debug`, `scaffold`, `schema`, `seed`, `upgrade`, `tenancy`, `flags`,
+`debug`, `scaffold`, `schema`, `seed`, `upgrade`, `tenancy`, `feature-flags`,
 `scheduler`, `notify`, `mailable`, `localise`, `livewire`, `filament`,
 `alpine`, `api-design`, `prove-it`, `herd-doctor`.
 
 ## Front end and desktop
 
-`vue`, `nuxt`, `tailwind`, `house-style` (write down the design system you
+`vue`, `nuxt`, `tailwind`, `style-guide` (write down the design system you
 already have), `design-pack` *(typed)* (package it for a design tool),
 `user-flow`, `access-audit`, `tauri`, `tidy-build`.
 
@@ -110,13 +110,13 @@ edits to agreed paths.
 
 ## Git and delivery chores
 
-`git-guide` for rebases, conflicts, cherry-picks and releases; `share-safe`
+`git-guide` for rebases, conflicts, cherry-picks and releases; `secret-scan`
 before sending anything outside; `wizard` for a script that walks a person
 through steps only they can do.
 
 ## Looking after the library
 
-`pick` *(typed)* links the right skills for the task in hand;
+`pick-skills` *(typed)* links the right skills for the task in hand;
 `project-setup` *(typed)* records a project's facts for every session;
 `usage-audit` *(typed)* reviews which skills earn their place; `doc-tidy`
 *(typed)* organises a docs folder; `which-skill` *(typed)* is this map.

@@ -11,7 +11,7 @@ the job.
 | Opening a pull request | `open-pr` | the ship part of [review](modes/review.md) |
 | Getting a pull request through CI and review threads | `land-pr` | the respond part of [review](modes/review.md) |
 | Independent code review | `review` | the independent review part of [review](modes/review.md) |
-| Browser acceptance runs to a verdict | `road-test` | [verify](modes/verify.md) |
+| Browser acceptance runs to a verdict | `acceptance-test` | [verify](modes/verify.md) |
 | A manual QA plan drawn from code and docs | `test-plan` | the planning part of [verify](modes/verify.md) |
 | Documentation in plain English | `plainify` | [document](modes/document.md) |
 | Tests for the acceptance criteria | `write-tests` | the project's own testing habits |
