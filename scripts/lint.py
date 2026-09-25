@@ -17,6 +17,9 @@ house rules:
 - the which-skill router mentions every skill and marks typed-only ones
 - every name in sets/*.txt is a real skill
 - no em dashes in any text file (house style)
+- skills/private/ is your own git-ignored folder: it is never linted or
+  catalogued, nothing in it may be tracked by git, and its skill names may
+  not clash with library ones
 - no private terms: if a file called .lint-private-terms exists at the
   repository root (it is git-ignored), each non-blank line in it is a
   case-insensitive regular expression that must not appear anywhere in the
@@ -28,6 +31,7 @@ Exit code 0 = clean, 1 = findings.
 import fnmatch
 import os
 import re
+import subprocess
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -36,19 +40,21 @@ EM_DASH = "\u2014"
 NAME_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 TEXT_EXT = {".md", ".txt", ".py", ".sh", ".yaml", ".yml", ".json", ".mjs", ".js", ""}
 SKIP_DIRS = {".git", "__pycache__", "node_modules"}
+PRIVATE = "private"  # skills/private/: personal, git-ignored, never published
 
 
-def skill_folders():
+def skill_folders(private=False):
     """Return [(name, relative folder)] for every skill folder in skills/.
 
     A skill folder is one that either holds SKILL.md directly under skills/,
     or sits one level down inside a category folder (skills/<category>/<name>).
     Duplicate names across categories are reported by the linter.
+    skills/private/ is left out, or is the only folder read when private=True.
     """
     found = []
     for top in sorted(os.listdir(SKILLS)):
         top_path = os.path.join(SKILLS, top)
-        if not os.path.isdir(top_path) or top.startswith("."):
+        if not os.path.isdir(top_path) or top.startswith(".") or (top == PRIVATE) != private:
             continue
         if os.path.isfile(os.path.join(top_path, "SKILL.md")):
             found.append((top, top))
@@ -107,7 +113,8 @@ def private_terms():
 
 def text_files():
     for base, dirs, files in os.walk(ROOT):
-        dirs[:] = [d for d in dirs if d not in SKIP_DIRS]
+        dirs[:] = [d for d in dirs if d not in SKIP_DIRS
+                   and os.path.join(base, d) != os.path.join(SKILLS, PRIVATE)]
         for f in files:
             if f == ".lint-private-terms":
                 continue
@@ -204,6 +211,17 @@ def main():
                 if name and name not in skill_of:
                     findings.append(f"sets/{f}:{n}: `{name}` is not a skill")
 
+    # Private skills link alongside library ones, so names must not clash,
+    # and none of them may ever reach git.
+    for name, rel in skill_folders(private=True):
+        if name in skill_of:
+            findings.append(f"skills/{rel}: private skill has the same name as skills/{skill_of[name]}")
+    if os.path.isdir(os.path.join(ROOT, ".git")):
+        tracked = subprocess.run(["git", "-C", ROOT, "ls-files", f"skills/{PRIVATE}"],
+                                 capture_output=True, text=True).stdout.split()
+        for f in tracked:
+            findings.append(f"{f}: private skills must not be tracked by git (git rm --cached it)")
+
     terms, exempt = private_terms()
     for path in text_files():
         rel = os.path.relpath(path, ROOT)
@@ -225,6 +243,8 @@ def main():
             print(f"  x {f}")
         sys.exit(1)
     note = f", {len(terms)} private terms checked" if terms else ", no .lint-private-terms file"
+    mine = len(skill_folders(private=True))
+    note += f", {mine} private skills not linted" if mine else ""
     print(f"ok: {len(folders)} skills clean ({typed_count} typed-only){note}")
 
 

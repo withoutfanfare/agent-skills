@@ -1,6 +1,6 @@
 # Agent skills
 
-79 skills for AI coding agents, written for **Claude Code** and **Codex**,
+82 skills for AI coding agents, written for **Claude Code** and **Codex**,
 with a small command that links the ones you need into each project.
 
 A **skill** is a folder of instructions an agent reads before it starts a
@@ -45,6 +45,18 @@ Links go into `.claude/skills` for Claude Code and `.agents/skills` for
 Codex. Each link points back at this repository, so `git pull` updates
 every project at once. Personal extras for one project go in
 `.agent-skills.local`.
+
+### Your own private skills
+
+Skills that only make sense on your machine (ones that lean on your own
+tools, folders or accounts) can live in `skills/private/<name>`. That
+folder is git-ignored, so nothing in it is ever committed or published, but
+`agent-skills add`, `status` and `sync` treat those skills like any other.
+`agent-skills list skills` marks them `(private)`, and `agent-skills init`
+writes them to `.agent-skills.local` rather than the shared `.agent-skills`,
+so teammates are never asked for a skill they cannot have. The linter skips
+them, refuses a private name that clashes with a library skill, and fails if
+anything in `skills/private/` is ever tracked by git.
 
 Not sure what fits? `/pick-skills <what you are about to do>` links the right few
 for the task in hand, and `/which-skill` maps a situation to a skill and
