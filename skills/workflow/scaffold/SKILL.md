@@ -56,7 +56,8 @@ Authorisation is not optional on any write path. A feature with validation
 but no ownership or permission check lets any authenticated caller act on
 anyone's data.
 
-Stack-specific detail and pitfalls: [references/laravel.md](references/laravel.md).
+If this is a Laravel project, the framework detail and pitfalls are in
+[references/laravel.md](references/laravel.md).
 
 Done when: every write path has both a validation rule and an
 authorisation check, and you can point to both for each one.
