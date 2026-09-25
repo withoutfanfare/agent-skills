@@ -28,7 +28,7 @@ def library_root() -> Path:
 
     This script is normally reached through a symlink, e.g.
     <project>/.claude/skills/pick-skills/scripts/catalogue.py ->
-    <library>/skills/<category>/pick/scripts/catalogue.py. Path.resolve()
+    <library>/skills/<category>/pick-skills/scripts/catalogue.py. Path.resolve()
     follows symlinks; from there walk up to the folder that holds `skills/`.
     """
     real = Path(__file__).resolve()
