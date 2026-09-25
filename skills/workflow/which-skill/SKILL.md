@@ -89,7 +89,8 @@ clients; `weekly-report` *(typed)* writes the week's engineering report;
 
 `decision-log` records decisions and revisits them; `takeaways` captures lessons
 at the end of a session; `catch-up` briefs you after time away;
-`handover` briefs someone taking over.
+`continuity` pauses your own work in a dated snapshot and resumes it later,
+in any tool; `handover` briefs someone else taking over.
 
 ## Laravel and PHP
 
@@ -118,7 +119,10 @@ through steps only they can do.
 
 `pick-skills` *(typed)* links the right skills for the task in hand;
 `project-setup` *(typed)* records a project's facts for every session;
-`usage-audit` *(typed)* reviews which skills earn their place; `doc-tidy`
+`usage-audit` *(typed)* reviews which skills earn their place;
+`improve-skill` *(typed)* tests a skill with pass or fail checks and keeps
+only the changes that raise its score; `instruction-audit` *(typed)* trims
+an AGENTS.md or CLAUDE.md file to what the agent needs; `doc-tidy`
 *(typed)* organises a docs folder; `which-skill` *(typed)* is this map.
 
 ## It's working if

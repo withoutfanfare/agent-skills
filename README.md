@@ -1,6 +1,6 @@
 # Agent skills
 
-79 skills for AI coding agents, written for **Claude Code** and **Codex**,
+82 skills for AI coding agents, written for **Claude Code** and **Codex**,
 with a small command that links the ones you need into each project.
 
 A **skill** is a folder of instructions an agent reads before it starts a

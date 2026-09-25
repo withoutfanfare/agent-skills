@@ -150,3 +150,9 @@ pick-skills	quiet	Reviewing the open pull request for the checkout page and fixi
 work	fire	Pick up issue ABC-123 and tell me where it's at
 work	fire	What stage is pull request 88 at, and what's blocking it?
 work	quiet	How do I undo my last git commit but keep the changes?
+continuity	fire	Can you write me a continuation prompt so I can pick this up in a new chat tomorrow?
+continuity	fire	I need to stop here for today, write me something I can paste back in to resume where I left off
+continuity	fire	Write a handoff prompt for myself before I switch over to the other tool
+continuity	quiet	Can you write a brief so Sam can take this ticket over from me tomorrow?
+continuity	quiet	What has changed in this project since I was last in it?
+instruction-audit	quiet	our CLAUDE.md keeps giving the wrong test command, can you fix the facts in it
