@@ -15,6 +15,8 @@ for s in alpha beta gamma; do
     mkdir -p "$lib/skills/$s"
     printf -- '---\nname: %s\ndescription: Test skill %s.\n---\nBody.\n' "$s" "$s" > "$lib/skills/$s/SKILL.md"
 done
+mkdir -p "$lib/skills/group/delta"   # a skill inside a category folder
+printf -- '---\nname: delta\ndescription: Test skill delta.\n---\nBody.\n' > "$lib/skills/group/delta/SKILL.md"
 printf 'alpha\nbeta # a comment\n' > "$lib/sets/pair.txt"
 
 export HOME="$tmp/home"
@@ -38,7 +40,11 @@ check "set adds to Claude folder" 'ours "$project/.claude/skills/alpha" && ours 
 check "set adds to Codex folder" 'ours "$project/.agents/skills/alpha" && ours "$project/.agents/skills/beta"'
 check "unknown skill reported" '"$cli" add nope > "$tmp/s3"; grep -q "no such skill" "$tmp/s3"'
 check "list set shows only its skills" '[ "$("$cli" list pair | tr "\n" " ")" = "alpha beta " ]'
-check "list skills shows all" '[ "$("$cli" list skills | grep -c .)" = 3 ]'
+check "list skills shows all" '[ "$("$cli" list skills | grep -c .)" = 4 ]'
+
+"$cli" add delta >/dev/null
+check "skill in a category folder links" 'ours "$project/.claude/skills/delta" && [ -f "$project/.claude/skills/delta/SKILL.md" ]'
+"$cli" remove delta >/dev/null
 
 mkdir -p "$project/.agents/skills/gamma"   # the user's own Codex copy
 "$cli" add gamma >/dev/null

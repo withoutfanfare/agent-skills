@@ -53,6 +53,8 @@ what comes after it.
 ## What is in here
 
 The full list, with one line each, is in [CATALOGUE.md](CATALOGUE.md).
+Skills live in four folders: `workflow` (works in any codebase, the large
+majority), `laravel`, `frontend` (Vue, Nuxt, Tailwind) and `desktop` (Tauri).
 Some highlights:
 
 | If you want to | Use |

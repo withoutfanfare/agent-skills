@@ -28,11 +28,13 @@ def library_root() -> Path:
 
     This script is normally reached through a symlink, e.g.
     <project>/.claude/skills/pick/scripts/catalogue.py ->
-    <library>/skills/pick/scripts/catalogue.py. Path.resolve() follows
-    symlinks, so once resolved we just walk up three parents:
-    scripts -> pick -> skills -> library root.
+    <library>/skills/<category>/pick/scripts/catalogue.py. Path.resolve()
+    follows symlinks; from there walk up to the folder that holds `skills/`.
     """
     real = Path(__file__).resolve()
+    for candidate in real.parents:
+        if (candidate / "skills").is_dir() and (candidate / "sets").is_dir():
+            return candidate
     return real.parents[3]
 
 
@@ -76,7 +78,9 @@ def library_skills(lib: Path):
     skills_dir = lib / "skills"
     if not skills_dir.is_dir():
         return
-    for entry in sorted(skills_dir.iterdir()):
+    entries = sorted(skills_dir.iterdir()) + sorted(
+        sub for cat in skills_dir.iterdir() if cat.is_dir() for sub in cat.iterdir())
+    for entry in entries:
         skill_md = entry / "SKILL.md"
         if entry.name.startswith((".", "_")) or not skill_md.is_file():
             continue

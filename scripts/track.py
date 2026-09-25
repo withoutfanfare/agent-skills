@@ -11,6 +11,7 @@ $AGENT_SKILLS_LOG, or ~/.local/share/agent-skills/usage.jsonl by default.
 A "use" is one skill in one session, however many times it was called.
 """
 import datetime as dt
+import glob
 import json
 import os
 import sys
@@ -42,11 +43,12 @@ def log():
 
 
 def library_skills():
+    """Every skill in the library, one or two folders below skills/."""
     skills = {}
     folder = os.path.join(LIBRARY, "skills")
-    for name in sorted(os.listdir(folder)):
-        path = os.path.join(folder, name, "SKILL.md")
-        if os.path.isfile(path):
+    for pattern in ("*", "*/*"):
+        for path in sorted(glob.glob(os.path.join(folder, pattern, "SKILL.md"))):
+            name = os.path.basename(os.path.dirname(path))
             head = open(path, encoding="utf-8").read(2000)
             skills[name] = "disable-model-invocation: true" in head
     return skills

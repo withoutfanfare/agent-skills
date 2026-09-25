@@ -21,8 +21,10 @@ check() {
 }
 
 skill good 'name: good\ndescription: >-\n  Does a thing. Use when the user asks for the thing.'
+skill group/nested 'name: nested\ndescription: Lives in a category folder.'
 python3 "$tmp/scripts/lint.py" > "$tmp/out" 2>&1
-check "clean library passes" '[ $? = 0 ] && grep -q "ok: 1 skills clean" "$tmp/out"'
+check "clean library passes" '[ $? = 0 ] && grep -q "ok: 2 skills clean" "$tmp/out"'
+rm -rf "$tmp/skills/group"
 
 skill Bad-Name 'name: Bad-Name\ndescription: Something.'
 skill mismatch 'name: other\ndescription: Something.'
@@ -33,6 +35,7 @@ mkdir -p "$tmp/skills/loose/agents"
 printf 'policy:\n  allow_implicit_invocation: false\n' > "$tmp/skills/loose/agents/openai.yaml"
 skill dashes 'name: dashes\ndescription: Dashes.' 'One \xe2\x80\x94 two.'
 skill secret 'name: secret\ndescription: Mentions acmecorp here.'
+skill other/good 'name: good\ndescription: A second copy of good.'
 printf 'acmecorp\n!NOTES.md\n' > "$tmp/.lint-private-terms"
 printf 'acmecorp is fine here\n' > "$tmp/NOTES.md"
 
@@ -48,6 +51,7 @@ check "em dash caught" 'grep -q "skills/dashes/SKILL.md:5: em dash" "$tmp/out"'
 check "private term caught" 'grep -q "skills/secret/SKILL.md:3: private term" "$tmp/out"'
 check "exempt file not flagged" '! grep -q "NOTES.md" "$tmp/out"'
 check "good skill not flagged" '! grep -q "skills/good" "$tmp/out"'
+check "duplicate name caught" 'grep -q "skills: .good. appears more than once" "$tmp/out"'
 
 # The router must mention every skill and mark typed ones.
 rm -rf "$tmp/skills"/*

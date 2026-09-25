@@ -41,7 +41,7 @@ A skill added last week with no uses tells you nothing. For each unused or
 rarely used skill, find when it was added:
 
 ```bash
-git log --diff-filter=A --format=%as -- skills/<name>/SKILL.md | tail -1
+git log --diff-filter=A --format=%as -- 'skills/*/<name>/SKILL.md' | tail -1
 ```
 
 Leave out anything younger than half the window.

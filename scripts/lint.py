@@ -38,6 +38,35 @@ TEXT_EXT = {".md", ".txt", ".py", ".sh", ".yaml", ".yml", ".json", ".mjs", ".js"
 SKIP_DIRS = {".git", "__pycache__", "node_modules"}
 
 
+def skill_folders():
+    """Return [(name, relative folder)] for every skill folder in skills/.
+
+    A skill folder is one that either holds SKILL.md directly under skills/,
+    or sits one level down inside a category folder (skills/<category>/<name>).
+    Duplicate names across categories are reported by the linter.
+    """
+    found = []
+    for top in sorted(os.listdir(SKILLS)):
+        top_path = os.path.join(SKILLS, top)
+        if not os.path.isdir(top_path) or top.startswith("."):
+            continue
+        if os.path.isfile(os.path.join(top_path, "SKILL.md")):
+            found.append((top, top))
+            continue
+        for sub in sorted(os.listdir(top_path)):
+            if os.path.isdir(os.path.join(top_path, sub)) and not sub.startswith("."):
+                found.append((sub, os.path.join(top, sub)))
+    return found
+
+
+def skill_path(name):
+    """Return the relative folder of the named skill, or None."""
+    for n, rel in skill_folders():
+        if n == name:
+            return rel
+    return None
+
+
 def frontmatter(text):
     """Return (fields, body) from a SKILL.md, reading top-level keys only.
 
@@ -89,6 +118,7 @@ def text_files():
 
 def check_skill(folder, findings):
     rel = f"skills/{folder}"
+    folder_name = os.path.basename(folder)
     path = os.path.join(SKILLS, folder, "SKILL.md")
     if not os.path.isfile(path):
         findings.append(f"{rel}: no SKILL.md")
@@ -100,7 +130,7 @@ def check_skill(folder, findings):
         return False
 
     name = fields.get("name", "")
-    if name != folder:
+    if name != folder_name:
         findings.append(f"{rel}: name '{name}' does not match the folder")
     if not NAME_RE.match(name) or len(name) > 64:
         findings.append(f"{rel}: name must be lowercase words joined by single hyphens, 64 characters at most")
@@ -132,16 +162,21 @@ def check_skill(folder, findings):
 
 def main():
     findings, typed_count = [], 0
-    folders = sorted(d for d in os.listdir(SKILLS)
-                     if os.path.isdir(os.path.join(SKILLS, d)) and not d.startswith("."))
+    found = skill_folders()
+    folders = [name for name, _ in found]
+    for name in sorted(set(folders)):
+        if folders.count(name) > 1:
+            where = ", ".join(rel for n, rel in found if n == name)
+            findings.append(f"skills: `{name}` appears more than once ({where}); names must be unique")
     typed_names = {}
-    for folder in folders:
-        typed_names[folder] = bool(check_skill(folder, findings))
-        typed_count += typed_names[folder]
+    for name, rel in found:
+        typed_names[name] = bool(check_skill(rel, findings))
+        typed_count += typed_names[name]
+    skill_of = dict(found)
 
     # The router must mention every skill, and mark typed-only ones, so it
     # cannot quietly fall out of date.
-    router = os.path.join(SKILLS, "which-skill", "SKILL.md")
+    router = os.path.join(SKILLS, skill_of.get("which-skill", "which-skill"), "SKILL.md")
     if os.path.isfile(router):
         text = open(router, encoding="utf-8").read()
         for folder in folders:
@@ -153,7 +188,7 @@ def main():
             elif typed_names.get(folder) and "*(typed)*" not in text[m.end(): m.end() + 12]:
                 findings.append(f"skills/which-skill: `{folder}` is typed-only but not marked *(typed)*")
         for name in set(re.findall(r"`([a-z0-9]+(?:-[a-z0-9]+)+|[a-z]{3,})`", text)):
-            if os.path.isdir(os.path.join(SKILLS, name)) or name in ("agent-skills",):
+            if name in skill_of or name in ("agent-skills",):
                 continue
             if re.fullmatch(r"[a-z]+(-[a-z0-9]+)+", name):
                 findings.append(f"skills/which-skill: names `{name}`, which is not a skill")
@@ -166,7 +201,7 @@ def main():
                 continue
             for n, line in enumerate(open(os.path.join(sets_dir, f), encoding="utf-8"), 1):
                 name = re.sub(r"#.*", "", line).strip()
-                if name and not os.path.isfile(os.path.join(SKILLS, name, "SKILL.md")):
+                if name and name not in skill_of:
                     findings.append(f"sets/{f}:{n}: `{name}` is not a skill")
 
     terms, exempt = private_terms()

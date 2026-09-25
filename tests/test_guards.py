@@ -7,8 +7,8 @@ import sys
 import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CAREFUL = os.path.join(ROOT, "skills", "careful", "scripts", "guard.py")
-FREEZE = os.path.join(ROOT, "skills", "freeze", "scripts", "guard.py")
+CAREFUL = os.path.join(ROOT, "skills", "workflow", "careful", "scripts", "guard.py")
+FREEZE = os.path.join(ROOT, "skills", "workflow", "freeze", "scripts", "guard.py")
 failures = 0
 
 

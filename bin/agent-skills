@@ -72,6 +72,17 @@ is_ours() {
     [[ "$target" == "$SKILLS"/* ]]
 }
 
+# Print the folder of the named skill: skills/<name> or skills/<category>/<name>.
+# Fails silently when there is no such skill.
+skill_dir() {
+    local d
+    [ -f "$SKILLS/$1/SKILL.md" ] && { echo "$SKILLS/$1"; return 0; }
+    for d in "$SKILLS"/*/"$1"; do
+        [ -f "$d/SKILL.md" ] && { echo "$d"; return 0; }
+    done
+    return 1
+}
+
 # Print skill names for a skill or set name; sets are sets/<name>.txt.
 expand() {
     if [ -f "$SETS/$1.txt" ]; then
@@ -88,8 +99,8 @@ read_manifest() {
 }
 
 link_skill() {
-    local base="$1" name="$2" dir made=0 note=""
-    if [ ! -f "$SKILLS/$name/SKILL.md" ]; then
+    local base="$1" name="$2" dir made=0 note="" src
+    if ! src=$(skill_dir "$name"); then
         echo "  ${RED}✗${RESET} $name ${DIM}(no such skill)${RESET}"
         return 0
     fi
@@ -101,7 +112,7 @@ link_skill() {
         elif [ -e "$dir/$name" ] || [ -L "$dir/$name" ]; then
             note="$note ${YELLOW}(your own copy in $t left alone)${RESET}"
         else
-            ln -s "$SKILLS/$name" "$dir/$name"
+            ln -s "$src" "$dir/$name"
             made=1
         fi
     done
@@ -171,7 +182,7 @@ cmd_status() {
         claude=0; codex=0
         is_ours "$base/.claude/skills/$name" && claude=1
         is_ours "$base/.agents/skills/$name" && codex=1
-        if [ ! -e "$SKILLS/$name/SKILL.md" ]; then
+        if ! skill_dir "$name" >/dev/null; then
             where="${RED}broken: no longer in the library${RESET}"
         elif [ "$claude$codex" = 11 ]; then
             where="${DIM}Claude Code and Codex${RESET}"
@@ -215,9 +226,9 @@ cmd_init() {
 cmd_list() {
     local set
     if [ "${1:-}" = "skills" ]; then
-        for d in "$SKILLS"/*/; do
+        for d in "$SKILLS"/*/ "$SKILLS"/*/*/; do
             if [ -f "$d/SKILL.md" ]; then basename "$d"; fi
-        done
+        done | sort -u
     elif [ -n "${1:-}" ]; then
         [ -f "$SETS/$1.txt" ] || die "No set called $1."
         expand "$1"

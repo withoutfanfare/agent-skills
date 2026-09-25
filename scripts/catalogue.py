@@ -8,7 +8,7 @@ import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from lint import ROOT, SKILLS, frontmatter  # noqa: E402
+from lint import ROOT, SKILLS, frontmatter, skill_folders  # noqa: E402
 
 SETS = os.path.join(ROOT, "sets")
 
@@ -21,15 +21,13 @@ def first_sentence(text, cap=180):
 
 
 def main():
-    skills = {}
-    for folder in sorted(os.listdir(SKILLS)):
-        path = os.path.join(SKILLS, folder, "SKILL.md")
-        if not os.path.isfile(path):
-            continue
+    skills = {}  # name -> (relative folder, description, typed)
+    for name, rel in skill_folders():
+        path = os.path.join(SKILLS, rel, "SKILL.md")
         fields, _ = frontmatter(open(path, encoding="utf-8").read())
         fields = fields or {}
         typed = fields.get("disable-model-invocation", "").lower() == "true"
-        skills[folder] = (first_sentence(fields.get("description", "")), typed)
+        skills[name] = (rel, first_sentence(fields.get("description", "")), typed)
 
     out = ["# Catalogue", "",
            f"{len(skills)} skills. *(typed)* skills run only when you ask for them by name "
@@ -46,10 +44,17 @@ def main():
             out.append(f"| **{s}** | {', '.join(n for n in names if n)} |")
         out.append("")
 
-    out += ["## Skills", "", "| Skill | What it does |", "|---|---|"]
-    for name, (desc, typed) in skills.items():
-        out.append(f"| [`{name}`](skills/{name}/SKILL.md){' *(typed)*' if typed else ''} | {desc} |")
-    out.append("")
+    # One table per category folder (skills/<category>/<name>); skills that sit
+    # directly under skills/ go in a final "Other" table.
+    groups = {}
+    for name, (rel, desc, typed) in skills.items():
+        category = os.path.dirname(rel) or "other"
+        groups.setdefault(category, []).append((name, rel, desc, typed))
+    for category in sorted(groups, key=lambda c: (c == "other", c)):
+        out += [f"## {category.capitalize()}", "", "| Skill | What it does |", "|---|---|"]
+        for name, rel, desc, typed in sorted(groups[category]):
+            out.append(f"| [`{name}`](skills/{rel}/SKILL.md){' *(typed)*' if typed else ''} | {desc} |")
+        out.append("")
 
     with open(os.path.join(ROOT, "CATALOGUE.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(out))

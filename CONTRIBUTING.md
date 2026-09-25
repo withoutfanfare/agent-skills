@@ -17,7 +17,7 @@ an existing skill.
 ## How a skill is laid out
 
 ```text
-skills/<name>/
+skills/<category>/<name>/
 ├── SKILL.md            required: frontmatter and instructions
 ├── references/         optional: detail loaded only when needed
 ├── scripts/            optional: code the skill runs
@@ -26,6 +26,12 @@ skills/<name>/
 ```
 
 Start from [docs/skill-template/](docs/skill-template/).
+
+The category folder says what the skill is tied to: `workflow` for skills
+that work in any codebase, and `laravel`, `frontend` or `desktop` for ones
+that only make sense with that technology. Names must be unique across the
+whole library, because every skill links into one flat `.claude/skills/`
+folder; the linter checks this.
 
 ## Frontmatter
 
