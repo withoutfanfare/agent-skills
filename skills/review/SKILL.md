@@ -6,7 +6,7 @@ description: >-
   fast and maintainable? Every finding carries a severity and a confidence
   rating. Use when the user asks to review changes, check a pull request,
   look for bugs before merging, or asks whether the code matches the ticket.
-  Not for a security audit of a whole app; use `harden`.
+  Not for a security audit of a whole app; use `security-audit`.
 license: MIT
 context: fork
 background: false
@@ -23,8 +23,8 @@ Beautiful code that builds the wrong thing fails the first; the right
 feature with an injection hole fails the second. Keep the two answers apart
 all the way to the report, so one never hides the other.
 
-For a whole-app security audit rather than one change, use `harden` (if
-installed); for a design not yet built, `adversary` (if installed).
+For a whole-app security audit rather than one change, use `security-audit` (if
+installed); for a design not yet built, `threat-model` (if installed).
 
 ## 1. Check you are reviewing the right thing
 

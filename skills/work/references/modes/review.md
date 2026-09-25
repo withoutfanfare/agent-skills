@@ -22,8 +22,8 @@ For a lasting artefact, fill in the [handover template](../../assets/pr-handover
 or the [review report](../../assets/review-report.md).
 
 **Hand-offs.** If they are installed, three skills can do parts of this:
-`review` performs the independent review, `raise` creates the pull request,
-and `shepherd` carries it through CI and comment threads until it merges.
+`review` performs the independent review, `open-pr` creates the pull request,
+and `land-pr` carries it through CI and comment threads until it merges.
 Whatever they hand back is restated in this mode's terms (severity,
 disposition, the stage map). A `review` finding arrives on the same
 blocker/major/minor scale as below, though a "nice to have" minor can drop

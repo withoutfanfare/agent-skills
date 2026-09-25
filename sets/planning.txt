@@ -1,8 +1,8 @@
 # Planning and thinking
 spike
 t-shirt
-pitch
-preflight
+proposal
+plan-review
 sketch
-ledger
+decision-log
 handover

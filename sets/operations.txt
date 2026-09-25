@@ -1,6 +1,6 @@
 # Running things in production
 triage
-hindsight
+post-mortem
 runbook
-watchtower
-launchpad
+monitoring
+pipeline

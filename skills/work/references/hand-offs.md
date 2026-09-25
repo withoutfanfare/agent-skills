@@ -8,14 +8,14 @@ the job.
 
 | Job | Skill, when installed | Fallback |
 |---|---|---|
-| Opening a pull request | `raise` | the ship part of [review](modes/review.md) |
-| Getting a pull request through CI and review threads | `shepherd` | the respond part of [review](modes/review.md) |
+| Opening a pull request | `open-pr` | the ship part of [review](modes/review.md) |
+| Getting a pull request through CI and review threads | `land-pr` | the respond part of [review](modes/review.md) |
 | Independent code review | `review` | the independent review part of [review](modes/review.md) |
 | Browser acceptance runs to a verdict | `road-test` | [verify](modes/verify.md) |
 | A manual QA plan drawn from code and docs | `test-plan` | the planning part of [verify](modes/verify.md) |
 | Documentation in plain English | `plainify` | [document](modes/document.md) |
-| Tests for the acceptance criteria | `cover` | the project's own testing habits |
-| Lasting decision records | `ledger` | [decision record template](../assets/decision-record.md) |
+| Tests for the acceptance criteria | `write-tests` | the project's own testing habits |
+| Lasting decision records | `decision-log` | [decision record template](../assets/decision-record.md) |
 | Writing the code | the project's own engineering skills | the project's instruction files |
 
 Convert what comes back into this skill's terms: review findings arrive on

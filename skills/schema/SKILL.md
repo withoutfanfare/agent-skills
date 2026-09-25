@@ -127,7 +127,7 @@ Before writing it, classify the change:
   existing row while holding a lock).
 
 For anything in the second group, expand before you contract (add the new
-shape, backfill, switch reads, then remove the old); `relocate` (if
+shape, backfill, switch reads, then remove the old); `migrate-data` (if
 installed) plans and rehearses that sequence step by step.
 
 Make the migration safe to retry, and run it against a copy of the schema

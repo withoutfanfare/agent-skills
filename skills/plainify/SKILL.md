@@ -18,7 +18,7 @@ request, an incident, a spec, a diff, a wall of text) and rewrites it for
 one specific reader in one specific shape, so the point comes first and
 every paragraph earns its place.
 
-To explain a concept from scratch, use `unpack` (if installed); to
+To explain a concept from scratch, use `explain` (if installed); to
 re-explain a reply that did not land, `wait-what` (if installed).
 
 ## 1. Get the source
@@ -44,7 +44,7 @@ depth.
 
 The presets only rewrite existing material. To write a full test plan,
 runbook, marketing copy or progress update, `test-plan`, `runbook`,
-`copydesk` or `bulletin` (if installed) does the whole job.
+`copywriter` or `bulletin` (if installed) does the whole job.
 
 Done when: reader and shape are set, and said out loud if you chose them.
 

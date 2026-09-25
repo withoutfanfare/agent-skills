@@ -2,12 +2,12 @@
 review	fire	Can you look over the changes on my branch before I merge? I want to know if anything is broken or insecure.
 review	quiet	What is the difference between git merge and git rebase?
 review	quiet	Do a full security audit of the whole application, not just my branch.
-untangle	fire	I've got a merge conflict in package-lock.json and two services after pulling develop. How should I sort it out?
-untangle	quiet	Write a Python function that parses ISO dates.
-raise	fire	This branch is finished. Please open a pull request for it.
-raise	quiet	What makes a good pull request description, in general terms?
-shepherd	fire	My pull request #42 keeps failing CI. Can you watch it and get it merged?
-shepherd	quiet	How do GitHub Actions workflow triggers work?
+git-guide	fire	I've got a merge conflict in package-lock.json and two services after pulling develop. How should I sort it out?
+git-guide	quiet	Write a Python function that parses ISO dates.
+open-pr	fire	This branch is finished. Please open a pull request for it.
+open-pr	quiet	What makes a good pull request description, in general terms?
+land-pr	fire	My pull request #42 keeps failing CI. Can you watch it and get it merged?
+land-pr	quiet	How do GitHub Actions workflow triggers work?
 tidy-build	fire	Build the Tauri app for release and then clear out the target folder, it's eating my disc space.
 tidy-build	quiet	Why is my Rust code failing to compile with a lifetime error?
 changelog	fire	Add a changelog entry for what I've staged before I commit.
@@ -15,21 +15,21 @@ changelog	quiet	Show me the last five commits on this branch.
 doc-sync	fire	I changed the orders API last week. Please update the docs in the repo to match.
 doc-sync	quiet	Explain what an API gateway is.
 doc-sync	quiet	Go through the docs folder and remove the stale and duplicate pages.
-cover	fire	Write tests for the invoice calculation service, including the edge cases.
-cover	quiet	What does test-driven development mean?
-realign	fire	The test suite has gone red after the refactor, twelve failures. Can you fix the tests?
-realign	quiet	What is the difference between a mock and a stub?
-reshape	fire	This controller method is 200 lines long and does five things. Refactor it into something cleaner.
-reshape	quiet	Add a new endpoint that returns the current server time.
-sweep	fire	We have 340 static analysis errors of the same kind across the codebase. Fix them all in one go.
-sweep	quiet	Rename this one variable in the function I'm looking at.
-upkeep	fire	Check our dependencies for known vulnerabilities and anything badly out of date.
-upkeep	quiet	Install the lodash package.
-harden	fire	We launch next week. Do a security audit of the app and tell me what an attacker could exploit.
-harden	quiet	What does HTTPS actually encrypt?
-harden	quiet	Threat-model the new payments feature before we start building it.
-hotspot	fire	The orders page takes eight seconds to load. Find out why and speed it up.
-hotspot	quiet	What is Big O notation?
+write-tests	fire	Write tests for the invoice calculation service, including the edge cases.
+write-tests	quiet	What does test-driven development mean?
+fix-tests	fire	The test suite has gone red after the refactor, twelve failures. Can you fix the tests?
+fix-tests	quiet	What is the difference between a mock and a stub?
+refactor	fire	This controller method is 200 lines long and does five things. Refactor it into something cleaner.
+refactor	quiet	Add a new endpoint that returns the current server time.
+codemod	fire	We have 340 static analysis errors of the same kind across the codebase. Fix them all in one go.
+codemod	quiet	Rename this one variable in the function I'm looking at.
+dep-audit	fire	Check our dependencies for known vulnerabilities and anything badly out of date.
+dep-audit	quiet	Install the lodash package.
+security-audit	fire	We launch next week. Do a security audit of the app and tell me what an attacker could exploit.
+security-audit	quiet	What does HTTPS actually encrypt?
+security-audit	quiet	Threat-model the new payments feature before we start building it.
+speed-up	fire	The orders page takes eight seconds to load. Find out why and speed it up.
+speed-up	quiet	What is Big O notation?
 careful	quiet	Delete the old build folder for me.
 freeze	quiet	Only change the billing module in this task, please.
 spike	fire	Could we realistically replace our home-grown search with Meilisearch? Investigate whether it's feasible and give me a recommendation.
@@ -38,20 +38,20 @@ t-shirt	fire	How big a job would it be to add team accounts to the billing syste
 t-shirt	quiet	Add a created_at column to the users table.
 tour	fire	I'm new to this codebase. Can you walk me through how checkout works from end to end?
 tour	quiet	Fix the typo in the README heading.
-pitch	fire	I want to propose moving our background jobs from cron to a proper queue. Help me write an RFC the team can review.
-pitch	quiet	What does RFC stand for?
-ledger	fire	We've just decided to use Postgres instead of MySQL for the new service. Log this decision with our reasoning.
-ledger	quiet	What are the main differences between Postgres and MySQL?
+proposal	fire	I want to propose moving our background jobs from cron to a proper queue. Help me write an RFC the team can review.
+proposal	quiet	What does RFC stand for?
+decision-log	fire	We've just decided to use Postgres instead of MySQL for the new service. Log this decision with our reasoning.
+decision-log	quiet	What are the main differences between Postgres and MySQL?
 debt-log	fire	Audit this codebase for technical debt and help me prioritise what to pay down first.
 debt-log	quiet	What does the term technical debt mean?
-relocate	fire	We need to split the full_name column into first and last name across four million live customer rows without downtime. Plan the migration.
-relocate	quiet	Write a migration that adds a nullable phone column.
-adversary	fire	Before we build the new file-sharing feature, threat model it. How could someone abuse it?
-adversary	quiet	What is the OWASP Top 10?
+migrate-data	fire	We need to split the full_name column into first and last name across four million live customer rows without downtime. Plan the migration.
+migrate-data	quiet	Write a migration that adds a nullable phone column.
+threat-model	fire	Before we build the new file-sharing feature, threat model it. How could someone abuse it?
+threat-model	quiet	What is the OWASP Top 10?
 sketch	fire	I can't decide between a wizard and a single long form for onboarding. Mock up a few versions so I can try them.
 sketch	quiet	Style this button with a blue background.
-preflight	fire	Here's our implementation plan in docs/plans/billing.md. Sanity-check it before we start building. Any blockers?
-preflight	quiet	Write me an implementation plan for adding search.
+plan-review	fire	Here's our implementation plan in docs/plans/billing.md. Sanity-check it before we start building. Any blockers?
+plan-review	quiet	Write me an implementation plan for adding search.
 wait-what	fire	You just told me: "the handler is idempotent because the unique constraint on the dedupe key short-circuits the side effects on retry". Wait, what? You've lost me. Say that again in plain English.
 wait-what	quiet	Summarise the README for me.
 catch-up	fire	I've been away for two weeks. Catch me up on what's happened in this project.
@@ -60,25 +60,25 @@ takeaways	fire	Before we wrap up, let's capture what we learned in this session 
 takeaways	quiet	Commit these changes with a good message.
 handover	fire	I'm going on leave tomorrow. Write a brief so a colleague can pick up the payments refactor without needing to ask me anything.
 handover	quiet	Remind me what the payments refactor was about.
-deepen	quiet	This module is confusing. What does it do?
-wargame	quiet	We launch next week. Is there anything I should check?
-hindsight	fire	Checkout was down for two hours yesterday. Help me write up a blameless post-mortem with actions.
-hindsight	quiet	How do I read a stack trace?
+deep-modules	quiet	This module is confusing. What does it do?
+launch-risk	quiet	We launch next week. Is there anything I should check?
+post-mortem	fire	Checkout was down for two hours yesterday. Help me write up a blameless post-mortem with actions.
+post-mortem	quiet	How do I read a stack trace?
 runbook	fire	Write an on-call runbook for when the queue workers stop processing jobs.
 runbook	quiet	What is a message queue?
-watchtower	fire	We're launching the new billing service. What should we monitor and alert on?
-watchtower	quiet	Install the Sentry SDK.
-launchpad	fire	Set up a GitHub Actions pipeline that tests every pull request and deploys main to staging with zero downtime.
-launchpad	quiet	What does CI stand for?
+monitoring	fire	We're launching the new billing service. What should we monitor and alert on?
+monitoring	quiet	Install the Sentry SDK.
+pipeline	fire	Set up a GitHub Actions pipeline that tests every pull request and deploys main to staging with zero downtime.
+pipeline	quiet	What does CI stand for?
 triage	fire	A customer says invoices show last month's totals since this morning. How serious is this and where should we look?
 triage	quiet	What is the difference between a bug and a feature request?
 triage	quiet	Find and fix the cause of this 500 error on the checkout page.
-unpack	fire	Explain how OAuth works, starting simple, like I'm new to it.
-unpack	quiet	Add OAuth sign-in with GitHub to the app.
+explain	fire	Explain how OAuth works, starting simple, like I'm new to it.
+explain	quiet	Add OAuth sign-in with GitHub to the app.
 plainify	fire	Rewrite this pull request description in plain English for our client, they're not technical.
 plainify	quiet	Fix the grammar in this sentence: their going to the shop.
-copydesk	fire	Write a product description for our hand-printed A3 botanical prints, and a meta description for the page.
-copydesk	quiet	Write the error message for when an upload fails.
+copywriter	fire	Write a product description for our hand-printed A3 botanical prints, and a meta description for the page.
+copywriter	quiet	Write the error message for when an upload fails.
 microcopy	fire	Write the button labels, empty state and error messages for the new invoices screen.
 microcopy	quiet	Write a blog post announcing the invoices feature.
 test-plan	fire	Write a manual QA test plan for the team invitations feature so our testers can run through it.
@@ -113,8 +113,8 @@ flags	fire	I want to roll out our new checkout page to 10% of users first, how s
 flags	quiet	Can you write end-to-end tests for the checkout page?
 share-safe	fire	is this log file safe to paste into a support ticket, or does it have anything sensitive in it?
 share-safe	quiet	can you review this pull request for bugs before I merge it?
-findable	fire	our category pages all have the same title tag in search results, can you fix that and add a sitemap
-findable	quiet	can you write some blog posts for our product launch next week
+seo	fire	our category pages all have the same title tag in search results, can you fix that and add a sitemap
+seo	quiet	can you write some blog posts for our product launch next week
 house-style	fire	Can you look at our app's CSS and components and write up what our design system actually looks like?
 house-style	quiet	Can you redesign the checkout page to feel more modern and premium?
 project-setup	quiet	which skill should I use to review this pull request before merging?
@@ -123,14 +123,14 @@ scheduler	fire	Can you set up a nightly job that regenerates our export file and
 scheduler	quiet	Can you write a test for the export job?
 api-design	fire	We're adding a new orders endpoint, what should the URL and error format look like?
 api-design	quiet	Can you review this pull request for bugs before I merge it?
-mailroom	fire	I need a Laravel mailable for order confirmation emails with a tracking link button
-mailroom	quiet	Can you translate the order confirmation page into French?
+mailable	fire	I need a Laravel mailable for order confirmation emails with a tracking link button
+mailable	quiet	Can you translate the order confirmation page into French?
 herd-doctor	fire	My site on Herd is showing a 502 and won't load, can you figure out what's wrong?
 herd-doctor	quiet	The site loads fine but Chrome says the connection isn't secure
 localise	fire	We need to add French and Arabic support to the app, including translated dates and RTL layout
 localise	quiet	Can you set up a scheduled job to sync exchange rates nightly?
-sleuth	fire	My users are getting a 500 error on checkout and I can't figure out why
-sleuth	quiet	Can you triage this bug report and tell me how urgent it is?
+debug	fire	My users are getting a 500 error on checkout and I can't figure out why
+debug	quiet	Can you triage this bug report and tell me how urgent it is?
 livewire	fire	Build a Livewire component for editing a user's profile with live validation
 livewire	quiet	Write a plain Blade view listing all users, no interactivity needed
 usage-audit	quiet	Which of my skills do I use the most?

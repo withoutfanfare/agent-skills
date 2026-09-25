@@ -37,64 +37,64 @@ there is already a ticket.
 ## From idea to shipped
 
 1. **Shape it.** `spike` to test feasibility; `sketch` when a question needs
-   something to click; `t-shirt` for a rough size; `pitch` to argue a
-   direction in writing; `adversary` to threat-model before building;
-   `relocate` when production data has to move; `user-flow` for journeys and
+   something to click; `t-shirt` for a rough size; `proposal` to argue a
+   direction in writing; `threat-model` to threat-model before building;
+   `migrate-data` when production data has to move; `user-flow` for journeys and
    acceptance criteria.
-2. **Check the plan.** `preflight` tests a plan's claims before anyone
+2. **Check the plan.** `plan-review` tests a plan's claims before anyone
    builds.
 3. **Build.** `scaffold` for a new feature slice, `schema` for tables,
-   `api-design` for endpoints, plus the stack skills below. `cover` writes
+   `api-design` for endpoints, plus the stack skills below. `write-tests` writes
    the tests.
 4. **Prove it.** `prove-it` runs the change for real; `road-test` drives a
    browser through whole journeys; `test-plan` writes scripts for human
    testers.
 5. **Review.** `review` answers "is this the right change?" and "is it
    built well?".
-6. **Ship.** `raise` opens the pull request, `shepherd` sees it merged,
-   `changelog` and `doc-sync` keep the record straight, `launchpad` sets up
+6. **Ship.** `open-pr` opens the pull request, `land-pr` sees it merged,
+   `changelog` and `doc-sync` keep the record straight, `pipeline` sets up
    the pipeline.
 
 ## Something is wrong
 
-`triage` first (how serious, where, what next) → `sleuth` to find and fix
-the cause → `hindsight` for the post-mortem → `runbook` so the next person
-knows what to do → `watchtower` so it is caught sooner.
+`triage` first (how serious, where, what next) → `debug` to find and fix
+the cause → `post-mortem` for the post-mortem → `runbook` so the next person
+knows what to do → `monitoring` so it is caught sooner.
 
-Slowness: `hotspot`. Red test suite: `realign`. Herd sites on a Mac that
+Slowness: `speed-up`. Red test suite: `fix-tests`. Herd sites on a Mac that
 will not load: `herd-doctor`.
 
 ## Keeping the codebase healthy
 
-`reshape` for one area, `sweep` for the same change across many files,
-`deepen` *(typed)* to find shallow modules, `debt-log` to rank technical
-debt, `upkeep` for dependencies, `harden` for a security audit,
-`access-audit` for accessibility, `findable` for search visibility,
+`refactor` for one area, `codemod` for the same change across many files,
+`deep-modules` *(typed)* to find shallow modules, `debt-log` to rank technical
+debt, `dep-audit` for dependencies, `security-audit` for a security audit,
+`access-audit` for accessibility, `seo` for search visibility,
 `upgrade` for framework versions, `tour` to understand what is there.
 
 ## Before a launch
 
-`wargame` *(typed)* runs parallel audits into a plain-English risk brief;
-follow with `harden`, `road-test` and `watchtower` on whatever it flags.
+`launch-risk` *(typed)* runs parallel audits into a plain-English risk brief;
+follow with `security-audit`, `road-test` and `monitoring` on whatever it flags.
 
 ## Words for people
 
-`plainify` rewrites for a chosen reader; `unpack` explains a concept in
+`plainify` rewrites for a chosen reader; `explain` explains a concept in
 layers; `bulletin` *(typed)* writes an update for leaders, the team or
 clients; `weekly` *(typed)* writes the week's engineering report;
-`copydesk` for marketing copy; `microcopy` for interface text;
+`copywriter` for marketing copy; `microcopy` for interface text;
 `wait-what` when a reply did not land.
 
 ## Memory and continuity
 
-`ledger` records decisions and revisits them; `takeaways` captures lessons
+`decision-log` records decisions and revisits them; `takeaways` captures lessons
 at the end of a session; `catch-up` briefs you after time away;
 `handover` briefs someone taking over.
 
 ## Laravel and PHP
 
-`sleuth`, `scaffold`, `schema`, `seed`, `upgrade`, `tenancy`, `flags`,
-`scheduler`, `notify`, `mailroom`, `localise`, `livewire`, `filament`,
+`debug`, `scaffold`, `schema`, `seed`, `upgrade`, `tenancy`, `flags`,
+`scheduler`, `notify`, `mailable`, `localise`, `livewire`, `filament`,
 `alpine`, `api-design`, `prove-it`, `herd-doctor`.
 
 ## Front end and desktop
@@ -110,7 +110,7 @@ edits to agreed paths.
 
 ## Git and delivery chores
 
-`untangle` for rebases, conflicts, cherry-picks and releases; `share-safe`
+`git-guide` for rebases, conflicts, cherry-picks and releases; `share-safe`
 before sending anything outside; `wizard` for a script that walks a person
 through steps only they can do.
 

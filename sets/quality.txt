@@ -1,8 +1,8 @@
 # Quality, security and speed
-harden
-adversary
-upkeep
-hotspot
-realign
-reshape
-sweep
+security-audit
+threat-model
+dep-audit
+speed-up
+fix-tests
+refactor
+codemod

@@ -6,7 +6,7 @@ description: >-
   the affected area in the code, severity and priority with reasons, ranked
   likely causes and the next step. Use when the user asks to triage a bug,
   asks how serious an issue is, or pastes a bug report or error to assess.
-  Not for tracking down and fixing the cause; use `sleuth`.
+  Not for tracking down and fixing the cause; use `debug`.
 license: MIT
 allowed-tools: Read Grep Glob Bash
 ---
@@ -17,7 +17,7 @@ A bug report arrives, and someone must decide: drop everything, schedule
 it, or add it to the backlog. That decision needs judgement about impact
 and a quick look at the code, not a full investigation. This skill is the
 intake step: minutes, not hours, and it ends with a clear call and a next
-step. To reproduce and fix the bug afterwards, use `sleuth` (if installed).
+step. To reproduce and fix the bug afterwards, use `debug` (if installed).
 
 ## 1. Restate the report
 
@@ -101,4 +101,4 @@ single action.
 - The severity call can be defended from impact, not from how loud the
   report was.
 - The next step is one concrete action.
-- It took minutes; the deep investigation is left for later (`sleuth`).
+- It took minutes; the deep investigation is left for later (`debug`).

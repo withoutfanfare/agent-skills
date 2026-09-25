@@ -1,8 +1,8 @@
 # Everyday delivery: from a change to a merged pull request
 review
-cover
-raise
-shepherd
+write-tests
+open-pr
+land-pr
 changelog
 doc-sync
-untangle
+git-guide

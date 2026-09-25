@@ -6,7 +6,7 @@ description: >-
   irreversible and hiding secret input. Use when the user needs a guided
   script to provision infrastructure, set up credentials, walk a
   third-party dashboard, or run a migration that needs a human at the
-  controls. Not for CI or deploy pipelines; use `launchpad`.
+  controls. Not for CI or deploy pipelines; use `pipeline`.
 license: MIT
 allowed-tools: Read Grep Glob Write Bash
 ---

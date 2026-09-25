@@ -6,7 +6,7 @@ description: >-
   test that proves it was actually sent rather than just constructed. Use
   when the user asks to notify or alert someone, send an email or text on
   an event, or add an in-app or push notification. Not for building a
-  single Laravel email template; use `mailroom`.
+  single Laravel email template; use `mailable`.
 license: MIT
 allowed-tools: Read Grep Glob Bash Edit Write
 ---
@@ -19,7 +19,7 @@ wires it to fire on the right event, and proves delivery with a fake rather
 than a real email landing in someone's inbox during development.
 
 For the email itself, a Laravel mailable whose template renders in real
-inboxes, use `mailroom` (if installed).
+inboxes, use `mailable` (if installed).
 
 ## 1. Define the event and audience
 

@@ -1,5 +1,5 @@
 # Laravel and PHP applications
-sleuth
+debug
 scaffold
 schema
 seed
@@ -8,7 +8,7 @@ tenancy
 flags
 scheduler
 notify
-mailroom
+mailable
 localise
 livewire
 filament

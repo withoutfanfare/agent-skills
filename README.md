@@ -60,10 +60,10 @@ Some highlights:
 | Know where an issue or pull request really stands, and the next safe step | `work` |
 | Review a change: "is it the right change?" and "is it built well?", separately | `review` |
 | Prove a change works by running it, not by reading it | `prove-it` |
-| Find out why something is slow, with before and after numbers | `hotspot` |
-| Fix a red test suite without weakening a single assertion | `realign` |
-| Run a blameless post-mortem that ends in owned actions | `hindsight` |
-| Threat-model a feature before building it | `adversary` |
+| Find out why something is slow, with before and after numbers | `speed-up` |
+| Fix a red test suite without weakening a single assertion | `fix-tests` |
+| Run a blameless post-mortem that ends in owned actions | `post-mortem` |
+| Threat-model a feature before building it | `threat-model` |
 | Turn technical detail into plain English for a chosen reader | `plainify` |
 | Stop destructive commands for a risky session | `careful` |
 

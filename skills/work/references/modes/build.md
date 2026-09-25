@@ -8,7 +8,7 @@ by one. The trigger is explicit: `work build <item>`, or the user saying
 edit code within the item's scope and no further. A bare `work` grants none.
 
 Build mode organises the work rather than doing it all itself. The
-project's `CLAUDE.md` or `AGENTS.md`, its framework skills and `cover` (when
+project's `CLAUDE.md` or `AGENTS.md`, its framework skills and `write-tests` (when
 installed, for tests) do the actual writing.
 
 ## Four preconditions

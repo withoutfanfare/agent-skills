@@ -99,7 +99,7 @@ has added:
 # task: review the open pull request and fix what it finds (picked 2026-09-24)
 house-style
 review
-cover
+write-tests
 ```
 
 Then:

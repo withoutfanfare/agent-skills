@@ -6,7 +6,7 @@ description: >-
   why it is built that way and what trips people up. Use when the user asks
   for a tour or walkthrough of the code, how a feature works end to end, or
   help getting up to speed on a project. Not for explaining a general
-  concept or technology outside this codebase; use `unpack`.
+  concept or technology outside this codebase; use `explain`.
 license: MIT
 allowed-tools: Read Grep Glob Bash Write
 ---
@@ -18,7 +18,7 @@ here, then look at this, and watch out for that". This skill writes that
 walk-through: a readable path through the code, in the order things
 happen, with the reasons and the traps along the way. It explains what
 exists; judging it is a job for other skills. To explain a concept rather
-than this codebase, use `unpack` (if installed).
+than this codebase, use `explain` (if installed).
 
 ## 1. Choose the kind of tour
 

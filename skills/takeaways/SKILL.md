@@ -19,7 +19,7 @@ way, which approach failed and why. It evaporates when the session ends.
 The most valuable parts are the ones nobody would think to write down
 unprompted, so this skill asks.
 
-For a production incident, run a blameless post-mortem with `hindsight`
+For a production incident, run a blameless post-mortem with `post-mortem`
 (if installed) instead.
 
 ## 1. Rebuild the session yourself first
