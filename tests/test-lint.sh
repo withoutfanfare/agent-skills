@@ -65,5 +65,18 @@ check "router missing a skill caught" 'grep -q "does not mention .good." "$tmp/o
 check "router typed marker caught" 'grep -q ".quiet. is typed-only but not marked" "$tmp/out"'
 check "router naming a missing skill caught" 'grep -q "names .ghost-skill., which is not a skill" "$tmp/out"'
 
+# skills/private/ is personal: never linted, but never tracked and never
+# a name clash with a library skill.
+rm -rf "$tmp/skills"/*
+skill good 'name: good\ndescription: Good.'
+skill private/rough 'name: Wrong\ndescription: Mentions acmecorp.' 'One \xe2\x80\x94 two.'
+python3 "$tmp/scripts/lint.py" > "$tmp/out" 2>&1
+check "private skills not linted" '[ $? = 0 ] && grep -q "ok: 1 skills clean.*1 private skills not linted" "$tmp/out"'
+skill private/good 'name: good\ndescription: Clash.'
+git -C "$tmp" init -q && git -C "$tmp" add -f skills/private/rough/SKILL.md
+python3 "$tmp/scripts/lint.py" > "$tmp/out" 2>&1
+check "private name clash caught" 'grep -q "skills/private/good: private skill has the same name" "$tmp/out"'
+check "tracked private file caught" 'grep -q "skills/private/rough/SKILL.md: private skills must not be tracked" "$tmp/out"'
+
 echo
 if [ "$fails" = 0 ]; then echo "All checks passed"; else cat "$tmp/out"; echo "$fails check(s) failed"; exit 1; fi

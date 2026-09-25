@@ -71,6 +71,20 @@ check "home add links both" 'ours "$HOME/.claude/skills/beta" && ours "$HOME/.ag
 "$cli" home remove beta >/dev/null
 check "home remove unlinks both" '[ ! -e "$HOME/.claude/skills/beta" ] && [ ! -e "$HOME/.agents/skills/beta" ]'
 
+mkdir -p "$lib/skills/private/mine"   # a personal, git-ignored skill
+printf -- '---\nname: mine\ndescription: Test skill mine.\n---\nBody.\n' > "$lib/skills/private/mine/SKILL.md"
+check "list marks private skills" '"$cli" list skills | grep -qx "mine (private)"'
+"$cli" add mine beta >/dev/null
+check "private skill links" 'ours "$project/.claude/skills/mine" && ours "$project/.agents/skills/mine"'
+check "status marks private skills" '"$cli" status > "$tmp/s4"; grep -q "mine.*(private)" "$tmp/s4"'
+"$cli" init --force >/dev/null
+check "init keeps private skills out of the shared file" '! grep -qx mine "$project/.agent-skills" && grep -qx beta "$project/.agent-skills"'
+check "init puts private skills in the local file" 'grep -qx mine "$project/.agent-skills.local"'
+"$cli" init --force >/dev/null
+check "init adds a private skill to the local file once" '[ "$(grep -cx mine "$project/.agent-skills.local")" = 1 ]'
+"$cli" sync >/dev/null
+check "sync keeps private skills from the local file" 'ours "$project/.claude/skills/mine"'
+
 rm -rf "$lib/skills/gamma"
 check "status reports a removed skill" '"$cli" status > "$tmp/s2"; grep -q "gamma.*broken" "$tmp/s2"'
 

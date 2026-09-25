@@ -4,6 +4,10 @@
 #
 # Every link points back at the library, so a pull updates every project.
 # The command only ever touches links that point into this library.
+#
+# Your own skills can live in skills/private/<name>. That folder is
+# git-ignored: they link like any other skill but are never published, and
+# init keeps them out of the shared .agent-skills file.
 
 set -euo pipefail
 
@@ -19,6 +23,7 @@ while [ -L "$self" ]; do
 done
 LIBRARY=$(cd "$(dirname "$self")/.." && pwd -P)
 SKILLS="$LIBRARY/skills"
+PRIVATE="$SKILLS/private"
 SETS="$LIBRARY/sets"
 
 TARGETS=(".claude/skills" ".agents/skills")
@@ -57,6 +62,7 @@ Everywhere:
 
 Links go into .claude/skills (Claude Code) and .agents/skills (Codex).
 Personal extras for one project: list them in .agent-skills.local.
+Your own skills: put them in skills/private/ (git-ignored, never shared).
 EOF
 }
 
@@ -81,6 +87,11 @@ skill_dir() {
         [ -f "$d/SKILL.md" ] && { echo "$d"; return 0; }
     done
     return 1
+}
+
+# True when the named skill lives in skills/private/.
+is_private() {
+    [ -f "$PRIVATE/$1/SKILL.md" ]
 }
 
 # Print skill names for a skill or set name; sets are sets/<name>.txt.
@@ -191,6 +202,7 @@ cmd_status() {
         else
             where="${YELLOW}Codex only${RESET}"
         fi
+        if is_private "$name"; then where="$where ${DIM}(private)${RESET}"; fi
         echo "  $name  $where"
         count=$((count + 1))
     done < <(linked_names "$base")
@@ -215,19 +227,36 @@ cmd_init() {
     if [ -f "$root/$MANIFEST" ] && [ "${2:-}" != "--force" ]; then
         die "$MANIFEST already exists. Use: agent-skills init --force"
     fi
+    local names shared mine=0 name
+    names=$(linked_names "$root")
+    shared=$(while IFS= read -r name; do
+        if [ -n "$name" ] && ! is_private "$name"; then echo "$name"; fi
+    done <<< "$names")
     {
         echo "# Skills for $(basename "$root"). One skill or set per line."
         echo "# Apply with: agent-skills sync"
-        linked_names "$root"
+        [ -z "$shared" ] || echo "$shared"
     } > "$root/$MANIFEST"
-    echo "Wrote $MANIFEST with $(linked_names "$root" | grep -c . || true) skills"
+    # Private skills would be missing for everyone else, so they go in the
+    # personal file instead, once each.
+    while IFS= read -r name; do
+        [ -n "$name" ] && is_private "$name" || continue
+        grep -qx "$name" "$root/$LOCAL_MANIFEST" 2>/dev/null || echo "$name" >> "$root/$LOCAL_MANIFEST"
+        mine=$((mine + 1))
+    done <<< "$names"
+    echo "Wrote $MANIFEST with $(grep -c . <<< "$shared" || true) skills"
+    if [ "$mine" -gt 0 ]; then echo "Kept $mine private skill(s) in $LOCAL_MANIFEST"; fi
 }
 
 cmd_list() {
     local set
     if [ "${1:-}" = "skills" ]; then
         for d in "$SKILLS"/*/ "$SKILLS"/*/*/; do
-            if [ -f "$d/SKILL.md" ]; then basename "$d"; fi
+            [ -f "$d/SKILL.md" ] || continue
+            case "$d" in
+                "$PRIVATE"/*) echo "$(basename "$d") (private)" ;;
+                *) basename "$d" ;;
+            esac
         done | sort -u
     elif [ -n "${1:-}" ]; then
         [ -f "$SETS/$1.txt" ] || die "No set called $1."
