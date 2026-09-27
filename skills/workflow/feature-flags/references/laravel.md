@@ -95,6 +95,25 @@ php artisan pennant:purge              # clear all stored values
 stored value so it is re-evaluated on the next check, useful after
 changing a definition while testing.
 
+With the database (or any other "stored") driver, Pennant caches the first
+resolved value per scope and keeps returning it, so widening a rollout's
+condition does not change anyone who was already resolved and stored as
+`false`: they stay excluded until their stored value is cleared. Treat
+purging or updating stored values as part of the rollout step itself, not
+an afterthought:
+
+```php
+use Laravel\Pennant\Feature;
+
+Feature::purge('new-checkout-flow');           // re-evaluate everyone against the new condition
+Feature::activateForEveryone('new-checkout-flow');   // full rollout: skip re-evaluation entirely
+Feature::deactivateForEveryone('new-checkout-flow'); // roll back a full rollout
+```
+
+`activateForEveryone()`/`deactivateForEveryone()` only change what is
+stored; the feature's `Feature::define()` callback still needs updating (or
+removing) to match, or the next purge re-derives a different answer.
+
 ## Testing both states
 
 ```php

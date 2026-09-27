@@ -140,9 +140,11 @@ treats a gate as an anchor.
   missing, a listed command that errors, a board state with no profile
   row), halt and describe the mismatch rather than choosing the reading that lets
   you proceed.
-- The first time you use an environment address in a session, check it (a
-  `HEAD` request will do). If it is dead, look at the repository's deploy
+- The first time you use a non-production environment address in a
+  session, check it (a `HEAD` request will do); reaching production this
+  way needs the user's permission first, the same as any other production
+  smoke check. If an address is dead, look at the repository's deploy
   workflows and smoke scripts, which tend to be right when the profile has
-  drifted, and correct the profile in the same run. Never just work round
-  a dead address.
+  drifted, then draft the correction and ask before writing it into the
+  profile. Never just work round a dead address.
 - Keep secrets, credentials and private addresses out of the profile.

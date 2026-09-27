@@ -102,15 +102,20 @@ output where both apply.
 
 ## 7. Change one thing, then compare
 
-From the checks that still fail, pick the one that would lift the score
-most if fixed, and make a single, minimal edit to `SKILL.md` that targets
-only that check, leaving everything else untouched. Re-run steps 5 to 6.
-If the score rose, keep the edit and move to the next failing check. If it
-stayed the same or fell, undo the edit (`git checkout` on the file, or
-restore the text you changed) and note that check as attempted, so it is
-not picked again. Stop when the score meets your target, when every
-failing check has been attempted once, or after eight attempts, whichever
-comes first.
+Before the first edit, and after every kept edit, checkpoint `SKILL.md` (a
+commit, or a copy of the file to a scratch path) so there is always a known
+good version to fall back to that is not just "before this session
+started." From the checks that still fail, pick the one that would lift
+the score most if fixed, and make a single, minimal edit to `SKILL.md` that
+targets only that check, leaving everything else untouched. Re-run steps 5
+to 6. If the score rose, keep the edit, checkpoint again, and move to the
+next failing check. If it stayed the same or fell, restore the last
+checkpoint rather than running `git checkout` on the file, which would also
+throw away edits kept earlier in this run and any uncommitted edits of the
+user's, and note that check as
+attempted, so it is not picked again. Stop when the score meets your
+target, when every failing check has been attempted once, or after eight
+attempts, whichever comes first.
 
 Done when: every kept edit corresponds to a score increase you can point
 to, and the stopping reason is one of the three above.

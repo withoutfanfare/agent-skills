@@ -5,17 +5,24 @@
 Check both places that decide which database tests use. When both set the
 same key, the `<env>` value in `phpunit.xml` usually wins, because it is
 already set before Laravel reads `.env.testing` and Laravel does not
-overwrite existing variables. Read both rather than trusting either alone:
+overwrite existing variables. If `.env.testing` does not exist, Laravel
+falls back to `.env`, so check that instead of assuming there is no
+environment configuration to worry about. Also check `DB_URL` /
+`DATABASE_URL`: either overrides the individual `DB_*` keys for its
+connection, so a safe-looking `DB_DATABASE` can still be beaten by a URL
+pointing at a real server. Read all of these rather than trusting one alone:
 
 ```bash
-grep -E 'DB_CONNECTION|DB_DATABASE' .env.testing 2>/dev/null
-grep -E 'DB_CONNECTION|DB_DATABASE' phpunit.xml
+grep -E 'DB_CONNECTION|DB_DATABASE|DB_URL|DATABASE_URL' .env.testing 2>/dev/null \
+    || grep -E 'DB_CONNECTION|DB_DATABASE|DB_URL|DATABASE_URL' .env 2>/dev/null
+grep -E 'DB_CONNECTION|DB_DATABASE|DB_URL|DATABASE_URL' phpunit.xml
 ```
 
 Safe answers are `DB_CONNECTION=sqlite` with `DB_DATABASE=:memory:` or a
-dedicated test file such as `database/testing.sqlite`. Anything else (MySQL,
-PostgreSQL, a development database file) means stop and ask. Tests that use
-`RefreshDatabase` wipe the database they connect to.
+dedicated test file such as `database/testing.sqlite`, and no `DB_URL` /
+`DATABASE_URL` set for that connection. Anything else (MySQL, PostgreSQL, a
+development database file, or a URL pointing at either) means stop and ask.
+Tests that use `RefreshDatabase` wipe the database they connect to.
 
 If configuration is cached, tests may ignore the test settings entirely.
 Clear it first: `php artisan config:clear`.

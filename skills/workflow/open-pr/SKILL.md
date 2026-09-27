@@ -93,19 +93,31 @@ description alone.
 
 ## 6. Open it
 
-Push the branch if it is not on the remote yet, then open a ready pull
-request (not a draft, so automated reviews run) unless the repository's own
-flow uses drafts.
+Push so the remote branch matches local `HEAD`, whether or not the branch
+already exists on the remote: unpushed local commits are the usual reason a
+pull request ends up pointing at stale code. Then open a ready pull request
+(not a draft, so automated reviews run) unless the repository's own flow
+uses drafts.
 
 ```bash
-gh pr create --base <base> --title "<title>" --body-file - <<'EOF'
+git push -u origin HEAD
+title=$(cat <<'EOF'
+<title>
+EOF
+)
+gh pr create --base <base> --title "$title" --body-file - <<'EOF'
 <description from step 5>
 EOF
 gh pr view --json url,title,baseRefName,headRefOid
 ```
 
+Reading the title through a quoted heredoc, then passing it as
+`"$title"`, keeps backticks, `$(...)` or an apostrophe in the title from
+being run or breaking the quoting.
+
 Done when: the second command shows the pull request with the right base
-and head commit, and you have given the user the link.
+and head commit (`headRefOid` matches `git rev-parse HEAD`), and you have
+given the user the link.
 
 ## Tidying commits (only when asked)
 

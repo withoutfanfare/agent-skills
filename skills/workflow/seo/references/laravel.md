@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace App\Support;
 
+use Illuminate\Support\Str;
+
 final class SeoMeta
 {
     public function __construct(

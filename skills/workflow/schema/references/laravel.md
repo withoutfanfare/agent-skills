@@ -96,10 +96,15 @@ DB::table('customers')->whereNull('full_name')->orderBy('id')
     ->chunkById(1000, function ($rows) {
         foreach ($rows as $row) {
             DB::table('customers')->where('id', $row->id)
+                ->whereNull('full_name')
                 ->update(['full_name' => $row->name]);
         }
     });
 ```
+
+The inner `whereNull('full_name')` guards against overwriting a value the
+application code has already dual-written since the chunk was fetched;
+without it, the backfill can stomp a concurrent write with stale data.
 
 ## A unique index that must survive soft deletes
 

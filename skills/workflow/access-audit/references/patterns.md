@@ -125,14 +125,23 @@ wherever it shows up.
 
 ```js
 // Confine Tab to a modal's own focusable elements while it's open
-const focusable = modal.querySelectorAll(
-  'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-);
-const first = focusable[0];
-const last = focusable[focusable.length - 1];
+const FOCUSABLE = [
+  'button', '[href]', 'input', 'select', 'textarea', '[tabindex]',
+].map((s) => `${s}:not([tabindex="-1"])`).join(', ');
+
+function focusableElements() {
+  // Recomputed on each keydown, and filtered for visibility, because a
+  // modal's content can change (steps, disabled fields) while it's open.
+  return Array.from(modal.querySelectorAll(FOCUSABLE))
+    .filter((el) => el.offsetParent !== null);
+}
 
 modal.addEventListener('keydown', (event) => {
   if (event.key !== 'Tab') return;
+  const focusable = focusableElements();
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (!first || !last) return;
   if (event.shiftKey && document.activeElement === first) {
     event.preventDefault();
     last.focus();

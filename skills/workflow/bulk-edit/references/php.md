@@ -4,21 +4,24 @@
 
 A PHPStan baseline hides existing errors. Remove the entries for the error
 identifier you are targeting before capturing the baseline list, then run
-over the whole project with raw output:
+over the whole project with JSON output: the `raw` formatter does not
+print the error identifier (even with `-v`), so grepping it for
+`identifier=` finds nothing to count.
 
 ```bash
-vendor/bin/phpstan analyse --error-format=raw --memory-limit=2G > /tmp/sweep-before.txt
+vendor/bin/phpstan analyse --error-format=json --memory-limit=2G > /tmp/sweep-before.json
 ```
 
 After the sweep, capture the same way into a second file and compare
 counts per identifier. Do not regenerate the project's baseline for this:
 `--generate-baseline` overwrites the real one, and its format differs from
-the raw output, so the counts would not line up.
+this output, so the counts would not line up.
 
 ```bash
-vendor/bin/phpstan analyse --error-format=raw --memory-limit=2G > /tmp/sweep-after.txt
-for f in /tmp/sweep-before.txt /tmp/sweep-after.txt; do
-  echo "== $f"; grep -o 'identifier=[^]]*' "$f" | sort | uniq -c | sort -rn | head -20
+vendor/bin/phpstan analyse --error-format=json --memory-limit=2G > /tmp/sweep-after.json
+for f in /tmp/sweep-before.json /tmp/sweep-after.json; do
+  echo "== $f"
+  jq -r '.files[].messages[].identifier // "no-identifier"' "$f" | sort | uniq -c | sort -rn | head -20
 done
 ```
 

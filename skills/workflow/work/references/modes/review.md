@@ -97,12 +97,16 @@ Slices that each keep the product working are better. When splitting is
 unsafe, the author owes a reason and a suggested order for reading it.
 
 Base drift is measured by a dry-run merge, never by how many commits behind
-the branch is. git 2.38 and newer: `git merge-tree --write-tree <base> <head>`
-lists conflicts directly. Older git: run
-`git merge-tree $(git merge-base <base> <head>) <base> <head>`; it prints
-the full merged tree, so search the output for `<<<<<<<`. Report which
-files conflict and which files both sides edited, with each side's commits.
-Always aim it at the item's checkout using `git -C <path>`.
+the branch is. Always aim it at the item's checkout: put `git -C <path>` on
+every invocation, including the inner one, since a `-C` on the outer command
+alone does not carry into a `$(...)` substitution run in the current
+directory. git 2.38 and newer:
+`git -C <path> merge-tree --write-tree <base> <head>` lists conflicts
+directly. Older git: run
+`git -C <path> merge-tree "$(git -C <path> merge-base <base> <head>)" <base> <head>`;
+it prints the full merged tree, so search the output for `<<<<<<<`. Report
+which files conflict and which files both sides edited, with each side's
+commits.
 
 Stale work gets the same treatment every time. Check someone still needs it
 and still owns it. Measure drift and dependencies. Rewrite the handover,

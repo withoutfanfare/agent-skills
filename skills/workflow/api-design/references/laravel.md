@@ -117,7 +117,24 @@ exception back to Laravel's default rendering:
             $e instanceof NotFoundHttpException => response()->json([
                 'error' => ['code' => 'NOT_FOUND', 'message' => 'The resource was not found.'],
             ], 404),
-            default => null,
+            // Already a finished response (a custom failedValidation(), say):
+            // hand it back, or the default arm below would turn it into a 500.
+            $e instanceof HttpResponseException => null,
+            // Any other HTTP exception (429 from rate limiting, a custom
+            // abort(...)) still gets the envelope, and keeps its headers:
+            // ThrottleRequestsException carries a Retry-After this way.
+            $e instanceof HttpExceptionInterface => response()->json([
+                'error' => ['code' => 'HTTP_' . $e->getStatusCode(), 'message' => $e->getMessage() ?: 'The request could not be processed.'],
+            ], $e->getStatusCode())->withHeaders($e->getHeaders()),
+            // Anything unmapped is an unexpected failure: envelope it as a
+            // 500 rather than falling through to Laravel's default
+            // rendering, and never leak the raw message in production.
+            default => response()->json([
+                'error' => [
+                    'code' => 'SERVER_ERROR',
+                    'message' => app()->isProduction() ? 'Something went wrong.' : $e->getMessage(),
+                ],
+            ], 500),
         };
     });
 })
@@ -126,7 +143,13 @@ exception back to Laravel's default rendering:
 By the time a render callback runs, Laravel has already turned an
 `AuthorizationException` into `AccessDeniedHttpException` and a
 `ModelNotFoundException` into `NotFoundHttpException`, which is why the
-callback matches the Symfony classes. On Laravel 10 and older, override
+callback matches the Symfony classes; the same is true of
+`Symfony\Component\HttpKernel\Exception\HttpExceptionInterface`, which
+`ThrottleRequestsException` (a 429 from rate limiting) also implements, so
+that catch-all arm gets its status and headers rather than a generic 500.
+Without it, or the final `default` arm above, an unmapped exception falls
+through to Laravel's own JSON rendering and breaks the envelope shape every
+other error in this file promises. On Laravel 10 and older, override
 `render()` in `app/Exceptions/Handler.php` instead: that method sees the
 original `AuthorizationException` and `ModelNotFoundException`, so match
 those, and fall back to `parent::render($request, $e)` instead of `null`.

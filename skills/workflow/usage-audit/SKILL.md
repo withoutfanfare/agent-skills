@@ -38,10 +38,13 @@ list of unused library skills.
 ## 2. Allow for age
 
 A skill added last week with no uses tells you nothing. For each unused or
-rarely used skill, find when it was added:
+rarely used skill, find when it was added. `--follow` (needed so a rename
+or move dates to the original commit, not the move) only tracks one literal
+path, not a glob, so resolve the path first:
 
 ```bash
-git log --diff-filter=A --format=%as -- 'skills/*/<name>/SKILL.md' | tail -1
+path=$(git ls-files -- 'skills/*/<name>/SKILL.md')
+git log --follow --diff-filter=A --format=%as -- "$path" | tail -1
 ```
 
 Leave out anything younger than half the window.
