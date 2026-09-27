@@ -38,7 +38,8 @@ root. Relative paths are read from the project root. Create the `.claude`
 folder if needed, then read the file back.
 
 Done when: the file exists and lists exactly the agreed paths. Tell the
-user what is frozen and what is open, then carry on.
+user what is frozen and what is open, then carry on. In Codex nothing
+enforces the file, so say so and keep to the paths yourself.
 
 ## 3. When an edit is refused
 

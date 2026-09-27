@@ -30,10 +30,11 @@ this skill is a reminder, not a guard.
 
 ## When switched on
 
-Tell the user the guard is active and what it covers, then carry on with
-the task.
+In Claude Code, tell the user the guard is active and what it covers, then
+carry on with the task. In Codex, say plainly that no guard is running, and
+that you will stop and ask before any command the guard would refuse.
 
-Done when: the user has been told the guard is on and what it covers.
+Done when: the user knows whether a real guard is on and what it covers.
 
 ## When a command is refused
 
