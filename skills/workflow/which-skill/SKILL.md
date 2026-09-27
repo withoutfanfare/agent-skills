@@ -62,7 +62,8 @@ the cause → `post-mortem` for the post-mortem → `runbook` so the next person
 knows what to do → `monitoring` so it is caught sooner.
 
 Slowness: `speed-up`. Red test suite: `fix-tests`. Herd sites on a Mac that
-will not load: `herd-doctor`.
+will not load: `herd-doctor`. A pile of production logs to rank:
+`log-triage`. Not sure a backup would really restore: `backup-drill`.
 
 ## Keeping the codebase healthy
 
@@ -96,18 +97,21 @@ in any tool; `handover` briefs someone else taking over.
 
 `debug`, `scaffold`, `schema`, `seed`, `upgrade`, `tenancy`, `feature-flags`,
 `scheduler`, `notify`, `mailable`, `localise`, `livewire`, `filament`,
-`alpine`, `api-design`, `prove-it`, `herd-doctor`.
+`alpine`, `api-design`, `prove-it`, `herd-doctor`, `queues` (jobs, retries,
+workers, Horizon), `billing` (Cashier and Stripe).
 
 ## Front end and desktop
 
 `vue`, `nuxt`, `tailwind`, `style-guide` (write down the design system you
 already have), `design-pack` *(typed)* (package it for a design tool),
-`user-flow`, `access-audit`, `tauri`, `tidy-build`.
+`user-flow`, `access-audit`, `tauri`, `swift` (SwiftUI apps), `notarise`
+(sign and notarise a Mac app for others), `tidy-build`.
 
 ## Guard rails for risky sessions
 
 `careful` *(typed)* refuses destructive commands; `freeze` *(typed)* limits
-edits to agreed paths.
+edits to agreed paths. Both are enforced in Claude Code only; in Codex they
+are reminders.
 
 ## Git and delivery chores
 

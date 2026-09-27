@@ -1,6 +1,6 @@
 # Agent skills
 
-82 skills for AI coding agents, written for **Claude Code** and **Codex**,
+88 skills for AI coding agents, written for **Claude Code** and **Codex**,
 with a small command that links the ones you need into each project.
 
 A **skill** is a folder of instructions an agent reads before it starts a
@@ -66,7 +66,7 @@ what comes after it.
 
 The full list, with one line each, is in [CATALOGUE.md](CATALOGUE.md).
 Skills live in four folders: `workflow` (works in any codebase, the large
-majority), `laravel`, `frontend` (Vue, Nuxt, Tailwind) and `desktop` (Tauri).
+majority), `laravel`, `frontend` (Vue, Nuxt, Tailwind) and `desktop` (Tauri, Swift).
 Some highlights:
 
 | If you want to | Use |
@@ -79,7 +79,7 @@ Some highlights:
 | Run a blameless post-mortem that ends in owned actions | `post-mortem` |
 | Threat-model a feature before building it | `threat-model` |
 | Turn technical detail into plain English for a chosen reader | `plainify` |
-| Stop destructive commands for a risky session | `careful` |
+| Stop destructive commands for a risky session (enforced in Claude Code) | `careful` |
 
 Sets group skills for common kinds of work: `delivery`, `planning`,
 `quality`, `operations`, `frontend` and `laravel`.

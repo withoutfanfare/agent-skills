@@ -156,3 +156,15 @@ continuity	fire	Write a handoff prompt for myself before I switch over to the ot
 continuity	quiet	Can you write a brief so Sam can take this ticket over from me tomorrow?
 continuity	quiet	What has changed in this project since I was last in it?
 instruction-audit	quiet	our CLAUDE.md keeps giving the wrong test command, can you fix the facts in it
+swift	fire	I'm getting a Swift 6 concurrency error about a class not being Sendable when I pass it into a Task in my SwiftUI app, can you help sort out my view model?
+swift	quiet	Can you notarise the .app I just built in Xcode so I can send it to a client without a Gatekeeper warning?
+notarise	fire	I built the release DMG for my app but when my client opens it on their Mac it says "app is damaged and can't be opened", how do I fix that for good?
+notarise	quiet	I'm getting a Swift 6 Sendable error building the actor for my macOS app, can you help me fix the isolation?
+queues	fire	Our export job sometimes runs twice when it takes too long, and I'm not sure the retries are safe. Can you fix how it's queued?
+queues	quiet	Can you set up a nightly cron that regenerates our export file and emails it, with retries if it fails?
+billing	fire	I need to add monthly subscriptions to the app using Stripe, with a trial and a way to cancel.
+billing	quiet	Can you design the REST endpoints for our new orders API, including pagination and error responses?
+backup-drill	fire	Can you check our backups actually work, I want to know we could really recover the database if the server died
+backup-drill	quiet	We need to reshape the orders table and merge it into the new schema without losing any rows
+log-triage	fire	Here's our production log file from the last week, can you go through it and tell me what's actually breaking the most
+log-triage	quiet	One customer just emailed saying checkout threw an error, can you look into it
