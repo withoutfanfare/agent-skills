@@ -25,7 +25,9 @@ skills/<category>/<name>/
 └── agents/openai.yaml  only for typed-only skills (see below)
 ```
 
-Start from [docs/skill-template/](docs/skill-template/).
+Start from [docs/skill-template/](docs/skill-template/), and follow
+[docs/adding-a-skill.md](docs/adding-a-skill.md) so the new skill is also
+routed, tested and findable.
 
 The category folder says what the skill is tied to: `workflow` for skills
 that work in any codebase, and `laravel`, `frontend` or `desktop` for ones

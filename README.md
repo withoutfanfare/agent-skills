@@ -56,7 +56,10 @@ folder is git-ignored, so nothing in it is ever committed or published, but
 writes them to `.agent-skills.local` rather than the shared `.agent-skills`,
 so teammates are never asked for a skill they cannot have. The linter skips
 them, refuses a private name that clashes with a library skill, and fails if
-anything in `skills/private/` is ever tracked by git.
+anything in `skills/private/` is ever tracked by git. `/pick-skills` sees
+them too, so a clear description is enough to surface one. Adding one
+follows [docs/adding-a-skill.md](docs/adding-a-skill.md), minus the routing
+steps.
 
 Not sure what fits? `/pick-skills <what you are about to do>` links the right few
 for the task in hand, and `/which-skill` maps a situation to a skill and
@@ -101,7 +104,9 @@ Sets group skills for common kinds of work: `delivery`, `planning`,
 - **Linted.** `scripts/lint.py` checks names, descriptions, sizes, the
   typed-only settings, the router's coverage, sets and house style.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) to add or improve a skill.
+See [docs/adding-a-skill.md](docs/adding-a-skill.md) for the full path from
+idea to a switched-on skill, and [CONTRIBUTING.md](CONTRIBUTING.md) for how
+to write one.
 
 ## Usage tracking (optional)
 
