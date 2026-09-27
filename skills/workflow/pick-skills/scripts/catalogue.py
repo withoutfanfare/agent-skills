@@ -35,7 +35,11 @@ def library_root() -> Path:
     for candidate in real.parents:
         if (candidate / "skills").is_dir() and (candidate / "sets").is_dir():
             return candidate
-    return real.parents[3]
+    # No sets/ folder: <library>/skills/<category>/pick-skills/scripts/catalogue.py
+    for candidate in real.parents:
+        if (candidate / "skills").is_dir():
+            return candidate
+    return real.parents[4]
 
 
 def project_root() -> Path:

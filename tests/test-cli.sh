@@ -85,6 +85,19 @@ check "init adds a private skill to the local file once" '[ "$(grep -cx mine "$p
 "$cli" sync >/dev/null
 check "sync keeps private skills from the local file" 'ours "$project/.claude/skills/mine"'
 
+mkdir -p "$project/.claude/skills" "$project/.agents/skills"
+ln -s "$lib/skills/delta" "$project/.claude/skills/delta"   # linked before delta moved into group/
+ln -s "$lib/skills/delta" "$project/.agents/skills/delta"
+check "status flags a link to a skill's old location" '"$cli" status > "$tmp/s5"; grep -q "delta.*old location" "$tmp/s5"'
+"$cli" add delta >/dev/null
+check "add repairs a link to a skill's old location" '[ "$(readlink "$project/.claude/skills/delta")" = "$lib/skills/group/delta" ] && [ -f "$project/.agents/skills/delta/SKILL.md" ]'
+
+mkdir -p "$lib/skills/private/beta"   # a private copy of a library skill's name
+printf -- '---\nname: beta\ndescription: Private beta.\n---\nBody.\n' > "$lib/skills/private/beta/SKILL.md"
+"$cli" init --force >/dev/null
+check "a library skill wins over a private one of the same name" 'grep -qx beta "$project/.agent-skills" && ! grep -qx beta "$project/.agent-skills.local"'
+rm -rf "$lib/skills/private/beta"
+
 rm -rf "$lib/skills/gamma"
 check "status reports a removed skill" '"$cli" status > "$tmp/s2"; grep -q "gamma.*broken" "$tmp/s2"'
 

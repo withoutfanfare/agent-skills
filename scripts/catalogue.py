@@ -24,6 +24,8 @@ def main():
     skills = {}  # name -> (relative folder, description, typed)
     for name, rel in skill_folders():
         path = os.path.join(SKILLS, rel, "SKILL.md")
+        if not os.path.isfile(path):
+            continue  # the linter reports folders without a SKILL.md
         fields, _ = frontmatter(open(path, encoding="utf-8").read())
         fields = fields or {}
         typed = fields.get("disable-model-invocation", "").lower() == "true"

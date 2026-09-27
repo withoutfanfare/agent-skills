@@ -60,7 +60,8 @@ def skill_folders(private=False):
             found.append((top, top))
             continue
         for sub in sorted(os.listdir(top_path)):
-            if os.path.isdir(os.path.join(top_path, sub)) and not sub.startswith("."):
+            if (os.path.isdir(os.path.join(top_path, sub)) and not sub.startswith(".")
+                    and sub not in SKIP_DIRS):
                 found.append((sub, os.path.join(top, sub)))
     return found
 
@@ -216,10 +217,18 @@ def main():
     for name, rel in skill_folders(private=True):
         if name in skill_of:
             findings.append(f"skills/{rel}: private skill has the same name as skills/{skill_of[name]}")
-    if os.path.isdir(os.path.join(ROOT, ".git")):
-        tracked = subprocess.run(["git", "-C", ROOT, "ls-files", f"skills/{PRIVATE}"],
-                                 capture_output=True, text=True).stdout.split()
-        for f in tracked:
+    # rev-parse rather than looking for .git, which is a file in a worktree.
+    try:
+        in_git = subprocess.run(["git", "-C", ROOT, "rev-parse", "--is-inside-work-tree"],
+                                capture_output=True, text=True).returncode == 0
+    except FileNotFoundError:
+        in_git = False
+    if in_git:
+        listed = subprocess.run(["git", "-C", ROOT, "ls-files", "-z", f"skills/{PRIVATE}"],
+                                capture_output=True, text=True)
+        if listed.returncode != 0:
+            findings.append(f"skills/{PRIVATE}: could not check for tracked files (git ls-files failed)")
+        for f in filter(None, listed.stdout.split("\0")):
             findings.append(f"{f}: private skills must not be tracked by git (git rm --cached it)")
 
     terms, exempt = private_terms()

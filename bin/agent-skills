@@ -79,19 +79,22 @@ is_ours() {
 }
 
 # Print the folder of the named skill: skills/<name> or skills/<category>/<name>.
-# Fails silently when there is no such skill.
+# A library skill wins over a private one of the same name, which is checked
+# last. Fails silently when there is no such skill.
 skill_dir() {
     local d
     [ -f "$SKILLS/$1/SKILL.md" ] && { echo "$SKILLS/$1"; return 0; }
     for d in "$SKILLS"/*/"$1"; do
+        [ "$d" = "$PRIVATE/$1" ] && continue
         [ -f "$d/SKILL.md" ] && { echo "$d"; return 0; }
     done
+    [ -f "$PRIVATE/$1/SKILL.md" ] && { echo "$PRIVATE/$1"; return 0; }
     return 1
 }
 
-# True when the named skill lives in skills/private/.
+# True when the named skill resolves to skills/private/.
 is_private() {
-    [ -f "$PRIVATE/$1/SKILL.md" ]
+    [ "$(skill_dir "$1")" = "$PRIVATE/$1" ]
 }
 
 # Print skill names for a skill or set name; sets are sets/<name>.txt.
@@ -118,8 +121,13 @@ link_skill() {
     for t in "${TARGETS[@]}"; do
         dir="$base/$t"
         mkdir -p "$dir"
-        if is_ours "$dir/$name"; then
+        if is_ours "$dir/$name" && [ "$(readlink "$dir/$name")" = "$src" ]; then
             continue
+        elif is_ours "$dir/$name"; then
+            # Ours, but pointing at an old location (a skill that moved).
+            rm -- "$dir/$name"
+            ln -s "$src" "$dir/$name"
+            made=1
         elif [ -e "$dir/$name" ] || [ -L "$dir/$name" ]; then
             note="$note ${YELLOW}(your own copy in $t left alone)${RESET}"
         else
@@ -186,15 +194,22 @@ cmd_remove() {
 }
 
 cmd_status() {
-    local base="$1" name count=0 claude codex where
+    local base="$1" name count=0 claude codex where src t stale
     echo "Skills linked in ${base/#$HOME/~}:"
     while IFS= read -r name; do
         [ -n "$name" ] || continue
         claude=0; codex=0
         is_ours "$base/.claude/skills/$name" && claude=1
         is_ours "$base/.agents/skills/$name" && codex=1
-        if ! skill_dir "$name" >/dev/null; then
+        src=$(skill_dir "$name") || src=""
+        stale=0
+        for t in "${TARGETS[@]}"; do
+            if is_ours "$base/$t/$name" && [ "$(readlink "$base/$t/$name")" != "$src" ]; then stale=1; fi
+        done
+        if [ -z "$src" ]; then
             where="${RED}broken: no longer in the library${RESET}"
+        elif [ "$stale" = 1 ]; then
+            where="${RED}broken: points at an old location, run agent-skills add $name${RESET}"
         elif [ "$claude$codex" = 11 ]; then
             where="${DIM}Claude Code and Codex${RESET}"
         elif [ "$claude" = 1 ]; then
