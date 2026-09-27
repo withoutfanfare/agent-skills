@@ -37,9 +37,12 @@ READ_TOOLS = {"Read", "Glob", "Grep", "Skill"}
 # service. Everything else (listing, reading, searching, read-only git and
 # host queries) is a read.
 WRITE_CMDS = re.compile(
-    r"git\s+(-C\s+\S+\s+)?(push|commit|merge|rebase|reset|checkout|switch|stash|tag|am|apply|cherry-pick|revert|worktree\s+(add|remove)|branch\s+-[dDmM])\b"
+    r"git\s+(-C\s+\S+\s+)?(add|push|commit|merge|rebase|reset|checkout|switch|stash|tag|am|apply|cherry-pick|revert|worktree\s+(add|remove)|branch\s+-[dDmM])\b"
     r"|\bgh\s+(pr|issue|release|repo|project|api)\s+(create|edit|comment|close|reopen|merge|review|delete|ready|item-edit|item-add)\b"
-    r"|\bgh\s+api\b.*(-X|--method)\s*(POST|PUT|PATCH|DELETE)"
+    r"|\bgh\s+api\b(?!.*(-X|--method)\s*GET\b).*(-X|--method)\s*(POST|PUT|PATCH|DELETE)"
+    # gh api defaults to POST, not GET, the moment a field flag is present,
+    # even with no explicit -X/--method.
+    r"|\bgh\s+api\b(?!.*(-X|--method)\s*GET\b).*\s(-f|-F|--field|--raw-field|--field-file)\b"
     r"|\bcurl\b.*(-X|--request)\s*(POST|PUT|PATCH|DELETE)|\bcurl\b.*\s(-d|--data)\b"
     r"|\b(rm|mv|cp|touch|mkdir|chmod|ln|tee|truncate)\s"
     r"|(^|[^0-9&<])>>?\s*[^&\s/]|>\s*/(?!dev/null)"
@@ -71,14 +74,23 @@ def setup(a):
         os.makedirs(dest)
         if a.library:
             lib = os.path.abspath(a.library)
-            for name in sorted(os.listdir(lib)):
-                src = os.path.join(lib, name)
-                if name != "work" and os.path.isfile(os.path.join(src, "SKILL.md")):
-                    shutil.copytree(src, os.path.join(dest, name), ignore=shutil.ignore_patterns("evals"))
+            for dirpath, dirnames, filenames in os.walk(lib):
+                dirnames[:] = [d for d in dirnames if d != "private"]
+                if "SKILL.md" not in filenames:
+                    continue
+                name = os.path.basename(dirpath)
+                if name != "work":
+                    shutil.copytree(dirpath, os.path.join(dest, name), ignore=shutil.ignore_patterns("evals"))
+                dirnames[:] = []  # a skill folder's own subfolders are not further skills
         shutil.copytree(skill, os.path.join(dest, "work"), ignore=shutil.ignore_patterns("evals"))
+    auth_src = os.path.expanduser("~/.codex/auth.json")
+    if not os.path.exists(auth_src):
+        print(f"workdir {wd}\nNo ~/.codex/auth.json found; skipping the Codex home "
+              f"(the Claude harness still works). Delete {wd} when finished.")
+        return
     home = os.path.join(wd + "-codex-home")
     os.makedirs(home)
-    shutil.copy(os.path.expanduser("~/.codex/auth.json"), home)
+    shutil.copy(auth_src, home)
     with open(os.path.join(home, "config.toml"), "w") as fh:
         fh.write(f'model = "{a.codex_model}"\nmodel_reasoning_effort = "{a.codex_effort}"\n'
                  'web_search = "disabled"\napproval_policy = "never"\nsandbox_mode = "read-only"\n\n'
@@ -116,22 +128,29 @@ def run_claude(wd, prompt, model, tools):
 
 def run_codex(wd, prompt, model, effort):
     home = wd + "-codex-home"
-    out = tempfile.mktemp(suffix=".md")
-    env = dict(os.environ, CODEX_HOME=home, HOME=wd + "-empty-home")
-    cmd = ["codex", "exec", "-C", wd, "--sandbox", "read-only", "--ephemeral", "--skip-git-repo-check",
-           "--json", "-m", model, "-c", f'model_reasoning_effort="{effort}"', "-o", out, prompt]
-    p = subprocess.run(cmd, cwd=wd, capture_output=True, text=True, timeout=1500, env=env,
-                       stdin=subprocess.DEVNULL)
-    calls = []
-    for line in p.stdout.splitlines():
+    fd, out = tempfile.mkstemp(suffix=".md")
+    os.close(fd)
+    try:
+        env = dict(os.environ, CODEX_HOME=home, HOME=wd + "-empty-home")
+        cmd = ["codex", "exec", "-C", wd, "--sandbox", "read-only", "--ephemeral", "--skip-git-repo-check",
+               "--json", "-m", model, "-c", f'model_reasoning_effort="{effort}"', "-o", out, prompt]
+        p = subprocess.run(cmd, cwd=wd, capture_output=True, text=True, timeout=1500, env=env,
+                           stdin=subprocess.DEVNULL)
+        calls = []
+        for line in p.stdout.splitlines():
+            try:
+                e = json.loads(line)
+            except ValueError:
+                continue
+            item = e.get("item") or {}
+            if e.get("type") == "item.completed" and item.get("type") in ("command_execution", "mcp_tool_call", "web_search", "file_change"):
+                calls.append({"tool": item["type"], "input": item.get("command") or item.get("tool") or item.get("query") or item.get("changes")})
+        final = open(out, encoding="utf-8").read() if os.path.exists(out) else ""
+    finally:
         try:
-            e = json.loads(line)
-        except ValueError:
-            continue
-        item = e.get("item") or {}
-        if e.get("type") == "item.completed" and item.get("type") in ("command_execution", "mcp_tool_call", "web_search", "file_change"):
-            calls.append({"tool": item["type"], "input": item.get("command") or item.get("tool") or item.get("query") or item.get("changes")})
-    final = open(out, encoding="utf-8").read() if os.path.exists(out) else ""
+            os.remove(out)
+        except OSError:
+            pass
     writes = []
     for c in calls:
         if c["tool"] != "command_execution":
@@ -281,9 +300,17 @@ def score(a):
                                 "--no-session-persistence", "--tools", "", "--output-format", "json",
                                 "--model", a.judge_model, prompt], cwd=tmp, capture_output=True,
                                text=True, timeout=600, stdin=subprocess.DEVNULL)
-        text = json.loads(p.stdout).get("result", "")
-        m = re.search(r"\{.*\}", text, re.S)
-        verdict = json.loads(m.group(0)) if m else {"pass": False, "note": "judge gave no JSON"}
+        try:
+            text = json.loads(p.stdout).get("result", "")
+            m = re.search(r"\{.*\}", text, re.S)
+            verdict = json.loads(m.group(0)) if m else {"pass": False, "note": "judge gave no JSON"}
+        except ValueError:
+            # The judge call itself produced no usable JSON (crash, refusal,
+            # truncated output). Report the failure but do not cache it, so
+            # a later run of `score` retries the judge instead of being
+            # stuck with this verdict forever.
+            return {"pass": False, "note": "judge failed", "id": run["id"], "rep": run["rep"],
+                    "harness": run["harness"], "writes": len(run["writes"]), "exit": run["exit"]}
         verdict["writes"] = len(run["writes"])
         verdict["exit"] = run["exit"]
         if run["writes"] or run["exit"] != 0 or not run["final"].strip():

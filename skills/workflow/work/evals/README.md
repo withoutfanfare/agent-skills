@@ -55,7 +55,7 @@ between harnesses; the fields above cannot.
 You need `claude` and `codex` on the path, logged in, and Python 3.
 
 ```bash
-cd skills/work/evals
+cd skills/workflow/work/evals
 python3 run_evals.py setup --skill .. --workdir /tmp/work-eval
 python3 run_evals.py classify --harness claude --workdir /tmp/work-eval --out /tmp/work-runs/claude
 python3 run_evals.py classify --harness codex  --workdir /tmp/work-eval --out /tmp/work-runs/codex

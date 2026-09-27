@@ -55,9 +55,21 @@ while read -r method path expected; do
   accept="text/html"
   [[ "$path" == /api/* || "$path" == *.json ]] && accept="application/json"
 
-  actual="$(curl -sk -o /dev/null -w '%{http_code}' -X "$method" \
+  # -g/--globoff: a path containing [ ] or { } (e.g. from a route template)
+  # would otherwise be parsed by curl as URL globbing syntax and rejected.
+  actual="$(curl -sgk -o /dev/null -w '%{http_code}' -X "$method" \
     -H "Accept: $accept" --max-time 15 "${base_url}${path}" 2>/dev/null)"
-  actual="${actual:-000}"
+  curl_rc=$?
+
+  # A non-zero curl exit means the transfer itself failed (timed out, was
+  # reset, etc). curl can still have written a %{http_code} from the
+  # headers it received before that happened, so trust that code only when
+  # curl actually succeeded - otherwise this reports a stall as a pass.
+  if [[ "$curl_rc" -ne 0 ]]; then
+    actual="000"
+  else
+    actual="${actual:-000}"
+  fi
 
   if [[ "$actual" == "$expected" ]]; then
     printf 'ok    %-6s %-40s -> %s\n' "$method" "$path" "$actual"
@@ -65,6 +77,7 @@ while read -r method path expected; do
   else
     note=""
     [[ "$actual" == "000" ]] && note="  (no response -- is the app running?)"
+    (( curl_rc != 0 )) && note="  (curl exit $curl_rc -- transfer failed or timed out)"
     printf 'FAIL  %-6s %-40s expected %s, got %s%s\n' "$method" "$path" "$expected" "$actual" "$note"
     fail_count=$((fail_count + 1))
   fi

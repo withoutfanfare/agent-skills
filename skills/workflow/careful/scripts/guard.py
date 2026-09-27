@@ -12,23 +12,30 @@ import sys
 # (after ;, && or |) are not counted.
 ARGS = r"[^;&|\n]*"
 
+# Zero or more git global options between `git` and its subcommand, e.g.
+# `git -C /path reset --hard` or `git --git-dir=/x/y push -f`. Each iteration
+# is a short option (`-C /path`, `-c x=y`) or a long one (`--git-dir=/x/y`,
+# `--paginate`), so the subcommand-matching rules below still find their
+# subcommand however many of these come first.
+GIT_GLOBAL = r"(?:\s+(?:-[A-Za-z](?:[ =]\S+)?|--[A-Za-z][\w-]*(?:=\S+)?))*"
+
 RULES = [
     (r"(?<![\w-])rm\b(?=" + ARGS + r"\s(-\w*r|--recursive\b))(?=" + ARGS + r"\s(-\w*f|--force\b))",
      "recursive force delete"),
     (r"\bfind\b.*\s-delete\b", "find -delete"),
-    (r"\bgit\s+push\b" + ARGS + r"(\s--force(?!-with-lease|-if-includes)\b|\s-\w*f\w*\b|\s\+\S)",
+    (r"\bgit" + GIT_GLOBAL + r"\s+push\b" + ARGS + r"(\s--force(?!-with-lease|-if-includes)\b|\s-\w*f\w*\b|\s\+\S)",
      "git force push"),
-    (r"\bgit\s+push\b" + ARGS + r"(\s--delete\b|\s-d\b|\s:\S)", "deleting a remote branch"),
-    (r"\bgit\s+reset\s+--hard\b", "git hard reset"),
-    (r"\bgit\s+clean\b" + ARGS + r"\s(-\w*f|--force\b)", "git clean -f"),
-    (r"\bgit\s+(checkout\s+--|restore)\s+\.(\s|$)", "discarding all uncommitted changes"),
+    (r"\bgit" + GIT_GLOBAL + r"\s+push\b" + ARGS + r"(\s--delete\b|\s-d\b|\s:\S)", "deleting a remote branch"),
+    (r"\bgit" + GIT_GLOBAL + r"\s+reset\b" + ARGS + r"\s--hard\b", "git hard reset"),
+    (r"\bgit" + GIT_GLOBAL + r"\s+clean\b" + ARGS + r"\s(-\w*f|--force\b)", "git clean -f"),
+    (r"\bgit\s+(checkout(\s+--)?|restore)\s+\.(\s|$)", "discarding all uncommitted changes"),
     (r"\bgit\s+branch\s+-D\s+(main|master|develop)\b", "deleting a main branch"),
     (r"\bdrop\s+(table|database|schema)\b", "DROP TABLE or DATABASE"),
     (r"\btruncate\s+(table\b|[\w.`\"]+\s*(;|[\"']|$))|(^|[;&|]\s*)truncate\s+-", "TRUNCATE"),
-    (r"\bartisan\s+(migrate:fresh|migrate:reset|db:wipe)\b", "wiping the database"),
+    (r"\bartisan\s+(migrate:fresh|migrate:reset|migrate:refresh|db:wipe)\b", "wiping the database"),
     (r"\b(flushall|flushdb)\b", "flushing Redis"),
     (r"\bkubectl\s+delete\b", "kubectl delete"),
-    (r"\bterraform\s+(destroy|apply\b.*-auto-approve)", "terraform destroy or unattended apply"),
+    (r"\bterraform\s+(-chdir=\S+\s+)?(destroy|apply\b.*-auto-approve)", "terraform destroy or unattended apply"),
     (r"\b(curl|wget)\b[^|]*\|\s*(sudo\s+)?(ba|z)?sh\b", "piping a download into a shell"),
 ]
 

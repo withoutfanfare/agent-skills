@@ -27,8 +27,16 @@ def main():
     if not os.path.isfile(scope_file):
         return 0
 
-    allowed = [line.strip() for line in open(scope_file, encoding="utf-8")
-               if line.strip() and not line.startswith("#")]
+    try:
+        with open(scope_file, encoding="utf-8") as f:
+            allowed = [line.strip() for line in f if line.strip() and not line.startswith("#")]
+    except (OSError, ValueError) as exc:
+        print(
+            f"Refused by freeze: {scope_file} is unreadable ({exc}); refusing edits "
+            "until it can be read. Fix or remove the scope file, or ask the user.",
+            file=sys.stderr,
+        )
+        return 2
     allowed.append(scope_file)  # the scope itself stays editable, to lift or widen it
 
     target = os.path.realpath(target)

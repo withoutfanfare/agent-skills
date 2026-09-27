@@ -29,15 +29,18 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-SKIP_DIRS = {"node_modules", "vendor", "dist", ".git"}
+SKIP_DIRS = {"node_modules", "vendor", "dist", ".git", ".nuxt", ".output", "build", "coverage"}
 
 STYLE_EXTENSIONS = {".css", ".scss", ".sass", ".less", ".vue", ".jsx", ".tsx", ".js", ".ts", ".blade.php", ".html"}
 
 COLOUR_PATTERN = re.compile(
     r"#[0-9a-fA-F]{3,8}\b|rgba?\([^)]+\)|hsla?\([^)]+\)"
 )
+# Optional sign, then a leading-dot decimal (.5rem), a plain decimal (1.5rem)
+# or a bare integer (5rem). The lookbehind stops a match starting mid-number,
+# so "-8px" and ".5rem" are matched whole rather than as "8px" and "5rem".
 LENGTH_PATTERN = re.compile(
-    r"\b\d+(?:\.\d+)?(?:px|rem|em)\b"
+    r"(?<![\w.-])-?(?:\d+\.\d+|\.\d+|\d+)(?:px|rem|em)\b"
 )
 
 
@@ -45,7 +48,12 @@ def skipped(path: Path, root: Path) -> bool:
     folders = path.relative_to(root).parts[:-1]
     if SKIP_DIRS.intersection(folders):
         return True
-    return any(a == "public" and b == "build" for a, b in zip(folders, folders[1:]))
+    if any(a == "public" and b == "build" for a, b in zip(folders, folders[1:])):
+        return True
+    # Minified bundles (app.min.js, app.min.css) are build output wherever
+    # they sit, so skip them without having to skip whole folders like
+    # public/css or public/js that may hold hand-authored assets too.
+    return ".min." in path.name.lower()
 
 
 def iter_style_files(root: Path):
@@ -64,6 +72,15 @@ def normalise_colour(value: str) -> str:
     return re.sub(r"\s+", "", value.lower())
 
 
+def normalise_length(value: str) -> str:
+    value = value.lower()
+    if value.startswith("-."):
+        return "-0." + value[2:]
+    if value.startswith("."):
+        return "0" + value
+    return value
+
+
 def census(root: Path, kind: str) -> Counter:
     counts = Counter()
     for path in iter_style_files(root):
@@ -76,7 +93,7 @@ def census(root: Path, kind: str) -> Counter:
                 counts[("colour", normalise_colour(match.group()))] += 1
         if kind in ("length", "both"):
             for match in LENGTH_PATTERN.finditer(text):
-                counts[("length", match.group().lower())] += 1
+                counts[("length", normalise_length(match.group()))] += 1
     return counts
 
 

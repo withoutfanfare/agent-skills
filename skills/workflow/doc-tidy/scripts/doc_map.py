@@ -16,40 +16,60 @@ import argparse
 import os
 import re
 import sys
-import unicodedata
 from urllib.parse import unquote
 
 # A destination is either <in angle brackets, spaces allowed> or bare.
 LINK_RE = re.compile(r"(?<!!)\[[^\]]*\]\((<[^>]*>|[^)\s]+)(?:\s+\"[^\"]*\")?\)")
+# Reference-style: [text][ref] or the shortcut [text][], resolved against a
+# [ref]: target definition elsewhere in the file.
+REF_LINK_RE = re.compile(r"(?<!!)\[([^\]]*)\]\[([^\]]*)\]")
+REF_DEF_RE = re.compile(r"^[ \t]{0,3}\[([^\]]+)\]:\s*(<[^>]*>|\S+)", re.M)
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*#*$", re.M)
+# A setext heading: a text line underlined with = (h1) or - (h2).
+SETEXT_RE = re.compile(r"^[ \t]{0,3}(\S.*?)[ \t]*\n[ \t]{0,3}(=+|-+)[ \t]*$", re.M)
+ANCHOR_ID_RE = re.compile(r'<a\s+[^>]*\b(?:id|name)\s*=\s*["\']([^"\']+)["\']', re.I)
 FENCE_RE = re.compile(r"```.*?```|~~~.*?~~~", re.S)
 CODE_SPAN_RE = re.compile(r"(`+)(.+?)\1")
 FOLDER_PAGES = ("readme", "index")
 
 
 def slugify(heading):
-    """Turn a heading into the anchor slug most markdown renderers produce."""
-    text = unicodedata.normalize("NFKD", heading)
-    text = text.encode("ascii", "ignore").decode("ascii").lower()
+    """Turn a heading into the anchor slug GitHub produces: lowercase,
+    strip punctuation but keep Unicode letters, one hyphen per space."""
+    text = heading.strip().lower()
     text = re.sub(r"[^\w\s-]", "", text)
-    text = re.sub(r"[\s]+", "-", text.strip())
+    text = re.sub(r"\s", "-", text)
     return text
 
 
 def strip_code_fences(text):
-    return FENCE_RE.sub("", text)
+    # Replace with the same number of newlines, not an empty string, so
+    # line numbers after the fence are unaffected.
+    return FENCE_RE.sub(lambda m: "\n" * m.group().count("\n"), text)
 
 
 def heading_slugs(text):
-    """Slugs for every heading. A repeated heading gets -1, -2 and so on,
-    as GitHub and most renderers do."""
+    """Slugs for every heading (ATX and setext) plus explicit <a id>/name
+    anchors. A repeated heading gets -1, -2 and so on, as GitHub and most
+    renderers do."""
     slugs, seen = set(), {}
-    for _, heading in HEADING_RE.findall(text):
+    headings = [heading for _, heading in HEADING_RE.findall(text)]
+    headings += [heading for heading, _ in SETEXT_RE.findall(text)]
+    for heading in headings:
         base = slugify(heading)
         count = seen.get(base, 0)
         seen[base] = count + 1
         slugs.add(base if count == 0 else f"{base}-{count}")
+    slugs.update(ANCHOR_ID_RE.findall(text))
     return slugs
+
+
+def ref_definitions(text):
+    """Map of reference label (lowercased, per CommonMark) to raw target."""
+    defs = {}
+    for label, target in REF_DEF_RE.findall(text):
+        defs[label.lower()] = target
+    return defs
 
 
 def folder_page(folder, exts):
@@ -92,36 +112,49 @@ def main():
         return 0
 
     anchors_by_file = {}
+    ref_defs_by_file = {}
     for path in docs:
         text = strip_code_fences(load(path))
         anchors_by_file[path] = heading_slugs(text)
+        ref_defs_by_file[path] = ref_definitions(text)
 
     incoming = {path: 0 for path in docs}
     broken_links, broken_anchors = [], []
 
+    def check_target(path, target, lineno):
+        if target.startswith("<"):
+            target = target[1:-1]
+        if re.match(r"^[a-z][a-z0-9+.-]*:", target, re.I):
+            return  # scheme link (http, mailto, tel...): not ours to check
+        file_part, _, anchor = unquote(target).partition("#")
+        if not file_part:
+            if anchor and slugify(anchor) not in anchors_by_file[path]:
+                broken_anchors.append((path, lineno, target))
+            return
+        candidate = os.path.normpath(os.path.join(os.path.dirname(path), file_part))
+        if os.path.isdir(candidate):
+            candidate = folder_page(candidate, exts) or candidate
+        if not os.path.isfile(candidate):
+            broken_links.append((path, lineno, target))
+            return
+        if candidate in incoming:
+            incoming[candidate] += 1
+        if anchor and candidate in anchors_by_file and slugify(anchor) not in anchors_by_file[candidate]:
+            broken_anchors.append((path, lineno, target))
+
     for path in docs:
         text = strip_code_fences(load(path))
         for lineno, line in enumerate(text.splitlines(), start=1):
-            for target in LINK_RE.findall(CODE_SPAN_RE.sub("", line)):
-                if target.startswith("<"):
-                    target = target[1:-1]
-                if re.match(r"^[a-z][a-z0-9+.-]*:", target, re.I):
-                    continue  # scheme link (http, mailto, tel...): not ours to check
-                file_part, _, anchor = unquote(target).partition("#")
-                if not file_part:
-                    if anchor and slugify(anchor) not in anchors_by_file[path]:
-                        broken_anchors.append((path, lineno, target))
+            cleaned = CODE_SPAN_RE.sub("", line)
+            for target in LINK_RE.findall(cleaned):
+                check_target(path, target, lineno)
+            for label, ref in REF_LINK_RE.findall(cleaned):
+                key = (ref or label).lower()
+                target = ref_defs_by_file[path].get(key)
+                if target is None:
+                    broken_links.append((path, lineno, f"[{label}][{ref}]"))
                     continue
-                candidate = os.path.normpath(os.path.join(os.path.dirname(path), file_part))
-                if os.path.isdir(candidate):
-                    candidate = folder_page(candidate, exts) or candidate
-                if not os.path.isfile(candidate):
-                    broken_links.append((path, lineno, target))
-                    continue
-                if candidate in incoming:
-                    incoming[candidate] += 1
-                if anchor and candidate in anchors_by_file and slugify(anchor) not in anchors_by_file[candidate]:
-                    broken_anchors.append((path, lineno, target))
+                check_target(path, target, lineno)
 
     orphaned = [
         p for p in docs

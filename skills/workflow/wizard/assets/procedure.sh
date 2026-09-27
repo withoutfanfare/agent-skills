@@ -62,6 +62,45 @@ fi
 PROJECT_ROOT="$_root_real"
 ENV_TARGET="$_env_dir_real/$(basename "$ENV_TARGET")"
 
+# ENV_TARGET itself (not just its folder) may be a symlink - e.g. .env ->
+# config/local.env. Follow it to the real file and write there instead, so
+# the later mv (env_upsert) replaces that file's contents rather than
+# replacing the symlink with a detached copy. Refuse if it leads outside
+# PROJECT_ROOT, for the same reason a stray ENV_TARGET is refused above.
+if [[ -L "$ENV_TARGET" ]]; then
+  _link_target="$ENV_TARGET"
+  _link_hops=0
+  while [[ -L "$_link_target" ]]; do
+    _link_hops=$((_link_hops + 1))
+    if (( _link_hops > 20 )); then
+      printf 'ENV_TARGET (%s) is a symlink chain that is too deep to follow.\n' "$ENV_TARGET" >&2
+      exit 1
+    fi
+    _link_dir=$(_realdir "$(dirname "$_link_target")") || true
+    if [[ -z "$_link_dir" ]]; then
+      printf 'ENV_TARGET (%s) is a symlink to a folder that does not exist.\n' "$ENV_TARGET" >&2
+      exit 1
+    fi
+    _link_dest=$(readlink "$_link_target")
+    if [[ "$_link_dest" == /* ]]; then
+      _link_target="$_link_dest"
+    else
+      _link_target="$_link_dir/$_link_dest"
+    fi
+  done
+  _link_dir_real=$(_realdir "$(dirname "$_link_target")") || true
+  if [[ -z "$_link_dir_real" ]]; then
+    printf 'ENV_TARGET (%s) is a symlink to a folder that does not exist: %s\n' "$ENV_TARGET" "$_link_target" >&2
+    exit 1
+  fi
+  if [[ "$_link_dir_real" != "$_root_real" && "$_link_dir_real" != "$_root_real"/* ]]; then
+    printf 'ENV_TARGET (%s) is a symlink pointing outside PROJECT_ROOT (%s): %s\n' "$ENV_TARGET" "$_root_real" "$_link_target" >&2
+    printf 'Point ENV_TARGET at the real file directly, or move it inside the project.\n' >&2
+    exit 1
+  fi
+  ENV_TARGET="$_link_dir_real/$(basename "$_link_target")"
+fi
+
 STEP_COUNT=0
 STEP_TOTAL=0
 ENV_KEYS_WRITTEN=()
@@ -73,8 +112,7 @@ _wipe_screen() {
   local has_tput=0
   command -v tput >/dev/null 2>&1 && has_tput=1
   if [[ "$has_tput" -eq 1 ]]; then
-    tput clear
-    return
+    tput clear 2>/dev/null && return
   fi
   # No tput on this box: fall back to the raw ANSI "clear screen + scrollback" sequence.
   printf '\033[2J\033[3J\033[H'
@@ -142,6 +180,12 @@ _saved_value() {
   if [[ "$raw" == \"*\" ]]; then
     raw="${raw#\"}"; raw="${raw%\"}"
     raw="${raw//\\\"/\"}"; raw="${raw//\\\$/\$}"; raw="${raw//\\\\/\\}"
+  elif [[ "$raw" == \'*\' ]]; then
+    # Single-quoted: dotenv treats this literally, no escapes to undo.
+    raw="${raw#\'}"; raw="${raw%\'}"
+  else
+    # Unquoted: a trailing " # comment" is not part of the value.
+    raw="${raw%% #*}"
   fi
   printf '%s' "$raw"
 }
@@ -192,22 +236,15 @@ collect_hidden() {
   printf -v "$var" '%s' "$answer"
 }
 
-# env_upsert KEY VALUE - write or replace KEY="VALUE" in ENV_TARGET.
+# env_upsert KEY VALUE - write or replace KEY='VALUE' in ENV_TARGET.
 # Idempotent: running it twice with the same value leaves the file
-# unchanged aside from ordering. Refuses a value containing a newline
-# rather than writing a broken line.
-# _quote_for_env VALUE - backslash-escape the three characters that would
-# otherwise break a double-quoted dotenv line, in the order that keeps the
-# escaping reversible (backslashes first, or a later pass would double-escape
-# the backslashes just introduced for the quote and dollar cases).
-_quote_for_env() {
-  local out="$1"
-  out=${out//\\/\\\\}
-  out=${out//\"/\\\"}
-  out=${out//\$/\\\$}
-  printf '%s' "$out"
-}
-
+# unchanged aside from ordering. Values are written single-quoted and
+# untouched, because that is the one form phpdotenv, Node's dotenv, and
+# Docker Compose's env_file all treat the same way: literally, with no
+# backslash-escaping to undo. Escaping inside double quotes is reversible
+# in phpdotenv but not in the others, so it is not used here. Refuses a
+# value with a newline (breaks the line) or a single quote (no escape for
+# it in single-quoted form) rather than writing something broken.
 env_upsert() {
   local key="$1" value="$2" scratch rc=0
   if [[ "$value" == *$'\n'* ]]; then
@@ -215,19 +252,36 @@ env_upsert() {
     LEFT_FOR_LATER+=("$key in $ENV_TARGET (multiline value, add by hand)")
     return
   fi
+  if [[ "$value" == *\'* ]]; then
+    caution "not writing $key - the value has a single quote in it"
+    LEFT_FOR_LATER+=("$key in $ENV_TARGET (contains a single quote, add by hand)")
+    return
+  fi
   touch "$ENV_TARGET"
-  scratch=$(mktemp)
+  # Scratch file lives beside ENV_TARGET, not in $TMPDIR: that keeps the mv
+  # below on one filesystem (so it is an atomic rename) and, with the trap,
+  # means a Ctrl-C between mktemp and mv never leaves a full copy of the
+  # secrets behind in a shared temp directory.
+  scratch=$(mktemp "${ENV_TARGET}.XXXXXX") || {
+    caution "could not create a scratch file next to $ENV_TARGET - $key not saved"
+    LEFT_FOR_LATER+=("$key in $ENV_TARGET (could not create a scratch file)")
+    return
+  }
+  _ENV_SCRATCH="$scratch"
+  trap '[[ -n "${_ENV_SCRATCH:-}" && -f "$_ENV_SCRATCH" ]] && rm -f "$_ENV_SCRATCH"' EXIT INT TERM
   # grep exits 1 when every line matched the key (nothing to keep); only
   # 2 or more means it failed, and moving that output in would lose the file.
   grep -vE "^${key}=" "$ENV_TARGET" > "$scratch" || rc=$?
   if (( rc > 1 )); then
     rm -f "$scratch"
+    _ENV_SCRATCH=""
     caution "could not read $ENV_TARGET - $key not saved"
     LEFT_FOR_LATER+=("$key in $ENV_TARGET (the file could not be read)")
     return
   fi
-  printf '%s="%s"\n' "$key" "$(_quote_for_env "$value")" >> "$scratch"
+  printf "%s='%s'\n" "$key" "$value" >> "$scratch"
   mv "$scratch" "$ENV_TARGET"
+  _ENV_SCRATCH=""
   ENV_KEYS_WRITTEN+=("$key")
   printf '  %s** saved%s %s -> %s\n' "$C_GREEN" "$C_OFF" "$key" "$ENV_TARGET"
 }
@@ -248,7 +302,7 @@ ci_secret() {
   local name="$1" value="$2" ok=1
   _gh_ready || ok=0
   if [[ "$ok" -eq 1 ]]; then
-    printf '%s' "$value" | (cd "$PROJECT_ROOT" && gh secret set "$name") >/dev/null 2>&1 || ok=0
+    printf '%s' "$value" | (unset GH_REPO; cd "$PROJECT_ROOT" && gh secret set "$name") >/dev/null 2>&1 || ok=0
   fi
   if [[ "$ok" -eq 1 ]]; then
     CI_NAMES_WRITTEN+=("$name")
@@ -265,7 +319,7 @@ ci_variable() {
   local name="$1" value="$2" ok=1
   _gh_ready || ok=0
   if [[ "$ok" -eq 1 ]]; then
-    (cd "$PROJECT_ROOT" && gh variable set "$name" --body "$value") >/dev/null 2>&1 || ok=0
+    (unset GH_REPO; cd "$PROJECT_ROOT" && gh variable set "$name" --body "$value") >/dev/null 2>&1 || ok=0
   fi
   if [[ "$ok" -eq 1 ]]; then
     CI_NAMES_WRITTEN+=("$name")

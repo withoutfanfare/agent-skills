@@ -89,14 +89,25 @@ async function settlePage(page, revealPairs) {
         for (const [hidden, shown] of pairs) {
             for (const el of document.querySelectorAll(`.${hidden}`)) el.classList.add(shown);
         }
-        // Lazy-loaded <img> tags can still be blank placeholders when the shot
-        // fires; force them to load now instead of waiting on scroll position.
-        for (const img of Array.from(document.images)) {
-            if (img.loading === 'lazy') img.loading = 'eager';
-        }
     }, revealPairs);
-    // Give eagerly-switched images a moment to actually finish decoding.
-    await page.waitForTimeout(500);
+    // Lazy-loaded <img> tags can still be blank placeholders when the shot
+    // fires; switch them to eager and wait for each to actually finish
+    // decoding, bounded so one stuck image cannot hang the whole capture.
+    const staleCount = await page.evaluate(async () => {
+        const lazyImages = Array.from(document.images).filter((img) => img.loading === 'lazy');
+        for (const img of lazyImages) img.loading = 'eager';
+        const settled = await Promise.all(lazyImages.map((img) => {
+            if (img.complete) return true;
+            return Promise.race([
+                img.decode().then(() => true, () => false),
+                new Promise((resolve) => setTimeout(() => resolve(false), 3000)),
+            ]);
+        }));
+        return settled.filter((ok) => !ok).length;
+    });
+    if (staleCount > 0) {
+        console.error(`  warning: ${staleCount} lazy image(s) had not finished loading after 3s`);
+    }
 }
 
 // A bare import('playwright') would look beside this script, in the skill's
@@ -136,7 +147,10 @@ async function main() {
         const url = /^https?:\/\//.test(route) ? route : new URL(route, opts.base).href;
         const file = path.join(opts.out, `${opts.prefix}${name}.jpg`);
         try {
-            await page.goto(url, { waitUntil: 'load', timeout: 30_000 });
+            const response = await page.goto(url, { waitUntil: 'load', timeout: 30_000 });
+            if (response && response.status() >= 400) {
+                throw new Error(`HTTP ${response.status()}`);
+            }
             await settlePage(page, revealPairs);
             await page.screenshot({ path: file, fullPage: true, type: 'jpeg', quality: 90 });
             const height = await page.evaluate(() => document.documentElement.scrollHeight);
