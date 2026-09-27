@@ -39,7 +39,8 @@ gh pr checks <n>
 ```
 
 `mergeable` only covers text conflicts. `mergeStateStatus` (`BLOCKED`,
-`BEHIND`, `UNSTABLE`, `CLEAN`) is what says whether the merge can happen.
+`BEHIND`, `DIRTY` for conflicts, `UNSTABLE`, `CLEAN`) is what says whether
+the merge can happen.
 
 Done when: you can list every failing or pending check, every unanswered
 review comment, and whether the branch is behind its base.

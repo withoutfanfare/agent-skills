@@ -34,9 +34,10 @@ debugging).
 ## 2. Read the catalogue
 
 Run the bundled script (in Claude Code the folder is `${CLAUDE_SKILL_DIR}`;
-otherwise use the path this skill was linked from):
+otherwise use the path this skill was linked from, `.agents/skills/pick-skills`
+or `~/.agents/skills/pick-skills`):
 ```bash
-python3 "${CLAUDE_SKILL_DIR:-.}/scripts/catalogue.py"
+python3 "${CLAUDE_SKILL_DIR:-.agents/skills/pick-skills}/scripts/catalogue.py"
 ```
 
 This prints the stack signals found in the project folder, the current
@@ -144,6 +145,7 @@ from the catalogue.
 
 ```bash
 agent-skills status
+grep '^# ' .agent-skills
 ```
 
 Done when: every entry traces back to a skill picked in step 3, the count

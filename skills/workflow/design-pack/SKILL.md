@@ -50,14 +50,16 @@ Done when: you can list what each category holds, or that it is absent.
 
 ## 3. Capture representative screenshots
 
-Run the script bundled with this skill (in Claude Code the folder is
-`${CLAUDE_SKILL_DIR}`; otherwise use the path this skill was linked from)
-from the project root; a plain `--screenshot` flag captures only the
-viewport. It uses the project's Playwright, or the copy `npx -p playwright`
-supplies (the first run may need `npx playwright install chromium`):
+Run the script bundled with this skill from the project root (in Claude
+Code the folder is `${CLAUDE_SKILL_DIR}`; otherwise it is where the skill was
+linked, `.agents/skills/design-pack` or `~/.agents/skills/design-pack`). It
+captures every page at full length, which `playwright screenshot` does not
+do by default. It uses the project's Playwright, or the copy
+`npx -p playwright` supplies (the first run may need
+`npx playwright install chromium`):
 
 ```bash
-npx -p playwright node "${CLAUDE_SKILL_DIR:-.}/scripts/capture-pages.mjs" \
+npx -p playwright node "${CLAUDE_SKILL_DIR:-.agents/skills/design-pack}/scripts/capture-pages.mjs" \
   --base https://example.test --out design-pack/screenshots --prefix desktop- \
   --routes / /catalogue /product/example /account /contact
 ```

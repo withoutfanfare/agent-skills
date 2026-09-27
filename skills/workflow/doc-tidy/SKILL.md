@@ -37,10 +37,11 @@ a last-changed date.
 
 Run the link mapper bundled with this skill against each docs folder (in
 Claude Code the skill's folder is `${CLAUDE_SKILL_DIR}`; otherwise use the
-path this skill was linked from):
+path this skill was linked from, `.agents/skills/doc-tidy` or
+`~/.agents/skills/doc-tidy`):
 
 ```bash
-python3 "${CLAUDE_SKILL_DIR:-.}/scripts/doc_map.py" docs/
+python3 "${CLAUDE_SKILL_DIR:-.agents/skills/doc-tidy}/scripts/doc_map.py" docs/
 ```
 
 It reports broken internal links, broken heading anchors, and files with

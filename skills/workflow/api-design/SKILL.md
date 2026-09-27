@@ -54,8 +54,9 @@ obvious without inspecting request internals.
 When a version is retired, do not remove it outright. Add a deprecation
 period: return a `Deprecation` header giving the date it was deprecated
 (`@` plus a Unix timestamp, such as `@1767225600`, never `true`) and a
-`Sunset` header giving the removal date, and keep the old version serving real responses until that
-date passes. Removing a version the moment a new one ships breaks every
+`Sunset` header giving the removal date as an HTTP date, such as
+`Sat, 01 Aug 2026 00:00:00 GMT` (a different format from `Deprecation`), and
+keep the old version serving real responses until that date passes. Removing a version the moment a new one ships breaks every
 client that has not yet migrated, silently, at a time you do not control.
 
 Done when: the version is in the URL, and any retirement has a published

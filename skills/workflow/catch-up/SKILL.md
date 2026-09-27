@@ -23,10 +23,12 @@ Use the window the user gave. Otherwise, anchor on their own last commit
 in this repository:
 
 ```bash
-git log -1 --author="$(git config user.email)" --format='%cr (%h)'
+email=$(git config user.email) && [ -n "$email" ] &&
+  git log -1 --author="$email" --format='%cr (%h)'
 ```
 
-Fall back to the last two weeks if they have never committed here.
+An empty email would match everyone's commits, so the check comes first.
+Fall back to the last two weeks if there is no email or no output.
 
 Done when: the window's start date is known.
 
