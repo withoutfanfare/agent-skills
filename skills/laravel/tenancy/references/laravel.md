@@ -1,5 +1,14 @@
 # Laravel notes
 
+## Contents
+
+- Shared tables with a tenant column
+- Separate database per tenant
+- Queue jobs
+- Testing isolation
+- Keeping admin routes out of tenant scope
+- Packages worth knowing
+
 Worked examples for the strategies in the main skill, using a subscription
 app where each tenant is a company with its own workspace.
 

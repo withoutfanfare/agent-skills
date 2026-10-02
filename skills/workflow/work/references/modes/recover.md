@@ -1,5 +1,15 @@
 # Recover mode
 
+## Contents
+
+- Sources
+- Steps
+- Status vocabulary
+- Behaviour record
+- Guardrails
+- Reply
+- Staying current
+
 Work that was inherited, abandoned halfway, left to go stale or never
 properly understood needs a safe footing before anyone chooses what to do
 with it. This mode finds that footing. It produces an assessment, and it

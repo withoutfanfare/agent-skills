@@ -1,5 +1,14 @@
 # Delivery profile
 
+## Contents
+
+- Finding it
+- Sections
+- A lifecycle row
+- Where each part is used
+- Writing a profile for a project
+- Guardrails
+
 The skill knows nothing about a particular project until the project tells
 it: which states its board has and what earns entry to each, which branch
 pull requests go to, where specs and test plans are kept, which commands

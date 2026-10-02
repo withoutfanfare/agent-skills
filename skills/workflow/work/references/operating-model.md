@@ -1,5 +1,16 @@
 # Operating model
 
+## Contents
+
+- Ownership
+- Evidence labels
+- State statuses
+- Proportionate controls
+- Principles
+- Which source settles which question
+- Freshness
+- What it is not
+
 Delivery loses most time to fuzzy intent, thin handovers, checks done
 twice, evidence nobody trusts and sign-offs nobody can find. The answer
 here: let systems carry coordination, shared knowledge and repeatable

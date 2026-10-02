@@ -1,5 +1,14 @@
 # Alpine patterns
 
+## Contents
+
+- Dropdown of links (disclosure)
+- Modal with a focus trap
+- Tabs with arrow key navigation
+- Accordion, several items open at once
+- Shared state with a store
+- Binding to a backend component's state
+
 Worked examples for the patterns named in SKILL.md. Each one is complete
 enough to copy and adapt; none of them is the finished component you ship,
 because your project's spacing, colours and class names will differ.

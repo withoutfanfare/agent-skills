@@ -138,7 +138,9 @@ way, and a single next action follows from that gate.
   [release](references/modes/release.md). `review` stays ambiguous
   until it is known to mean handover, independent review, respond or ship,
   and `verify` until it is known to mean plan, execute or report; the mode
-  reference says to state the operation before starting.
+  reference says to state the operation before starting. Release also
+  uses [measurement](references/measurement.md) when the project keeps
+  durable measures.
 
 Specialist skills take their own steps when installed
 ([hand-offs](references/hand-offs.md)); fold what they return into the map.

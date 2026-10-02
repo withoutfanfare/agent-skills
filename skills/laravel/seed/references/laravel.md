@@ -1,5 +1,13 @@
 # Laravel notes
 
+## Contents
+
+- Factories
+- States for named scenarios
+- Seeders
+- Keeping generated data apart from real data
+- Locale
+
 ## Factories
 
 Put one generator call per attribute in `definition()`, chosen for what the

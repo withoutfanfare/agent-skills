@@ -1,5 +1,15 @@
 # Worked examples
 
+## Contents
+
+- Nested PHP array format
+- Flat JSON format
+- Locale-switching middleware and route
+- RTL layout without a second stylesheet
+- Validation messages per locale
+- Logging missing keys in development
+- Scanning for missing keys ahead of a release
+
 ## Nested PHP array format
 
 ```php

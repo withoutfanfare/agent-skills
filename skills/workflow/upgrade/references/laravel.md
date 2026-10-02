@@ -1,5 +1,16 @@
 # Laravel and PHP upgrade notes
 
+## Contents
+
+- composer.json first
+- Laravel 10 to 11
+- Laravel 9 to 10
+- PHP 8.1 to 8.2
+- PHP 8.2 to 8.3
+- Common deprecation patterns worth grepping for
+- Automated fixes with Rector
+- Rollback specifics
+
 The worked notes below cover Laravel 9 to 11. For any later jump, read the
 official upgrade guide for the target version in full; do not extrapolate
 from these notes.

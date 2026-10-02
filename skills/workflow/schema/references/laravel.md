@@ -1,5 +1,15 @@
 # Laravel migration notes
 
+## Contents
+
+- A table, built to the conventions in SKILL.md
+- Many-to-many join table
+- Polymorphic relationships
+- Safe changes: add and default, don't lock
+- Expand-contract for a column rename
+- A unique index that must survive soft deletes
+- Commands worth knowing while designing
+
 ## A table, built to the conventions in SKILL.md
 
 ```php

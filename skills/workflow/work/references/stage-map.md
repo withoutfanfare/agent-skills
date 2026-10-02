@@ -1,5 +1,19 @@
 # Stage map rules
 
+## Contents
+
+- Choosing the evidence state
+  - 1. Settle on a single candidate
+  - 2. Admit only eligible evidence
+  - 3. Decide which conditional states apply
+  - 4. Report the highest proven anchor
+  - 5. Fall back to Unknown
+  - 6. Work out drift
+  - 7. Mark every gate
+  - 8. Pick the gate line
+  - 9. Choose again after a change
+- Writing the map
+
 How step 2 of the skill decides where an item stands. Apply the steps in
 this order on every run. The map uses the project's own vocabulary because
 its rows are the profile's lifecycle rows, and every row brings four

@@ -1,5 +1,17 @@
 # Verify mode
 
+## Contents
+
+- Pick the operation
+- Plan
+- Execution preconditions
+- Scenario results
+- Execute
+- Machine-readable summary
+- Guardrails
+- Freshness
+- Report
+
 Acceptance rests on proof that a named build does what was intended when
 someone actually uses it. Here you write a repeatable user acceptance
 testing (UAT) plan, drive authorised browser QA on a named release

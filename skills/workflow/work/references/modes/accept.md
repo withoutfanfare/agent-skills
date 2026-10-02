@@ -1,5 +1,17 @@
 # Accept mode
 
+## Contents
+
+- Inputs
+- Ready to ask?
+- Workflow
+- The three outcomes
+- When verification is mixed
+- Decision block
+- Guardrails
+- Output
+- Freshness
+
 Only a few questions genuinely need a person with authority to answer
 them. This mode strips product acceptance down to those. Everything
 mechanical arrives already summarised, so the owner never redoes QA, and

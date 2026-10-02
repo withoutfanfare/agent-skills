@@ -1,5 +1,13 @@
 # Review mode
 
+## Contents
+
+- Pick the operation
+- Inputs
+- Independent technical review
+- Respond to review
+- Ship
+
 Reviewers have limited attention, and it belongs on whether the change is
 correct, well built and safe. It should not go on working out what the
 change was for. This mode covers both ends of that: the author explains,

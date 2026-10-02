@@ -1,5 +1,15 @@
 # Laravel scaffolding notes
 
+## Contents
+
+- Generating the pieces
+- Model
+- Migration
+- Validation
+- Authorisation
+- API resources
+- Verifying the scaffold
+
 ## Generating the pieces
 
 ```bash

@@ -1,5 +1,15 @@
 # Laravel notification notes
 
+## Contents
+
+- Generating a notification
+- Shape of a multi-channel class
+- Sending
+- Channels at a glance
+- Conditional sending and queue configuration
+- Testing with fakes
+- Gotchas
+
 ## Generating a notification
 
 ```bash

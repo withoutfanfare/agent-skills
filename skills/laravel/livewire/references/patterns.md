@@ -1,5 +1,17 @@
 # Livewire patterns and worked examples
 
+## Contents
+
+- Form Object
+- Data table with URL-bound state
+- Modal opened from elsewhere
+- File upload with preview
+- Nested components in a loop
+- Computed property caching
+- Alpine interop
+- SPA navigation and persistence
+- Testing validation explicitly
+
 ## Form Object
 
 ```php

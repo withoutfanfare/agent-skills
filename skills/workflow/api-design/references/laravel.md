@@ -1,5 +1,13 @@
 # Laravel implementation detail
 
+## Contents
+
+- Versioned routes
+- Validation with form requests
+- Shaping responses with API resources
+- Mapping exceptions to the error envelope
+- Authentication
+
 Applies the method in `SKILL.md` to a Laravel codebase.
 
 ## Versioned routes

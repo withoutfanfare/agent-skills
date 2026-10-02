@@ -1,5 +1,13 @@
 # Build mode
 
+## Contents
+
+- Four preconditions
+- Steps
+- Optional completion ledger
+- Guardrails
+- Completion check
+
 This is where code changes. The aim is a diff someone can review, with every
 acceptance criterion proven by its own check, ready to hand to `ship`. Work
 takes a ready issue or an accepted brief and goes through its criteria one

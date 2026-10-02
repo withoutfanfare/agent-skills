@@ -1,5 +1,17 @@
 # Spec mode
 
+## Contents
+
+- Usually, the issue is enough
+- Sources
+- Steps
+- Readiness result
+- Logging open questions
+- Writing acceptance criteria
+- Guardrails
+- Reply
+- When intent changes
+
 Before anyone builds, someone has to agree what "done" looks like. This mode
 turns a request into that agreement, or reopens an agreement on purpose when
 intent shifts. It points at the gaps; it does not quietly fill them. A sound

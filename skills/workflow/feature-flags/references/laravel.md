@@ -1,5 +1,14 @@
 # Laravel Pennant notes
 
+## Contents
+
+- Defining a flag
+- Percentage rollouts with Lottery
+- Checking a flag
+- Managing stored values
+- Testing both states
+- Removing a flag after full rollout
+
 Pennant is Laravel's first-party feature flag package. Install it, then
 apply the general method in the main skill using these specifics.
 

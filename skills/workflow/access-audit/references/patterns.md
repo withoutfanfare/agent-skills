@@ -1,5 +1,15 @@
 # Accessibility patterns
 
+## Contents
+
+- Structure and content
+- Forms
+- Custom widgets
+- Keyboard behaviour
+- Colour contrast
+- Added in WCAG 2.2 (level AA)
+- Visually hidden content
+
 Worked fixes for the issues that come up most often, grouped by the area
 they belong to in the main skill.
 

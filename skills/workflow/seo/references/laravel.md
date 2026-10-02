@@ -1,5 +1,13 @@
 # Laravel specifics
 
+## Contents
+
+- Metadata: a value object plus one Blade partial
+- Structured data with `@push`
+- Sitemap generation
+- robots.txt
+- Core Web Vitals in a Blade stack
+
 ## Metadata: a value object plus one Blade partial
 
 Keep the metadata-building logic in one small class rather than scattered

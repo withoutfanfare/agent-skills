@@ -1,5 +1,15 @@
 # Tracker
 
+## Contents
+
+- One route
+- Reads, every run
+- Definition of Ready
+- Drift
+- Notes the board wants
+- Writes
+- Traps
+
 The contract for reading and writing the project's issue tracker, whichever
 product it is. Teams use the board to see where everything stands; this
 skill's job is to keep it truthful by reading on every run, calling out

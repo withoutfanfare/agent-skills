@@ -1,5 +1,17 @@
 # Release mode
 
+## Contents
+
+- Inputs
+- Eligibility
+- Prepare
+- Execute
+- Release states
+- Decision-to-Live learning
+- Guardrails
+- Freshness
+- Report
+
 Putting accepted work into production deserves as much care as building
 it, and every release is a chance to learn why delivery took as long as it
 did. This mode gets a release ready, runs the production smoke checks it is

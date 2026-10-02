@@ -1,5 +1,17 @@
 # Filament patterns and field reference
 
+## Contents
+
+- A resource's shape
+- Form components at a glance
+- Table columns at a glance
+- A custom action
+- A stats widget
+- Global search
+- Soft deletes and relation managers
+- Authorisation test pair
+- Gotchas beyond the SKILL.md steps
+
 ## A resource's shape
 
 Filament 4 generates the form and table into their own classes
