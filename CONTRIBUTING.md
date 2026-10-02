@@ -68,6 +68,13 @@ allowed-tools: Read Grep Glob Bash
 - End with **It's working if** and two or three observable signs.
 - Aim for 60 to 160 lines in `SKILL.md` and put long material in
   `references/`; the linter rejects anything over 500.
+- Link every reference file straight from `SKILL.md`, never only from
+  another reference: an agent may preview a file it reaches second-hand
+  with `head -100` and miss the rest. Give any reference over 100 lines a
+  `## Contents` list under its title, so a partial read still shows what
+  is there. The linter checks both.
+- Name a package a script needs, with its install command, next to the
+  script's instructions, rather than assuming it is installed.
 - British English; commas, colons and full stops rather than long dashes.
 - Rate severity as blocker, major or minor, and confidence as certain,
   likely or possible; the same words in every skill so reports can be read

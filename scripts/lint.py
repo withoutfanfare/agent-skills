@@ -11,6 +11,10 @@ house rules:
   "anthropic" or "claude"
 - description: present, at most 1024 characters, no angle brackets
 - SKILL.md: at most 500 lines
+- reference files: one over 100 lines opens with a Contents list, and
+  every one is linked from SKILL.md itself (one level deep). Files in
+  assets/, examples/, evals/, agents/, scripts/ and tests/, README-style
+  docs and templates are left out
 - a typed-only skill (disable-model-invocation: true) also has
   agents/openai.yaml with policy.allow_implicit_invocation: false, so Codex
   treats it the same way, and the reverse
@@ -124,6 +128,42 @@ def text_files():
                 yield path
 
 
+# Anthropic's skill-authoring guide: Claude may preview a long file with
+# `head -100`, so a reference file over 100 lines opens with a contents list,
+# and every reference file links straight from SKILL.md (one level deep).
+# Folders of people-facing or executable material are not references.
+REF_SKIP_DIRS = {"assets", "examples", "evals", "agents", "scripts", "tests",
+                 ".git", "__pycache__", "node_modules"}
+HUMAN_DOCS = {"README.md", "CHANGELOG.md", "DESIGN.md", "LICENSE.md", "FRICTION-LOG.md"}
+CONTENTS_RE = re.compile(r"^#{1,4}\s*(table of )?contents\b", re.I | re.M)
+
+
+def check_references(skill_dir, label, findings):
+    """Flag long reference files with no contents list near the top, and
+    reference files that SKILL.md does not link to directly."""
+    skill_md = open(os.path.join(skill_dir, "SKILL.md"), encoding="utf-8").read()
+    for base, dirs, files in os.walk(skill_dir):
+        dirs[:] = sorted(d for d in dirs if d not in REF_SKIP_DIRS
+                         and not os.path.isfile(os.path.join(base, d, "SKILL.md")))
+        for f in sorted(files):
+            rel = os.path.relpath(os.path.join(base, f), skill_dir)
+            if (not f.endswith(".md") or rel == "SKILL.md" or f in HUMAN_DOCS
+                    or f.endswith("-PLAN.md")):
+                continue
+            lines = open(os.path.join(base, f), encoding="utf-8").read().splitlines()
+            if (len(lines) > 100 and "template" not in rel.lower()
+                    and not CONTENTS_RE.search("\n".join(lines[:40]))):
+                findings.append(f"{label}/{rel}: {len(lines)} lines but no Contents list in its first 40 lines")
+            parents = [os.path.dirname(rel)]
+            while os.path.dirname(parents[-1]):
+                parents.append(os.path.dirname(parents[-1]))
+            # a link to a whole folder (`references/examples/`) covers its files
+            folder_linked = any(p and re.search(re.escape(p + "/") + r"(?![\w.-])", skill_md)
+                                for p in parents)
+            if rel not in skill_md and not folder_linked:
+                findings.append(f"{label}/{rel}: not linked from SKILL.md (keep references one level deep)")
+
+
 def check_skill(folder, findings):
     rel = f"skills/{folder}"
     folder_name = os.path.basename(folder)
@@ -136,6 +176,7 @@ def check_skill(folder, findings):
     if fields is None:
         findings.append(f"{rel}/SKILL.md: no frontmatter block")
         return False
+    check_references(os.path.join(SKILLS, folder), rel, findings)
 
     name = fields.get("name", "")
     if name != folder_name:

@@ -65,6 +65,26 @@ check "router missing a skill caught" 'grep -q "does not mention .good." "$tmp/o
 check "router typed marker caught" 'grep -q ".quiet. is typed-only but not marked" "$tmp/out"'
 check "router naming a missing skill caught" 'grep -q "names .ghost-skill., which is not a skill" "$tmp/out"'
 
+# Reference files: a long one needs a Contents list, and every one links
+# straight from SKILL.md. Assets folders are left alone.
+rm -rf "$tmp/skills"/*
+long() {  # long [with-contents]: a 121-line reference file
+    printf '# Title\n'
+    if [ -n "${1:-}" ]; then printf '\n## Contents\n\n- A\n'; fi
+    seq 1 120 | sed 's/^/line /'
+}
+skill refs 'name: refs\ndescription: Refs.' 'See references/ok.md and references/long.md.'
+mkdir -p "$tmp/skills/refs/references" "$tmp/skills/refs/assets"
+long yes > "$tmp/skills/refs/references/ok.md"
+long > "$tmp/skills/refs/references/long.md"
+printf '# Hidden\n' > "$tmp/skills/refs/references/hidden.md"
+long > "$tmp/skills/refs/assets/stub.md"
+python3 "$tmp/scripts/lint.py" > "$tmp/out" 2>&1
+check "long reference without Contents caught" 'grep -q "skills/refs/references/long.md: 121 lines but no Contents" "$tmp/out"'
+check "unlinked reference caught" 'grep -q "skills/refs/references/hidden.md: not linked from SKILL.md" "$tmp/out"'
+check "linked reference with Contents not flagged" '! grep -q "references/ok.md" "$tmp/out"'
+check "assets folder not flagged" '! grep -q "assets/stub.md" "$tmp/out"'
+
 # skills/private/ is personal: never linted, but never tracked and never
 # a name clash with a library skill.
 rm -rf "$tmp/skills"/*
