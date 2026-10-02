@@ -7,6 +7,9 @@ description: >-
   plain English, simplify it for non-technical people, rewrite it for a
   client or boss, or write a guide someone non-technical must follow.
 license: MIT
+compatibility: >-
+  Tested on Claude Sonnet and Opus. Haiku added facts the source did not
+  give and broke the house style, so use a larger model.
 allowed-tools: Read Grep Glob Bash WebFetch Write
 ---
 
