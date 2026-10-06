@@ -57,7 +57,11 @@ while read -r method path expected; do
 
   # -g/--globoff: a path containing [ ] or { } (e.g. from a route template)
   # would otherwise be parsed by curl as URL globbing syntax and rejected.
-  actual="$(curl -sgk -o /dev/null -w '%{http_code}' -X "$method" \
+  # HEAD needs -I: with -X HEAD curl waits for the body Content-Length
+  # promises, times out, and a healthy endpoint reports as failed.
+  method_args=(-X "$method")
+  [[ "$method" == "HEAD" ]] && method_args=(-I)
+  actual="$(curl -sgk -o /dev/null -w '%{http_code}' "${method_args[@]}" \
     -H "Accept: $accept" --max-time 15 "${base_url}${path}" 2>/dev/null)"
   curl_rc=$?
 

@@ -128,7 +128,7 @@ def main():
             return  # scheme link (http, mailto, tel...): not ours to check
         file_part, _, anchor = unquote(target).partition("#")
         if not file_part:
-            if anchor and slugify(anchor) not in anchors_by_file[path]:
+            if anchor and not anchors_by_file[path] & {anchor, slugify(anchor)}:
                 broken_anchors.append((path, lineno, target))
             return
         candidate = os.path.normpath(os.path.join(os.path.dirname(path), file_part))
@@ -139,7 +139,8 @@ def main():
             return
         if candidate in incoming:
             incoming[candidate] += 1
-        if anchor and candidate in anchors_by_file and slugify(anchor) not in anchors_by_file[candidate]:
+        # An explicit <a id> is stored raw, a heading slugified: accept either.
+        if anchor and candidate in anchors_by_file and not anchors_by_file[candidate] & {anchor, slugify(anchor)}:
             broken_anchors.append((path, lineno, target))
 
     for path in docs:

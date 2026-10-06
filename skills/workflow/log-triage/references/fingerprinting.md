@@ -38,10 +38,12 @@ together:
 If an entry's context looks like a trailing JSON object (Monolog commonly
 appends one), the script looks for keys that plausibly identify who was
 affected (anything containing `_id`, or named `user`, `tenant`, `account`,
-`customer` or `email`) and counts how many distinct values appear across a
-fingerprint's occurrences. It never prints the values themselves, only the
-count, so the table itself is safe to paste into a chat or a draft issue
-without a separate redaction pass. Treat the count as a rough signal, not
+`customer` or `email`, but not per-request keys such as `request_id` or
+`trace_id`) and counts how many distinct values appear across a
+fingerprint's occurrences. It never prints those values, only the count.
+The Message column is another matter: only ids, emails and numbers are
+masked there, so names, tokens and other values can still show through.
+Redact it before pasting the table into a chat or a draft issue. Treat the count as a rough signal, not
 an exact tally: a value repeated under two different key names is counted
 twice.
 

@@ -163,13 +163,18 @@ class GenerateInvoice implements ShouldQueue
 
     public function handle(): void
     {
+        // A sync queue or dispatchSync() runs this inside the request, so
+        // put back whatever tenant was bound before rather than clearing it.
+        $previous = app()->has('currentTenant') ? app('currentTenant') : null;
         app()->instance('currentTenant', $this->tenant);
 
         try {
             $subscription = Subscription::findOrFail($this->subscriptionId);
             // proceeds scoped to $this->tenant
         } finally {
-            app()->forgetInstance('currentTenant');
+            $previous
+                ? app()->instance('currentTenant', $previous)
+                : app()->forgetInstance('currentTenant');
         }
     }
 }
@@ -218,6 +223,10 @@ it('allows the owner to update their own record', function () {
 
     app()->instance('currentTenant', $tenantA);
     $ownInvoice = Invoice::factory()->create(['status' => 'draft']);
+
+    // The test shares the app's container, so drop the binding: only
+    // ResolveTenant may bind the tenant, or the test cannot fail.
+    app()->forgetInstance('currentTenant');
 
     $this->actingAs($user)
         ->put("http://acme.example.test/invoices/{$ownInvoice->id}", ['status' => 'paid'])
