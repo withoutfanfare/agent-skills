@@ -18,16 +18,18 @@ Usage:
     python3 fingerprint_log.py -                 # read from stdin
     python3 fingerprint_log.py storage/logs/laravel.log --since 2026-09-20
 
-Standard library only, no dependencies. Any identifying values found in a
+Standard library only, no dependencies. Identifying values found in a
 trailing JSON context blob (keys such as user_id, tenant, email) are
-counted per fingerprint but never printed, so the table itself carries no
-personal data.
+counted per fingerprint but never printed. The Message column is only
+partly redacted (ids, emails, numbers), so names, tokens and other values
+can still appear in it: redact it before sharing the table.
 """
 import argparse
 import json
 import re
 import sys
 from collections import OrderedDict
+from datetime import datetime
 
 LINE_START = re.compile(
     r"^\[?(?P<ts>\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:?\d{2})?)\]?"
@@ -47,28 +49,38 @@ EMAIL_RE = re.compile(r"\b[\w.+-]+@[\w-]+\.[\w.-]+\b")
 LONGHEX_RE = re.compile(r"\b[0-9a-f]{16,}\b", re.IGNORECASE)
 NUMBER_RE = re.compile(r"(?<![A-Za-z_])\d+")  # also "5123ms", not "v2"
 
+# Per-request keys (request_id, trace_id...) are unique per entry and would
+# make one user's repeated error look widespread, so they are not counted.
 IDENTIFYING_KEYS = re.compile(r"(_id|^id$|user|tenant|account|customer|email)", re.IGNORECASE)
+PER_REQUEST_KEYS = re.compile(r"(request|trace|span|job|correlation)", re.IGNORECASE)
+LEVEL_RANK = {name: rank for rank, name in enumerate(
+    ("DEBUG", "INFO", "NOTICE", "WARN", "WARNING", "ERROR", "CRITICAL", "ALERT", "FATAL", "EMERGENCY"))}
 
 
 def parse_entries(lines):
-    """Yield (timestamp, level, raw_text) for each entry in the log."""
-    entries = []
+    """Yield (timestamp, level, raw_text) for each entry in the log, as soon
+    as the next entry starts, so a large log is never held in memory."""
     current = None
     for line in lines:
         line = line.rstrip("\n")
         m = LINE_START.match(line)
         if m:
             if current is not None:
-                entries.append(current)
+                yield current["ts"], current["level"], "\n".join(current["lines"])
             current = {"ts": m.group("ts"), "level": (m.group("level") or "").upper(),
                        "lines": [m.group("message")]}
         elif current is not None:
             current["lines"].append(line)
         # lines before the first recognised entry are ignored
     if current is not None:
-        entries.append(current)
-    for e in entries:
-        yield e["ts"], e["level"], "\n".join(e["lines"])
+        yield current["ts"], current["level"], "\n".join(current["lines"])
+
+
+def parse_ts(text):
+    """Parse a log or --since timestamp, whichever separator and zone it
+    uses. A zone is dropped, so both sides compare as local wall time."""
+    text = text.strip().replace("T", " ", 1).replace("Z", "+00:00")
+    return datetime.fromisoformat(text).replace(tzinfo=None)
 
 
 def top_exception(raw_text):
@@ -97,7 +109,7 @@ def top_in_app_frame(raw_text):
 def normalise_message(message):
     text = message.split("\n", 1)[0].strip()
     # Drop the trailing context blob ("message {...} []"); it is read separately.
-    text = re.split(r"\s\{\"", text, maxsplit=1)[0]
+    text = re.split(r"\s\{\s*\"", text, maxsplit=1)[0]
     text = re.sub(r"\s\[\]$", "", text)
     text = UUID_RE.sub("<uuid>", text)
     text = EMAIL_RE.sub("<email>", text)
@@ -135,7 +147,7 @@ def identifying_values(obj):
         for key, value in obj.items():
             if isinstance(value, (dict, list)):
                 found.extend(identifying_values(value))
-            elif IDENTIFYING_KEYS.search(str(key)):
+            elif IDENTIFYING_KEYS.search(str(key)) and not PER_REQUEST_KEYS.search(str(key)):
                 found.append((str(key), str(value)))
     elif isinstance(obj, list):
         for item in obj:
@@ -146,32 +158,37 @@ def identifying_values(obj):
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("logfile", help="Log file to read, or - for stdin")
-    parser.add_argument("--since", help="Only count entries at or after this ISO8601 timestamp (string compare)")
+    parser.add_argument("--since", help="Only count entries at or after this ISO8601 timestamp")
     parser.add_argument("--limit", type=int, default=25, help="Show at most this many fingerprints (default 25)")
     args = parser.parse_args()
 
+    since = parse_ts(args.since) if args.since else None
     handle = sys.stdin if args.logfile == "-" else open(args.logfile, encoding="utf-8", errors="replace")
-    with handle:
-        lines = handle.readlines()
 
     groups = OrderedDict()
     skipped_unparsed = 0
-    for ts, level, raw_text in parse_entries(lines):
-        if args.since and ts < args.since:
-            continue
-        exc = top_exception(raw_text)
-        frame = top_in_app_frame(raw_text)
-        message = normalise_message(raw_text)
-        key = (exc, frame, message)
-        group = groups.setdefault(key, {
-            "count": 0, "level": level, "first": ts, "last": ts, "affected": set(),
-        })
-        group["count"] += 1
-        group["last"] = max(group["last"], ts)
-        group["first"] = min(group["first"], ts)
-        ctx = trailing_json(raw_text)
-        if ctx is not None:
-            group["affected"].update(identifying_values(ctx))
+    with handle:
+        for ts, level, raw_text in parse_entries(handle):
+            if since and parse_ts(ts) < since:
+                continue
+            exc = top_exception(raw_text)
+            frame = top_in_app_frame(raw_text)
+            message = normalise_message(raw_text)
+            # Key on the frame's file, not its line: an edit above it moves the
+            # line number and would split one known issue across a deploy.
+            key = (exc, re.sub(r":\d+$", "", frame), message)
+            group = groups.setdefault(key, {
+                "count": 0, "level": level, "frame": frame, "first": ts, "last": ts, "affected": set(),
+            })
+            group["count"] += 1
+            # Keep the worst severity seen, so a CRITICAL is not shown as INFO.
+            if LEVEL_RANK.get(level, -1) > LEVEL_RANK.get(group["level"], -1):
+                group["level"] = level
+            group["last"] = max(group["last"], ts)
+            group["first"] = min(group["first"], ts)
+            ctx = trailing_json(raw_text)
+            if ctx is not None:
+                group["affected"].update(identifying_values(ctx))
 
     if not groups:
         print("No log entries recognised (expected `[timestamp] channel.LEVEL: message` or "
@@ -182,10 +199,10 @@ def main():
 
     print("| Count | First seen | Last seen | Level | Exception | Frame | Affected | Message |")
     print("|---|---|---|---|---|---|---|---|")
-    for (exc, frame, message), g in ranked:
+    for (exc, _, message), g in ranked:
         affected = str(len(g["affected"])) if g["affected"] else ""
         print(f"| {g['count']} | {g['first']} | {g['last']} | {g['level']} | {exc or '-'} | "
-              f"{frame or '-'} | {affected} | {message} |")
+              f"{g['frame'] or '-'} | {affected} | {message} |")
 
 
 if __name__ == "__main__":

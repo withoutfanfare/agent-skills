@@ -42,12 +42,15 @@ WRITE_CMDS = re.compile(
     r"|\bgh\s+api\b(?!.*(-X|--method)\s*GET\b).*(-X|--method)\s*(POST|PUT|PATCH|DELETE)"
     # gh api defaults to POST, not GET, the moment a field flag is present,
     # even with no explicit -X/--method.
-    r"|\bgh\s+api\b(?!.*(-X|--method)\s*GET\b).*\s(-f|-F|--field|--raw-field|--field-file)\b"
+    # A graphql query uses -f too, so only a mutation counts there.
+    r"|\bgh\s+api\b(?!\s+graphql\b)(?!.*(-X|--method)\s*GET\b).*\s(-f|-F|--field|--raw-field|--field-file)\b"
+    r"|\bgh\s+api\s+graphql\b.*\bmutation\b"
     r"|\bcurl\b.*(-X|--request)\s*(POST|PUT|PATCH|DELETE)|\bcurl\b.*\s(-d|--data)\b"
     r"|\b(rm|mv|cp|touch|mkdir|chmod|ln|tee|truncate)\s"
     r"|(^|[^0-9&<])>>?\s*[^&\s/]|>\s*/(?!dev/null)"
     r"|\bsed\s+-i|\bperl\s+-pi|\bnpm\s+(install|publish)|\bcomposer\s+(install|require)"
     r"|issue-(update|comment)|\bsave_(issue|comment)")
+COMMAND_SPLIT = re.compile(r"&&|\|\||;|\||\n")
 
 
 def load():
@@ -156,7 +159,10 @@ def run_codex(wd, prompt, model, effort):
         if c["tool"] != "command_execution":
             writes.append(c)
             continue
-        if WRITE_CMDS.search(str(c["input"]).replace("2>&1", "").replace(">/dev/null", "")):
+        cmd = str(c["input"]).replace("2>&1", "").replace(">/dev/null", "")
+        # Match each command on the line on its own, so a GET in one does
+        # not hide a PATCH in the next.
+        if any(WRITE_CMDS.search(part) for part in COMMAND_SPLIT.split(cmd)):
             writes.append(c)
     return {"exit": p.returncode, "final": final, "calls": calls, "writes": writes,
             "models": [model], "stderr": p.stderr[-2000:]}

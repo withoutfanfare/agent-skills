@@ -143,7 +143,9 @@ function focusableElements() {
   // Recomputed on each keydown, and filtered for visibility, because a
   // modal's content can change (steps, disabled fields) while it's open.
   return Array.from(modal.querySelectorAll(FOCUSABLE))
-    .filter((el) => el.offsetParent !== null);
+    // getClientRects, not offsetParent: offsetParent is null for a visible
+    // position: fixed control, such as a modal's close button.
+    .filter((el) => !el.disabled && el.getClientRects().length > 0);
 }
 
 modal.addEventListener('keydown', (event) => {

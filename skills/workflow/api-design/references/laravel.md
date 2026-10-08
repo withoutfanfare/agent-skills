@@ -136,11 +136,12 @@ exception back to Laravel's default rendering:
             ], $e->getStatusCode())->withHeaders($e->getHeaders()),
             // Anything unmapped is an unexpected failure: envelope it as a
             // 500 rather than falling through to Laravel's default
-            // rendering, and never leak the raw message in production.
+            // rendering, and only show the raw message when debug is on
+            // (a staging server with debug off must not leak it either).
             default => response()->json([
                 'error' => [
                     'code' => 'SERVER_ERROR',
-                    'message' => app()->isProduction() ? 'Something went wrong.' : $e->getMessage(),
+                    'message' => config('app.debug') ? $e->getMessage() : 'Something went wrong.',
                 ],
             ], 500),
         };

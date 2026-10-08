@@ -268,7 +268,12 @@ env_upsert() {
     return
   }
   _ENV_SCRATCH="$scratch"
-  trap '[[ -n "${_ENV_SCRATCH:-}" && -f "$_ENV_SCRATCH" ]] && rm -f "$_ENV_SCRATCH"' EXIT INT TERM
+  # INT and TERM must exit after cleaning up: a trap that only cleans up
+  # lets the function carry on and mv a half-built scratch file over
+  # ENV_TARGET, and leaves Ctrl-C unable to stop any later step.
+  trap '[[ -n "${_ENV_SCRATCH:-}" && -f "$_ENV_SCRATCH" ]] && rm -f "$_ENV_SCRATCH"' EXIT
+  trap '[[ -n "${_ENV_SCRATCH:-}" && -f "$_ENV_SCRATCH" ]] && rm -f "$_ENV_SCRATCH"; exit 130' INT
+  trap '[[ -n "${_ENV_SCRATCH:-}" && -f "$_ENV_SCRATCH" ]] && rm -f "$_ENV_SCRATCH"; exit 143' TERM
   # grep exits 1 when every line matched the key (nothing to keep); only
   # 2 or more means it failed, and moving that output in would lose the file.
   grep -vE "^${key}=" "$ENV_TARGET" > "$scratch" || rc=$?
