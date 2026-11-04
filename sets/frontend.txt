@@ -2,6 +2,7 @@
 vue
 nuxt
 tailwind
+balanced-layouts
 style-guide
 user-flow
 access-audit

@@ -102,8 +102,9 @@ workers, Horizon), `billing` (Cashier and Stripe).
 
 ## Front end and desktop
 
-`vue`, `nuxt`, `tailwind`, `style-guide` (write down the design system you
-already have), `design-pack` *(typed)* (package it for a design tool),
+`vue`, `nuxt`, `tailwind`, `balanced-layouts` (design a page section in
+wireframed variants, then build the one picked), `style-guide` (write down
+the design system you already have), `design-pack` *(typed)* (package it for a design tool),
 `user-flow`, `access-audit`, `tauri`, `swift` (SwiftUI apps), `notarise`
 (sign and notarise a Mac app for others), `tidy-build`.
 
