@@ -84,7 +84,14 @@ one:
 
 Automated review findings are checked against the code before acting; many
 are wrong. Fix the real ones. Dismiss false positives with a one-line
-reason. Anything about security or data loss goes to the user.
+reason. Dismiss a bot's style-only nit (naming taste, formatting, comment
+wording) with a one-line reason too, rather than fixing it: fixing every
+bot nit is how a small pull request grows into a large one. Anything about
+security or data loss goes to the user.
+
+Never reopen a finding that an earlier round fixed or answered with a
+reason. A bug in code this pull request did not change is pre-existing:
+reply that it is, and leave it out of this pull request.
 
 Keep the pull request to its original goal. Decline requests that would
 grow it, politely, in a reply.
@@ -107,7 +114,10 @@ Done when: `mergeStateStatus` is no longer `BEHIND` or `DIRTY`.
 One round is: fix, push, wait, recheck. Wait sensibly between checks (a
 minute or more; longer for slow pipelines) and tell the user what you are
 waiting for. After three rounds that still end red, stop and report state 2.
-A fourth attempt at the same failure means the diagnosis is wrong.
+A fourth attempt at the same failure means the diagnosis is wrong. Before
+you report, step back: say whether the approach itself looks wrong, and
+check whether the same bug appears elsewhere in the diff, so the next fix
+covers every copy and not only the flagged line.
 
 When everything is green and approved, arm auto-merge if the repository
 allows it and the base is not protected:

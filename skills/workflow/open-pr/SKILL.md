@@ -72,7 +72,7 @@ Done when: the title matches the house style and names the outcome.
 
 ## 5. Write the description
 
-Four parts, in this order, so a reviewer gets the why before the how:
+Six parts, in this order, so a reviewer gets the why before the how:
 
 1. **Problem:** what was wrong or missing, in a sentence or two anyone on
    the team could follow.
@@ -80,7 +80,12 @@ Four parts, in this order, so a reviewer gets the why before the how:
    alternative.
 3. **Proof:** what you ran and what it showed. Paste the command and the
    output line that matters; add screenshots for anything visual.
-4. **Where to look:** only for larger diffs. Point to the few files where
+4. **Risk:** what could break and who it would affect, with a plain low,
+   medium or high. One or two lines.
+5. **How to undo:** the single step that reverses the change: revert the
+   merge commit, switch off a flag, or roll back a migration. Say plainly
+   when a revert is not enough, for example when data has already changed.
+6. **Where to look:** only for larger diffs. Point to the few files where
    the substance is, list generated or mechanical files
    separately, and call out any migration or behaviour change.
 

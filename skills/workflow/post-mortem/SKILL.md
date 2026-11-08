@@ -83,7 +83,12 @@ Each action is specific, owned and checkable:
 | Improve monitoring | Alert when payment errors pass 1% for 5 minutes, routed to on-call |
 
 Sort into: **prevent** (stop the root cause), **detect** (notice sooner),
-**respond** (fix faster). One or two strong actions beat a long list
+**respond** (fix faster).
+
+If code review, a test or CI should have caught the bug, name which one,
+and add an action to put this case into that check: a regression test, or a
+new case in the AI reviewer's eval set. The same miss is then caught next
+time. One or two strong actions beat a long list
 nobody finishes.
 
 Done when: every root and contributing cause has at least one action with
