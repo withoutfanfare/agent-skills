@@ -170,3 +170,5 @@ log-triage	fire	Here's our production log file from the last week, can you go th
 log-triage	quiet	One customer just emailed saying checkout threw an error, can you look into it
 balanced-layouts	fire	The home page looks unbalanced, loads of white space and a skinny column of text. Can you redesign that section? Show me a few options first.
 balanced-layouts	quiet	Can you look at our app's CSS and components and write up what our design system actually looks like?
+snippet-keeper	fire	Save this rsync command to my SnippetsLab library as a snippet, with the right folder and tags.
+snippet-keeper	quiet	Write a handover note so a colleague can take over this ticket tomorrow.

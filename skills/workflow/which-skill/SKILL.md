@@ -91,7 +91,8 @@ clients; `weekly-report` *(typed)* writes the week's engineering report;
 `decision-log` records decisions and revisits them; `takeaways` captures lessons
 at the end of a session; `catch-up` briefs you after time away;
 `continuity` pauses your own work in a dated snapshot and resumes it later,
-in any tool; `handover` briefs someone else taking over.
+in any tool; `handover` briefs someone else taking over;
+`snippet-keeper` saves, replaces and bins snippets in a SnippetsLab library.
 
 ## Laravel and PHP
 
